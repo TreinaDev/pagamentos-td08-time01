@@ -12,6 +12,25 @@
 
   <body>
     <h1>Pagamentos</h1>
+
+    <nav>
+      <% if admin_signed_in? %>
+        <div style="display: flex; flex-direction: row;">
+          <%= current_admin.full_name %> |
+          <%= current_admin.email %> |
+          <%= button_to 'Sair', destroy_admin_session_path, method: :delete %>
+        </div>
+      <% else %>
+        <div>
+          <%= link_to 'Entrar', new_admin_session_path %>
+        </div>
+      <% end %>
+    </nav>
+    <div>
+      <br>
+      <%= alert%>
+      <%= notice%>
+    </div>
     <%= yield %>
   </body>
 </html>
