@@ -4,4 +4,9 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :full_name,
+            :cpf, presence: true
+
+  validates :email, format: { with: /@userubis\.com\.br\z/,
+                              message: 'deve possuir o dominio @userubis.com.br' }
 end
