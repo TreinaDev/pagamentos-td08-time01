@@ -1,7 +1,9 @@
 pt-BR:
   activerecord:
     models:
-      admin: "Administrador"
+      admin:
+        one: "Administrador"
+        other: "Administradores"
     attributes:
       admin:
         full_name: "Nome Completo"
