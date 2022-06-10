@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      admin:
+        one: "Administrador"
+        other: "Administradores"
+    attributes:
+      admin:
+        full_name: "Nome Completo"
+        cpf: "CPF"
