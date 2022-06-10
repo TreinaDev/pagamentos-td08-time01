@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :admin do
     email { %w[example@userubis.com.br testexample@userubis.com.br].sample }

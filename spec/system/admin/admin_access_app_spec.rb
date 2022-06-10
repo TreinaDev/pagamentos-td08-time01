@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'admin access the application' do
@@ -18,7 +20,7 @@ describe 'admin access the application' do
     expect(page).to have_content 'Sair'
   end
 
-  it "with blank fields" do
+  it 'with blank fields' do
     visit root_path
     click_on 'Entrar'
     click_on 'Registrar nova conta'
