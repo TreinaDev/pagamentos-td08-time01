@@ -1,0 +1,8 @@
+"pt-BR":
+  activerecord:
+    models:
+      client_category: "Categoria de clientes"
+    attributes:
+      client_category:
+        name: "Nome"
+        discount_percent: "Porcentagem de desconto"
