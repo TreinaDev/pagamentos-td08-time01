@@ -22,5 +22,4 @@ RSpec.describe Client, type: :model do
       end
     end
   end
-  
 end
