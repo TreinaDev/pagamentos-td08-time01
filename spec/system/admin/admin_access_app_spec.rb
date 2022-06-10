@@ -31,4 +31,13 @@ describe 'admin access the application' do
     expect(page).to have_content 'Senha não pode ficar em branco'
     expect(page).to have_content 'E-mail deve possuir o dominio @userubis.com.br'
   end
+
+  it 'and sign out' do
+    admin = create(:admin)
+    login_as admin
+    visit root_path
+    click_on 'Sair'
+
+    expect(page).to have_link 'Entrar'
+  end
 end
