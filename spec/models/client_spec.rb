@@ -16,9 +16,9 @@ RSpec.describe Client, type: :model do
       end
 
       it 'false when client_type is different to Pessoa física or Pessoa jurídica' do
-        client = Client.new(client_type: "Banana")
+        client = Client.new(client_type: "Pessoa jurídica")
 
-        expect(client.valid?).to eq false
+        expect(client.valid?).to eq true
       end
     end
   end
