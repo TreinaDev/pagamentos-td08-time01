@@ -11,8 +11,29 @@
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <h1>Pagamentos</h1>
-    <%= yield %>
+  <body class="container mt-5">
+    <header class="text-center">
+      <%= link_to root_path do %>
+        <h1 class="display-4">Pagamentos</h1>
+      <% end %>
+
+      <nav>
+        <%= link_to 'Taxa de câmbio rubi/real', exchange_rates_path %>
+      </nav>
+    </header>
+
+    <main>
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type == 'alert' ? 'danger' : 'success' %> alert-dismissible fade show" role="alert">
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+      <%= yield %>
+    </main>
+
+    <footer>
+
+    </footer>
   </body>
 </html>

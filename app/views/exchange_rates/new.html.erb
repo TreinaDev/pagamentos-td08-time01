@@ -1,0 +1,21 @@
+<h1>Registrar taxa de câmbio Rubi/Real</h1>
+
+<%= form_with model: @exchange_rate do |f| %>
+  <div>
+    <%= f.label :register_date %>
+    <%= f.date_field :register_date %>
+    <% @exchange_rate.errors.full_messages_for(:register_date).each do |message| %>
+      <%= message %>
+    <% end %>
+  </div>
+  
+  <div>
+    <%= f.label :brl_coin, 'Valor em reais' %>
+    <%= f.number_field :brl_coin, step: 0.1, min: 0 %>
+    <% @exchange_rate.errors.full_messages_for(:brl_coin).each do |message| %>
+      <%= message %>
+    <% end %>
+  </div>
+
+  <%= f.submit 'Registrar taxa' %>
+<% end %>
