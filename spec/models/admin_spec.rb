@@ -18,14 +18,14 @@ RSpec.describe Admin, type: :model do
 
     context 'with format' do
       it 'when email has a wrong domain' do
-        admin = described_class.new(email: 'exemplo@teste.com.br')
+        admin = build(:admin, email: 'exemplo@teste.com.br')
 
         expect(admin).not_to be_valid
         expect(admin.errors[:email]).to include('deve possuir o dominio @userubis.com.br')
       end
 
       it 'when email is invalid' do
-        admin = described_class.new(email: 'isso não é um email')
+        admin = build(:admin, email: 'isso não é um email')
 
         expect(admin).not_to be_valid
         expect(admin.errors[:email]).to include('não é válido')

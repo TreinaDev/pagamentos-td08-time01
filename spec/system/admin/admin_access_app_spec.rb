@@ -1,21 +1,6 @@
 require 'rails_helper'
 
 describe 'admin access the application' do
-  it 'without have account ' do
-    visit root_path
-    click_on 'Entrar'
-    click_on 'Registrar nova conta'
-
-    expect(page).to have_content 'Pagamentos'
-    expect(page).to have_content 'Registrar conta'
-    expect(page).to have_field 'Nome Completo'
-    expect(page).to have_field 'CPF'
-    expect(page).to have_field 'E-mail'
-    expect(page).to have_field 'Senha'
-    expect(page).to have_field 'Confirme sua senha'
-    expect(page).to have_button 'Criar Administrador'
-  end
-
   it 'and create an account' do
     visit root_path
     click_on 'Entrar'
@@ -43,6 +28,7 @@ describe 'admin access the application' do
     expect(page).to have_content 'Nome Completo não pode ficar em branco'
     expect(page).to have_content 'CPF não pode ficar em branco'
     expect(page).to have_content 'E-mail não pode ficar em branco'
+    expect(page).to have_content 'Senha não pode ficar em branco'
     expect(page).to have_content 'E-mail deve possuir o dominio @userubis.com.br'
   end
 end
