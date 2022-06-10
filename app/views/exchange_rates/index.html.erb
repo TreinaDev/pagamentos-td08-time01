@@ -1,0 +1,13 @@
+<h1>Taxas de câmbio RUBI/REAL</h1>
+
+<section>
+  <% if @exchange_rates.any? %>
+    <% @exchange_rates.each do |er| %>
+      <p>Dia <%= er.register_date.to_s %> <%= er.rubi_coin %> rubi equivale a <%= er.brl_coin %> reais.</p>
+    <% end %>
+  <% else %>
+    <p>Nenhuma taxa de câmbio cadastrada<p>
+  <% end %>
+</section>
+
+<%= link_to 'Registrar taxa de câmbio', new_exchange_rate_path %>
