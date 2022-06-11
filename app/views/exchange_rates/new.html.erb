@@ -1,5 +1,7 @@
 <h1>Registrar taxa de câmbio Rubi/Real</h1>
 
+<p>Variações superiores a 10% em relação ao último valor de 1 rubi em real deveram ser aprovadas por segundo administrador</p>
+
 <%= form_with model: @exchange_rate do |f| %>
   <div>
     <%= f.label :register_date %>
@@ -17,5 +19,5 @@
     <% end %>
   </div>
 
-  <%= f.submit 'Registrar taxa' %>
+  <%= f.submit 'Registrar taxa', class: 'mt-2' %>
 <% end %>

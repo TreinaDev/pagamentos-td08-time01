@@ -18,12 +18,12 @@
       <% end %>
 
       <nav>
+        <%= link_to 'Taxa de câmbio', exchange_rates_path %>
         <% if admin_signed_in? %>
           <div style="display: flex; flex-direction: row;">
             <%= current_admin.full_name %> |
             <%= current_admin.email %> |
-            <%= button_to 'Sair', destroy_admin_session_path, method: :delete %>
-            <%= link_to 'Taxa de câmbio rubi/real', exchange_rates_path %>
+            <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: 'button' %>
           </div>
         <% else %>
           <div>
