@@ -2,7 +2,7 @@
 
 class ExchangeRate < ApplicationRecord
   MAX_VARIATION = 10
-  before_validation :set_status_exchange_rate
+  before_create :set_status_exchange_rate
 
   validates :brl_coin, :register_date, presence: true
   validates :brl_coin, numericality: { greater_than: 1 }
