@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe 'admin registers client category' do
   it 'with success' do
+    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password', full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+
+    login_as(admin)
+
 	  visit new_client_category_path
 		
 	  fill_in "Nome",	with: "Bronze"
@@ -12,6 +16,10 @@ describe 'admin registers client category' do
   end
 
   it 'with fail' do
+    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password', full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+
+    login_as(admin)
+    
     visit new_client_category_path
     
     fill_in "Nome",	with: "Diamante" 

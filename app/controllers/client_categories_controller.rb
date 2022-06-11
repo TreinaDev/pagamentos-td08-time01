@@ -1,4 +1,6 @@
 class ClientCategoriesController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @client_categories = ClientCategory.all
   end
