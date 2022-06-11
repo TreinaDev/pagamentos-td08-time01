@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+puts "Adiciona categoria de clientes - INÍCIO"
+ClientCategory.create!(name: "Bronze", discount_percent: 0)
+ClientCategory.create!(name: "Ouro", discount_percent: 10)
+puts "Adiciona categoria de clientes - FIM"

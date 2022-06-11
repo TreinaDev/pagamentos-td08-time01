@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :exchange_rates, only: %i[index new create]
+  resources :client_categories, only: [:index, :new, :create]
 end

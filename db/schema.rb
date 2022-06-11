@@ -25,6 +25,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_11_043505) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "client_categories", force: :cascade do |t|
+    t.string "name"
+    t.float "discount_percent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "exchange_rates", force: :cascade do |t|
     t.integer "rubi_coin", default: 1
     t.float "brl_coin"
