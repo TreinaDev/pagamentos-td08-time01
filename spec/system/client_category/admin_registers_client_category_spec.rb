@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe 'admin registers client category' do
-	it 'with success' do
-		visit new_client_category_path
+  it 'with success' do
+	  visit new_client_category_path
 		
-		fill_in "Nome",	with: "Bronze"
-		fill_in "Porcentagem de desconto",	with: "Ouro"
-		click_on "Cadastrar"
+	  fill_in "Nome",	with: "Bronze"
+	  fill_in "Porcentagem de desconto",	with: "Ouro"
+	  click_on "Cadastrar"
 
-		expect(page).to have_content "Categoria criada com sucesso."
-	end
+	  expect(page).to have_content "Categoria criada com sucesso."
+  end
 
   it 'with fail' do
     visit new_client_category_path
