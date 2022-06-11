@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :exchange_rate do
-    rubi_coin { 1.5 }
-    brl_coin { 1.5 }
-    register_date { "2022-06-09" }
-    status { 1 }
+    brl_coin { %w[1.5 2.5].sample }
+    register_date { %w[2022-07-09 2022-07-25].sample }
   end
 end
