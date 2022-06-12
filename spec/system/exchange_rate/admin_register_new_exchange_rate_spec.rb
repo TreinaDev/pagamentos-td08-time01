@@ -23,8 +23,8 @@ describe 'Admin register new exchange rate' do
   end
 
   it 'and variation is greater than 10%' do
-    create(:exchange_rate, brl_coin: 5)
     admin = create(:admin)
+    create(:exchange_rate, brl_coin: 5, created_by: admin)
 
     login_as admin
     visit root_path

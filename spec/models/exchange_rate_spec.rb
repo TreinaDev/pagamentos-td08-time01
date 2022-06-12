@@ -16,7 +16,9 @@ RSpec.describe ExchangeRate, type: :model do
 
     context 'when regiter date isnt uniq' do
       it 'false when date is repeated' do
-        create(:exchange_rate, register_date: 1.day.from_now)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        create(:exchange_rate, register_date: 1.day.from_now, created_by: admin)
         er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now)
 
         er.valid?
@@ -52,7 +54,9 @@ RSpec.describe ExchangeRate, type: :model do
   describe '#set_status_exchange_rate' do
     context 'when is the first exchange rate register' do
       it 'set approved status' do
-        er = create(:exchange_rate, brl_coin: 50)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        er = create(:exchange_rate, brl_coin: 50, created_by: admin)
 
         expect(er.status).to eq 'approved'
       end
@@ -60,8 +64,10 @@ RSpec.describe ExchangeRate, type: :model do
 
     context 'when variation is greater than 10%' do
       it 'set pending status' do
-        create(:exchange_rate, brl_coin: 5)
-        er = create(:exchange_rate, register_date: 2.days.from_now, brl_coin: 6)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        create(:exchange_rate, brl_coin: 5, created_by: admin)
+        er = create(:exchange_rate, register_date: 2.days.from_now, brl_coin: 6, created_by: admin)
 
         expect(er.status).to eq 'pending'
       end
@@ -70,15 +76,17 @@ RSpec.describe ExchangeRate, type: :model do
 
   describe '#max_variation?' do
     it 'true when variation is lower than 10%' do
-      create(:exchange_rate, brl_coin: 5)
-      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 5.2)
+      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 5.2, created_by: admin)
 
       expect(er.max_variation?).to be true
     end
 
     it 'false when variation is greater than 10%' do
-      create(:exchange_rate, brl_coin: 5)
-      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6)
+      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6, created_by: admin)
 
       expect(er.max_variation?).to be false
     end
