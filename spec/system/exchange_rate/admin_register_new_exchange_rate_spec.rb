@@ -3,12 +3,6 @@
 require 'rails_helper'
 
 describe 'Admin register new exchange rate' do
-  it 'and needs to be loged in' do
-    visit new_exchange_rate_path
-
-    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
-  end
-
   it 'successfully' do
     admin = create(:admin)
 
@@ -25,6 +19,7 @@ describe 'Admin register new exchange rate' do
     expect(page).to have_content '25/08/2022'
     expect(page).to have_content '1 rubi equivale a R$ 5,10 reais'
     expect(page).to have_current_path exchange_rates_path
+    expect(ExchangeRate.last.created_by).to eq admin
   end
 
   it 'and variation is greater than 10%' do
@@ -54,5 +49,11 @@ describe 'Admin register new exchange rate' do
 
     expect(page).to have_content 'Erro ao registrar taxa de câmbio'
     expect(page).to have_content 'Data de registro não pode ficar em branco'
+  end
+
+  it 'and needs to be loged in' do
+    visit new_exchange_rate_path
+
+    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end
 end
