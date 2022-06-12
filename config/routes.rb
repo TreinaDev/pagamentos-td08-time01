@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :admin_permissions, only: %i[create]
+  resources :client_categories, only: %i[index new create]
 
   get '/pendencies', to: 'pendencies#index'
 end

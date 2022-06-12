@@ -1,0 +1,25 @@
+<h1>Categoria de Clientes</h1>
+
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Nome</th>
+				<th scope="col">Desconto (porcentagem)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% if @client_categories.empty? %>
+				<p>Não há categoria cadastrada</p>
+			<% else %>
+				<% @client_categories.each do |client_category| %>
+					<tr>
+						<td><%= client_category.name %></td>
+						<td><%= client_category.discount_percent %></td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+	
+</div>
