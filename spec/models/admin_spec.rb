@@ -30,6 +30,13 @@ RSpec.describe Admin, type: :model do
         expect(admin).not_to be_valid
         expect(admin.errors[:email]).to include('não é válido')
       end
+
+      it 'when CPF is invalid' do
+        admin = build(:admin, cpf: '000')
+
+        expect(admin).not_to be_valid
+        expect(admin.errors[:cpf]).to include('não é válido')
+      end
     end
   end
 end
