@@ -17,8 +17,9 @@
     <nav>
       <% if admin_signed_in? %>
         <div style="display: flex; flex-direction: row;">
-          <%= current_admin.full_name %> |
-          <%= current_admin.email %> |
+          <%= "Nome de Usuário: #{current_admin.full_name}" %> |
+          <%= "E-mail: #{current_admin.email}" %> |
+          <%= "Status: #{Admin.human_enum_name(:status, current_admin.status)}" %> |  
           <%= button_to 'Sair', destroy_admin_session_path, method: :delete %>
         </div>
       <% else %>
@@ -27,6 +28,7 @@
         </div>
       <% end %>
     </nav>
+    
     <div>
       <br>
       <%= alert%>

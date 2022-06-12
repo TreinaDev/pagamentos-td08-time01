@@ -1,0 +1,25 @@
+<h2><%= Admin.model_name.human(count:2)%> pendentes</h2>
+
+<% if @pending_admins.any?%>
+    <% @pending_admins.each do |pending_admin| %>  
+      <div>
+        <dl class="row">
+          <dt class="col-sm-3"><%= Admin.human_attribute_name(:full_name) %></dt>
+          <dd class="col-sm-9"><%= pending_admin.full_name %></dd>
+
+          <dt class="col-sm-3"><%= Admin.human_attribute_name(:email) %></dt>
+          <dd class="col-sm-9"><%= pending_admin.email %></dd>
+
+          <dt class="col-sm-3"><%= Admin.human_attribute_name(:cpf) %></dt>
+          <dd class="col-sm-9"><%= pending_admin.cpf %></dd>
+
+          <dt class="col-sm-3">Permissões <%= pending_admin.admin_permissions.count %>/2</dt>
+
+          <%= button_to 'Aceitar Usuário',
+            admin_permissions_path(pending_admin: pending_admin.id) %>
+        </dl>
+      </div>
+    <% end %>
+<% else %>
+  <p>O Sistema não possui administradores pendentes</p>
+<% end %>
