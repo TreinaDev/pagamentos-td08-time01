@@ -6,6 +6,9 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  
+  has_many :exchange_rates, :foreign_key => "created_by", :class_name => "ExchangeRate" 
+
   validates :full_name,
             :cpf, presence: true
 

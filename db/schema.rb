@@ -44,7 +44,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "created_by_id"
+    t.index ["created_by_id"], name: "index_exchange_rates_on_created_by_id"
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
+  add_foreign_key "exchange_rates", "admins", column: "created_by_id"
 end

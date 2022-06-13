@@ -9,6 +9,8 @@ class ExchangeRate < ApplicationRecord
   validates :register_date, uniqueness: true
   validate :register_date_is_future
 
+  belongs_to :created_by, class_name: "Admin", optional: true
+ 
   enum status: { pending: 0, approved: 5, recused: 10 }
 
   def max_variation?
