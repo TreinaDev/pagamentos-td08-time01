@@ -7,8 +7,8 @@ describe 'Admin sees details from a' do
     admin = create(:admin)
     admin2 = create(:admin, email: 'b@userubis.com.br')
     create(:exchange_rate, created_by: admin)
-    er = create(:exchange_rate, register_date: 1.day.from_now, created_by: admin, approved_by: admin2,
-                                status: 'approved', brl_coin: 5.05)
+    create(:exchange_rate, register_date: 1.day.from_now, created_by: admin, approved_by: admin2,
+                           status: 'approved', brl_coin: 5.05)
 
     login_as admin
     visit root_path
@@ -21,6 +21,7 @@ describe 'Admin sees details from a' do
     expect(page).to have_content "Aprovada por #{admin2.full_name}"
     expect(page).to have_content 'Valor: R$ 5,05 reais'
     expect(page).to have_content 'Variação em relação a última taxa aprovada: 1.0%'
+    expect(ExchangeRate.last.status).to eq 'approved'
   end
 
   it 'pending of approvement exchange rate successfully' do

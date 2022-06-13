@@ -41,7 +41,7 @@ RSpec.describe ExchangeRate, type: :model do
   describe '#register_date_is_future' do
     context 'when register date is in the past' do
       it 'register date is yesterday' do
-        er = build(:exchange_rate, register_date: 1.day.ago)
+        er = build(:exchange_rate, register_date: 3.days.ago)
 
         er.valid?
 
@@ -89,6 +89,31 @@ RSpec.describe ExchangeRate, type: :model do
       er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6, created_by: admin)
 
       expect(er.max_variation?).to be false
+    end
+  end
+
+  describe '#prevent_approvemment_by_creator' do
+    it 'add error when approved by is nil' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'approved'
+      er.valid?
+
+      expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada sem um administrador'
+    end
+
+    it 'add error when approved_by is equal to created by' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'approved'
+      er.approved_by = admin
+      er.valid?
+
+      expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada pelo mesmo administrador que registrou'
     end
   end
 end
