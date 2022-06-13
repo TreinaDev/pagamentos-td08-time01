@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'Pagamento API' do
-  context 'when POST /api/v1/client_people' do
+describe 'Register a new client_person' do
+  context 'when POST /api/v1/client_people creates' do
     it 'success' do
       client_person_params = { client_person: { full_name: 'Pedro Gomes', cpf: '12345678999' } }
 
@@ -14,6 +14,8 @@ describe 'Pagamento API' do
       json_response = JSON.parse(response.body)
       expect(json_response['full_name']).to eq 'Pedro Gomes'
       expect(json_response['cpf']).to eq '12345678999'
+      expect(ClientPerson.count).to eq 1
+      expect(ClientPerson.last.full_name).to eq 'Pedro Gomes'
     end
 
     it 'if parameters are not complete' do
@@ -24,6 +26,7 @@ describe 'Pagamento API' do
       expect(response).to have_http_status :precondition_failed
       expect(response.body).to include 'Nome completo não pode ficar em branco'
       expect(response.body).to include 'CPF não pode ficar em branco'
+      expect(ClientPerson.count).to eq 0
     end
   end
 end
