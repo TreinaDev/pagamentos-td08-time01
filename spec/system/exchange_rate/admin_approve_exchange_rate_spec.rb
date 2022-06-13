@@ -21,6 +21,7 @@ describe 'Admin approve exchange rate' do
     expect(page).not_to have_button 'Aprovar taxa'
     expect(page).to have_content 'Taxa aprovada com sucesso'
     expect(page).to have_current_path exchange_rate_path(er), ignore_query: true
+    expect(er.reload.status).to eq 'approved'
   end
 
   it 'and try to approve his own register of a exchange rate' do
