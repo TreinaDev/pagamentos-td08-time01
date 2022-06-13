@@ -44,8 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "created_by_id", null: false
     t.integer "approved_by_id"
+    t.integer "created_by_id", null: false
     t.float "variation", default: 0.0
     t.integer "recused_by_id"
     t.index ["approved_by_id"], name: "index_exchange_rates_on_approved_by_id"
