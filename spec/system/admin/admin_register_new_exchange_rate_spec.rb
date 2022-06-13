@@ -13,7 +13,6 @@ describe 'Admin register new exchange rate' do
     admin = create(:admin)
 
     login_as admin
-
     visit root_path
     click_on 'Taxa de câmbio'
     click_on 'Registrar taxa de câmbio'
@@ -33,7 +32,6 @@ describe 'Admin register new exchange rate' do
     admin = create(:admin)
 
     login_as admin
-
     visit root_path
     click_on 'Taxa de câmbio'
     click_on 'Registrar taxa de câmbio'
@@ -50,7 +48,6 @@ describe 'Admin register new exchange rate' do
     admin = create(:admin)
 
     login_as admin
-
     visit new_exchange_rate_path
     fill_in 'Data de registro', with: ''
     click_on 'Registrar taxa'
