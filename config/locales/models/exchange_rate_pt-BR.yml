@@ -11,4 +11,11 @@ pt-BR:
         brl_coin:
           one: 'Real'
           other: 'Reais'
-        
+        status: 'Status'
+        pending: 'Pendente'
+        approved: 'Aprovada'
+        recused: 'Recusada'
+        created_by: 'Registrada por'
+        approved_by: 'Aprovada por'
+        variation: 'Variação'
+        recused_by: 'Recusada por'

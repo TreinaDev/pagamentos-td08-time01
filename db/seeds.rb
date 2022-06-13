@@ -16,3 +16,6 @@ Rails.logger.debug 'Adiciona categoria de clientes - FIM'
 Rails.logger.debug 'Adiciona cliente - INÍCIO'
 ClientPerson.create!(full_name: 'Zeca Urubú', cpf: '12345678999')
 Rails.logger.debug 'Adiciona cliente - FIM'
+
+puts "Adiciona admin"
+Admin.create!(email: 'b@userubis.com.br', password: '123456', full_name: 'TreinaDev Júnior', cpf: '510.695.623-20')

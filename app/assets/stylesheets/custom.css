@@ -5,11 +5,10 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
 }
 
 a:hover {
-  color: green;
+  background-color: azure;
 }
 
 .button {
@@ -22,5 +21,13 @@ a:hover {
 }
 
 .button:hover {
-  color: green;
+  color: black;
+}
+
+.button-status {
+  text-decoration: none;
+}
+
+.button-status:hover {
+  background-color: azure;
 }

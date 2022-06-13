@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class ExchangeRatesController < ApplicationController
-  before_action :authenticate_admin!, only: %i[new create]
-  before_action :set_admin, only: %i[create]
+  before_action :authenticate_admin!, only: %i[new create show approved recused]
+  before_action :set_admin, only: %i[new create]
+  before_action :set_exchange_rate, only: %i[show recused approved]
 
   def index
-    @exchange_rates = ExchangeRate.approved.last(15)
+    @approved_exchange_rates = ExchangeRate.approved.last(30)
+    @exchange_rates = ExchangeRate.all
   end
 
   def new
-    @exchange_rate = ExchangeRate.new
+    @exchange_rate = @admin.exchange_rates.new
   end
 
   def create
@@ -21,6 +23,24 @@ class ExchangeRatesController < ApplicationController
       flash.now[:alert] = 'Erro ao registrar taxa de câmbio'
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show; end
+
+  def approved
+    @exchange_rate.approved_by = current_admin
+    if current_admin == @exchange_rate.created_by
+      redirect_to @exchange_rate, alert: 'Taxa não pode ser aprovada pelo mesmo administrador que registrou'
+    else
+      @exchange_rate.approved!
+      redirect_to @exchange_rate, notice: 'Taxa aprovada com sucesso'
+    end
+  end
+
+  def recused
+    @exchange_rate.recused_by = current_admin
+    @exchange_rate.recused!
+    redirect_to @exchange_rate, alert: 'Taxa recusada com sucesso'
   end
 
   private
@@ -39,5 +59,9 @@ class ExchangeRatesController < ApplicationController
 
   def set_admin
     @admin = current_admin
+  end
+
+  def set_exchange_rate
+    @exchange_rate = ExchangeRate.find(params[:id])
   end
 end
