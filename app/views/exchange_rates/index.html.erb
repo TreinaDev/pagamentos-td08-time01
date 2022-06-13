@@ -1,0 +1,15 @@
+<h1><%= ExchangeRate.model_name.human %> RUBI/REAL</h1>
+
+<section class="mt-3">
+  <% if @exchange_rates.any? %>
+    <% @exchange_rates.each do |er| %>
+      <p><%= I18n.localize(er.register_date) %> <%= er.rubi_coin %> rubi equivale a <%= number_to_currency er.brl_coin %> reais.</p>
+    <% end %>
+  <% else %>
+    <p>Nenhuma taxa de câmbio cadastrada<p>
+  <% end %>
+</section>
+
+<% if admin_signed_in? %>
+  <h2><%= link_to 'Registrar taxa de câmbio', new_exchange_rate_path %></h2>
+<% end %>
