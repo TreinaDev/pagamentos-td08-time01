@@ -1,0 +1,8 @@
+"pt-BR":
+  activerecord:
+    models:
+      client_person: "Cliente pessoa física"
+    attributes:
+      client_person:
+        full_name: "Nome completo"
+        cpf: "CPF"
