@@ -14,6 +14,8 @@ describe 'Pagamento API' do
       json_response = JSON.parse(response.body)
       expect(json_response['company_name']).to eq 'ACME LTDA'
       expect(json_response['cnpj']).to eq '12345678998745'
+      expect(ClientCompany.count).to eq 1
+      expect(ClientCompany.last.company_name).to eq 'ACME LTDA'
     end
 
     it 'if parameters are not complete' do
@@ -24,6 +26,7 @@ describe 'Pagamento API' do
       expect(response).to have_http_status :precondition_failed
       expect(response.body).to include 'Razão social não pode ficar em branco'
       expect(response.body).to include 'CNPJ não pode ficar em branco'
+      expect(ClientCompany.count).to eq 0
     end
   end
 end

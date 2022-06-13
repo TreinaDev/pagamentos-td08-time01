@@ -6,4 +6,4 @@
     attributes:
       client_company:
         company_name: "Razão social"
-        cnpj: "CPF" 
+        cnpj: "CNPJ" 
