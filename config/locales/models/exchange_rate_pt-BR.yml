@@ -1,0 +1,14 @@
+pt-BR:
+  activerecord:
+    models:
+      exchange_rate: 'Taxa de Câmbio'
+    attributes:
+      exchange_rate:
+        register_date: 'Data de registro'
+        rubi_coin:
+          one: 'Rubi'
+          other: 'Rubis'
+        brl_coin:
+          one: 'Real'
+          other: 'Reais'
+        

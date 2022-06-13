@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-# frozen_string_literal: true
-
-ActiveRecord::Schema[7.0].define(version: 2022_06_12_175650) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -43,8 +41,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_12_175650) do
 
   create_table "clients", force: :cascade do |t|
     t.integer "client_type"
+  create_table "client_people", force: :cascade do |t|
+    t.string "full_name"
+    t.string "cpf"
+  end
+  
+  create_table "exchange_rates", force: :cascade do |t|
+    t.integer "rubi_coin", default: 1
+    t.float "brl_coin"
+    t.date "register_date"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
 end
