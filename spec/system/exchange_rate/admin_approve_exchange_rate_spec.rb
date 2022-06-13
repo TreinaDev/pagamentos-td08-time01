@@ -40,7 +40,7 @@ describe 'Admin approve exchange rate' do
     admin = create(:admin)
     er = create(:exchange_rate, created_by: admin)
     visit exchange_rate_path(er)
-    
+
     expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end
 end

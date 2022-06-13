@@ -116,4 +116,16 @@ RSpec.describe ExchangeRate, type: :model do
       expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada pelo mesmo administrador que registrou'
     end
   end
+
+  describe '#prevent_recuse_by_nil' do
+    it 'add error when recused_by is nil' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'recused'
+      er.valid?
+      expect(er.errors[:exchange_rate]).to include 'não pode ser recusada sem um administrador'
+    end
+  end
 end
