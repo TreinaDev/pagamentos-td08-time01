@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -35,8 +35,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
   create_table "client_people", force: :cascade do |t|
     t.string "full_name"
     t.string "cpf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-  
+
   create_table "exchange_rates", force: :cascade do |t|
     t.integer "rubi_coin", default: 1
     t.float "brl_coin"
@@ -44,10 +46,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_170840) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "approved_by_id"
     t.integer "created_by_id", null: false
-    t.float "variation", default: 0.0
+    t.integer "approved_by_id"
     t.integer "recused_by_id"
+    t.float "variation", default: 0.0
     t.index ["approved_by_id"], name: "index_exchange_rates_on_approved_by_id"
     t.index ["created_by_id"], name: "index_exchange_rates_on_created_by_id"
     t.index ["recused_by_id"], name: "index_exchange_rates_on_recused_by_id"
