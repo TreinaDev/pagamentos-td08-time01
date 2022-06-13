@@ -11,31 +11,40 @@
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <div>
-      <%= notice %>
-      <%= alert %>
-    </div>
-    <h1>Pagamentos</h1>
+  <body class="container mt-5">
+    <header class="text-center">
+      <%= link_to root_path do %>
+        <h1 class="display-4">Pagamentos</h1>
+      <% end %>
 
-    <nav>
-      <% if admin_signed_in? %>
-        <div style="display: flex; flex-direction: row;">
-          <%= current_admin.full_name %> |
-          <%= current_admin.email %> |
-          <%= button_to 'Sair', destroy_admin_session_path, method: :delete %>
-        </div>
-      <% else %>
-        <div>
-          <%= link_to 'Entrar', new_admin_session_path %>
+      <nav>
+        <%= link_to 'Taxa de câmbio', exchange_rates_path %>
+        <% if admin_signed_in? %>
+          <div style="display: flex; flex-direction: row;">
+            <%= current_admin.full_name %> |
+            <%= current_admin.email %> |
+            <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: 'button' %>
+          </div>
+        <% else %>
+          <div>
+            <%= link_to 'Entrar', new_admin_session_path %>
+          </div>
+        <% end %>
+      </nav>
+    </header>
+
+    <main>
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type == 'alert' ? 'danger' : 'success' %> alert-dismissible fade show" role="alert">
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% end %>
-    </nav>
-    <div>
-      <br>
-      <%= alert%>
-      <%= notice%>
-    </div>
-    <%= yield %>
+      <%= yield %>
+    </main>
+
+    <footer>
+
+    </footer>
   </body>
 </html>

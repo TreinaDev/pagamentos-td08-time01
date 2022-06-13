@@ -10,4 +10,5 @@ Rails.application.routes.draw do
       resources :client_people, only: %i[create]
     end
   end
+  resources :exchange_rates, only: %i[index new create]
 end
