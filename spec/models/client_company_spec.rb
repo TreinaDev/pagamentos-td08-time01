@@ -6,7 +6,7 @@ RSpec.describe ClientCompany, type: :model do
   describe '#valid?' do
     context 'when presence' do
       it 'with success' do
-        ClientCategory.create!(name: "Bronze", discount_percent: 0)
+        ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         Client.create!(client_type: 5, client_category_id: 1)
         client_company = described_class.new(company_name: 'ACME LTDA', cnpj: '12345678998745', client_id: 1)
 
@@ -14,7 +14,7 @@ RSpec.describe ClientCompany, type: :model do
       end
 
       it 'false when company_name is empty' do
-        ClientCategory.create!(name: "Bronze", discount_percent: 0)
+        ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         Client.create!(client_type: 5, client_category_id: 1)
         client_company = described_class.new(company_name: '', cnpj: '12345678998745', client_id: 1)
 
@@ -22,7 +22,7 @@ RSpec.describe ClientCompany, type: :model do
       end
 
       it 'false when cnpj is empty' do
-        ClientCategory.create!(name: "Bronze", discount_percent: 0)
+        ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         Client.create!(client_type: 5, client_category_id: 1)
         client_company = described_class.new(company_name: 'ACME LTDA', cnpj: '', client_id: 1)
 

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Register a new client_person' do
   context 'when POST /api/v1/client_people creates' do
     it 'success' do
-      ClientCategory.create!(name: "Bronze", discount_percent: 0)
+      ClientCategory.create!(name: 'Bronze', discount_percent: 0)
       Client.create!(client_type: 0, client_category_id: 1)
       client_person_params = { client_person: { full_name: 'Pedro Gomes', cpf: '12345678999', client_id: 1 } }
 
@@ -21,7 +21,7 @@ describe 'Register a new client_person' do
     end
 
     it 'if parameters are not complete' do
-      ClientCategory.create!(name: "Bronze", discount_percent: 0)
+      ClientCategory.create!(name: 'Bronze', discount_percent: 0)
       Client.create!(client_type: 0, client_category_id: 1)
       client_person_params = { client_person: { full_name: '', cpf: '', client_id: 1 } }
 
