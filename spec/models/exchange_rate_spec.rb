@@ -61,6 +61,15 @@ RSpec.describe ExchangeRate, type: :model do
         expect(er.status).to eq 'approved'
         expect(er.approved_by).to eq admin
       end
+
+      it 'when variation is less than 10%' do
+        admin = create(:admin)
+        create(:exchange_rate, brl_coin: 5, created_by: admin, register_date: 2.days.from_now)
+        er = create(:exchange_rate, brl_coin: 5.1, created_by: admin, register_date: 3.days.from_now)
+
+        expect(er.status).to eq 'approved'
+        expect(er.approved_by).to eq admin
+      end
     end
 
     context 'when variation is greater than 10%' do

@@ -37,7 +37,7 @@ describe 'Admin approve exchange rate' do
     expect(er.status).to eq 'pending'
   end
 
-  it 'and needs to be loged in' do
+  it 'and needs to be logged in' do
     admin = create(:admin)
     er = create(:exchange_rate, created_by: admin)
     visit exchange_rate_path(er)

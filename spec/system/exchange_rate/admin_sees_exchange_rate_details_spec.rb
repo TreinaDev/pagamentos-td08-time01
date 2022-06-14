@@ -37,7 +37,7 @@ describe 'Admin sees details from a' do
     expect(page).to have_content "Registrada por #{admin.full_name}"
   end
 
-  it 'and needs to be loged in' do
+  it 'and needs to be logged in' do
     admin = create(:admin)
     er = create(:exchange_rate, created_by: admin)
 
