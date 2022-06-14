@@ -38,6 +38,14 @@ RSpec.describe ClientPerson, type: :model do
 
         expect(client_person.valid?).to be true
       end
+
+      it 'false when client_id is empty' do
+        ClientCategory.create!(name: 'Bronze', discount_percent: 0)
+        Client.create!(client_type: 0, client_category_id: 1)
+        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: '')
+
+        expect(client_person.valid?).to be false
+      end
     end
   end
 end
