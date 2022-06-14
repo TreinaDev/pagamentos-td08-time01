@@ -1,32 +1,39 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'admin registers client category' do
   it 'with success' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password', full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
+                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
 
     login_as(admin)
+    visit new_client_category_path
+    fill_in 'Nome', with: 'Bronze'
+    fill_in 'Porcentagem de desconto', with: 'Ouro'
+    click_on 'Cadastrar'
 
-	  visit new_client_category_path
-		
-	  fill_in "Nome",	with: "Bronze"
-	  fill_in "Porcentagem de desconto",	with: "Ouro"
-	  click_on "Cadastrar"
-
-	  expect(page).to have_content "Categoria criada com sucesso."
+    expect(page).to have_content 'Categoria criada com sucesso.'
   end
 
   it 'with fail' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password', full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
+                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
 
     login_as(admin)
-    
     visit new_client_category_path
-    
-    fill_in "Nome",	with: "Diamante" 
+    fill_in 'Nome', with: 'Diamante'
     click_on 'Cadastrar'
 
-    expect(page).to have_content "Não foi possível cadastrar a categoria."
-    expect(page).to have_content "Verifique os erros abaixo:"
-    expect(page).to have_content "Porcentagem de desconto não pode ficar em branco"
+    expect(page).to have_content 'Não foi possível cadastrar a categoria.'
+    expect(page).to have_content 'Verifique os erros abaixo:'
+    expect(page).to have_content 'Porcentagem de desconto não pode ficar em branco'
+  end
+
+  it 'access client_category without be authenticated' do
+    visit new_client_category_path
+
+    expect(page).to have_current_path new_admin_session_path, ignore_query: true
+    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end
 end
