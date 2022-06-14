@@ -20,7 +20,20 @@ describe 'Admin sees promotion list' do
     expect(page).to have_content '40'
     expect(page).to have_content '90'
     expect(page).to have_content 'ouro'
+  end
+
+  it 'and theres no promotion registered' do
+    admin = create(:admin)
+
+    login_as admin
+    visit promotions_path
     
-    
+    expect(page).to have_content 'Nenhuma promoção cadastrada'
+  end
+
+  it 'without be authenticated' do
+
+    visit promotions_path
+    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end
 end

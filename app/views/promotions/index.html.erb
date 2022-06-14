@@ -1,28 +1,32 @@
 <h1>Promoções</h1>
 
 <div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Nome</th>
-        <th scope="col">Data de início</th>
-        <th scope="col">Data de encerramento</th>
-        <th scope="col">Desconto</th>
-        <th scope="col">Prazo para uso do bônus</th>
-        <th scope="col">Categoria</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @promotions.each do |promo| %>
+  <% if @promotions.empty? %>
+    <p>Nenhuma promoção cadastrada</p>
+  <% else %>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= promo.name %></td>
-          <td><%= I18n.l(promo.start_date) %></td>
-          <td><%= I18n.l(promo.end_date) %></td>
-          <td><%= promo.discount_percent %>%</td>
-          <td><%= promo.limit_days %> dias</td>
-          <td><%= promo.client_category.name %></td>
-        </td>
-      <% end %>
-    </tbody>
-  </table>
+          <th scope="col">Nome</th>
+          <th scope="col">Data de início</th>
+          <th scope="col">Data de encerramento</th>
+          <th scope="col">Desconto</th>
+          <th scope="col">Prazo para uso do bônus</th>
+          <th scope="col">Categoria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @promotions.each do |promo| %>
+          <tr>
+            <td><%= promo.name %></td>
+            <td><%= I18n.l(promo.start_date) %></td>
+            <td><%= I18n.l(promo.end_date) %></td>
+            <td><%= promo.discount_percent %>%</td>
+            <td><%= promo.limit_days %> dias</td>
+            <td><%= promo.client_category.name %></td>
+          </td>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
