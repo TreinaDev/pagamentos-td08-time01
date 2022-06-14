@@ -1,3 +1,26 @@
+body {
+  font-size: 1.1em;
+  line-height: 1em;
+}
+
 a {
   text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: green;
+}
+
+.button {
+  background: none;
+  border: none;
+  padding: 1;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: green;
 }
