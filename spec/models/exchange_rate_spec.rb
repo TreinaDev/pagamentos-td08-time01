@@ -14,10 +14,12 @@ RSpec.describe ExchangeRate, type: :model do
       end
     end
 
-    context 'when regiter date isnt uniq' do
+    context 'when regiter date isnt unique' do
       it 'false when date is repeated' do
-        create(:exchange_rate, register_date: 1.day.from_now)
-        er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        create(:exchange_rate, register_date: 1.day.from_now, created_by: admin)
+        er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now, created_by: admin)
 
         er.valid?
 
@@ -36,15 +38,15 @@ RSpec.describe ExchangeRate, type: :model do
     end
   end
 
-  describe '#register_date_is_future' do
+  describe '#register_date_isnt_in_past' do
     context 'when register date is in the past' do
       it 'register date is yesterday' do
-        er = build(:exchange_rate, register_date: 1.day.ago)
+        er = build(:exchange_rate, register_date: 3.days.ago)
 
         er.valid?
 
         expect(er.errors.include?(:register_date)).to be true
-        expect(er.errors.full_messages_for(:register_date)).to include 'Data de registro deve ser futura'
+        expect(er.errors[:register_date]).to include 'não pode ser no passado'
       end
     end
   end
@@ -52,16 +54,30 @@ RSpec.describe ExchangeRate, type: :model do
   describe '#set_status_exchange_rate' do
     context 'when is the first exchange rate register' do
       it 'set approved status' do
-        er = create(:exchange_rate, brl_coin: 50)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        er = create(:exchange_rate, brl_coin: 50, created_by: admin)
 
         expect(er.status).to eq 'approved'
+        expect(er.approved_by).to eq admin
+      end
+
+      it 'when variation is less than 10%' do
+        admin = create(:admin)
+        create(:exchange_rate, brl_coin: 5, created_by: admin, register_date: 2.days.from_now)
+        er = create(:exchange_rate, brl_coin: 5.1, created_by: admin, register_date: 3.days.from_now)
+
+        expect(er.status).to eq 'approved'
+        expect(er.approved_by).to eq admin
       end
     end
 
     context 'when variation is greater than 10%' do
       it 'set pending status' do
-        create(:exchange_rate, brl_coin: 5)
-        er = create(:exchange_rate, register_date: 2.days.from_now, brl_coin: 6)
+        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
+                              password: '123456')
+        create(:exchange_rate, brl_coin: 5, created_by: admin)
+        er = create(:exchange_rate, register_date: 2.days.from_now, brl_coin: 6, created_by: admin)
 
         expect(er.status).to eq 'pending'
       end
@@ -70,17 +86,56 @@ RSpec.describe ExchangeRate, type: :model do
 
   describe '#max_variation?' do
     it 'true when variation is lower than 10%' do
-      create(:exchange_rate, brl_coin: 5)
-      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 5.2)
+      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 5.2, created_by: admin)
 
       expect(er.max_variation?).to be true
     end
 
     it 'false when variation is greater than 10%' do
-      create(:exchange_rate, brl_coin: 5)
-      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6)
+      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6, created_by: admin)
 
       expect(er.max_variation?).to be false
+    end
+  end
+
+  describe '#prevent_approvemment_by_creator' do
+    it 'add error when approved by is nil' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'approved'
+      er.valid?
+
+      expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada sem um administrador'
+    end
+
+    it 'add error when approved_by is equal to created by' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'approved'
+      er.approved_by = admin
+      er.valid?
+
+      expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada pelo mesmo administrador que registrou'
+    end
+  end
+
+  describe '#prevent_recuse_by_nil' do
+    it 'add error when recused_by is nil' do
+      admin = create(:admin)
+      create(:exchange_rate, brl_coin: 5, created_by: admin)
+      er = create(:exchange_rate, brl_coin: 6, status: 'pending', created_by: admin, register_date: 3.days.from_now)
+
+      er.status = 'recused'
+      er.valid?
+      expect(er.errors[:exchange_rate]).to include 'não pode ser recusada sem um administrador'
     end
   end
 end

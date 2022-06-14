@@ -3,12 +3,6 @@
 require 'rails_helper'
 
 describe 'Admin register new exchange rate' do
-  it 'and needs to be loged in' do
-    visit new_exchange_rate_path
-
-    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
-  end
-
   it 'successfully' do
     admin = create(:admin)
 
@@ -16,20 +10,37 @@ describe 'Admin register new exchange rate' do
     visit root_path
     click_on 'Taxa de câmbio'
     click_on 'Registrar taxa de câmbio'
-
-    fill_in 'Data de registro', with: '25/08/2022'
+    fill_in 'Data de registro', with: I18n.l(3.days.from_now.to_date)
     fill_in 'Valor em reais', with: 5.10
     click_on 'Registrar taxa'
 
+    expect(page).to have_content 'Taxa de câmbio registrada com sucesso'
     expect(page).to have_content 'Taxa de Câmbio RUBI/REAL'
-    expect(page).to have_content '25/08/2022'
+    expect(page).to have_content I18n.l(3.days.from_now.to_date)
     expect(page).to have_content '1 rubi equivale a R$ 5,10 reais'
     expect(page).to have_current_path exchange_rates_path
+    expect(ExchangeRate.last.created_by).to eq admin
+  end
+
+  it 'and variation is less than 10%' do
+    admin = create(:admin)
+    create(:exchange_rate, brl_coin: 5, created_by: admin)
+
+    login_as admin
+    visit root_path
+    click_on 'Taxa de câmbio'
+    click_on 'Registrar taxa de câmbio'
+    fill_in 'Data de registro', with: '25/08/2022'
+    fill_in 'Valor em reais', with: 5.2
+    click_on 'Registrar taxa'
+
+    expect(page).to have_content 'Taxa de câmbio registrada com sucesso'
+    expect(ExchangeRate.last.status).to eq 'approved'
   end
 
   it 'and variation is greater than 10%' do
-    create(:exchange_rate, brl_coin: 5)
     admin = create(:admin)
+    create(:exchange_rate, brl_coin: 5, created_by: admin)
 
     login_as admin
     visit root_path
@@ -54,5 +65,11 @@ describe 'Admin register new exchange rate' do
 
     expect(page).to have_content 'Erro ao registrar taxa de câmbio'
     expect(page).to have_content 'Data de registro não pode ficar em branco'
+  end
+
+  it 'and needs to be logged in' do
+    visit new_exchange_rate_path
+
+    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end
 end
