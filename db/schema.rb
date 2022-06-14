@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_14_202334) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,7 +69,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
+  create_table "promotions", force: :cascade do |t|
+    t.string "name"
+    t.date "start_date"
+    t.date "end_date"
+    t.float "discount_percent"
+    t.integer "limit_days"
+    t.integer "client_category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_category_id"], name: "index_promotions_on_client_category_id"
+  end
+
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
+  add_foreign_key "promotions", "client_categories"
 end
