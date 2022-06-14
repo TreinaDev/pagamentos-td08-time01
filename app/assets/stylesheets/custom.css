@@ -5,7 +5,11 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
+}
+
+/* buttons */
+.button-form-group {
+  display: flex;
 }
 
 a:hover {
