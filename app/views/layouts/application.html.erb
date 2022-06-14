@@ -23,6 +23,7 @@
           <div style="display: flex; flex-direction: row;">
             <%= current_admin.full_name %> |
             <%= current_admin.email %> |
+            <%= link_to 'Categoria de clientes', client_categories_path %> |
             <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: 'button' %>
           </div>
         <% else %>
