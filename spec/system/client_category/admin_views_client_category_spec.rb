@@ -6,10 +6,8 @@ describe 'Admin views client category' do
   it 'with success' do
     admin = create(:admin)
 
-    visit root_path
-    click_on 'Entrar'
     login_as(admin)
-    click_on 'Log in'
+    visit root_path
     click_on 'Categoria de clientes'
     visit client_categories_path
 

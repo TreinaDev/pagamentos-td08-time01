@@ -9,10 +9,24 @@ describe 'Admin see all pending accounts' do
     expect(page).not_to have_content 'Pendências'
   end
 
+  it 'a visitor forces its entry to pendencies page' do
+    visit pendencies_path
+
+    expect(page).not_to have_content 'Administradores pendentes'
+    expect(page).to have_content 'Entrar como administrador'
+  end
+
+  it 'a pending admin forces its entry to pendencies page' do
+    pending_admin = create(:admin, status: 0)
+    login_as pending_admin
+    visit pendencies_path
+
+    expect(page).not_to have_content 'Administradores pendentes'
+    expect(page).to have_content 'Apenas administradores ativos tem a permissão de acessar a página de pendências'
+  end
+
   it 'and dont have pendencies' do
-    admin = Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
-                          email: 'feferreira556@userubis.com.br', password: '203942',
-                          status: 5)
+    admin = create(:admin, status: 5)
 
     login_as admin
     visit root_path
@@ -23,15 +37,13 @@ describe 'Admin see all pending accounts' do
   end
 
   it 'and see all pending accounts' do
-    Admin.create!(full_name: 'José Arantes', cpf: '24365465686',
-                  email: 'jose@userubis.com.br', password: '123464',
-                  status: 0)
-    Admin.create!(full_name: 'Lucio Santos', cpf: '06001818398',
-                  email: 'lucio22@userubis.com.br', password: '239102',
-                  status: 0)
-    admin = Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
-                          email: 'feferreira556@userubis.com.br', password: '203942',
-                          status: 5)
+    create(:admin, full_name: 'José Arantes', cpf: '24365465686',
+                   email: 'jose@userubis.com.br', password: '123464',
+                   status: 0)
+    create(:admin, full_name: 'Lucio Santos', cpf: '06001818398',
+                   email: 'lucio22@userubis.com.br', password: '239102',
+                   status: 0)
+    admin = create(:admin, status: 5)
 
     login_as admin
     visit root_path
@@ -48,16 +60,12 @@ describe 'Admin see all pending accounts' do
   end
 
   it 'and accept a pending account' do
-    active = Admin.create!(full_name: 'Lucio Santos', cpf: '06001818398',
-                           email: 'lucio22@userubis.com.br', password: '239102',
-                           status: 5)
-    pending_admin = Admin.create!(full_name: 'José Arantes', cpf: '24365465686',
-                                  email: 'jose@userubis.com.br', password: '123464',
-                                  status: 0)
+    active = create(:admin, status: 5)
+    pending_admin = create(:admin, full_name: 'José Arantes', cpf: '24365465686',
+                                   email: 'jose@userubis.com.br', password: '123464',
+                                   status: 0)
     AdminPermission.create!(admin_id: pending_admin.id, active_admin: active.id)
-    admin = Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
-                          email: 'feferreira556@userubis.com.br', password: '203942',
-                          status: 5)
+    admin = create(:admin, status: 5)
 
     login_as admin
     visit root_path

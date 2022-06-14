@@ -38,5 +38,16 @@ RSpec.describe Admin, type: :model do
         expect(admin.errors[:cpf]).to include('não é válido')
       end
     end
+
+    context 'with unique' do
+      it 'when cpf and email is already in use' do
+        first_adm = create(:admin, cpf: '75801559159', email: 'test@userubis.com.br')
+        second_adm = build(:admin, email: first_adm.email, cpf: first_adm.cpf)
+
+        expect(second_adm).not_to be_valid
+        expect(second_adm.errors[:email]).to include('já está em uso')
+        expect(second_adm.errors[:cpf]).to include('já está em uso')
+      end
+    end
   end
 end

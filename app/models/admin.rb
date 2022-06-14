@@ -18,6 +18,8 @@ class Admin < ApplicationRecord
   validates :email, format: { with: /@userubis\.com\.br\z/,
                               message: 'deve possuir o dominio @userubis.com.br' }
 
+  validates :cpf, uniqueness: true
+
   validate :cpf_validator
 
   private
