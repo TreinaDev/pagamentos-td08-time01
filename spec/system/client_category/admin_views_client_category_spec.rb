@@ -7,7 +7,11 @@ describe 'Admin views client category' do
     admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
                          full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
 
+    visit root_path
+    click_on 'Entrar'
     login_as(admin)
+    click_on 'Log in'
+    click_on 'Categoria de clientes'
     visit client_categories_path
 
     expect(page).to have_content 'Categoria de Clientes'
