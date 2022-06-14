@@ -7,6 +7,11 @@ a {
   text-decoration: none;
 }
 
+/* buttons */
+.button-form-group {
+  display: flex;
+}
+
 a:hover {
   background-color: azure;
 }
