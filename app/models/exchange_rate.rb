@@ -7,7 +7,9 @@ class ExchangeRate < ApplicationRecord
   validates :brl_coin, :register_date, presence: true
   validates :brl_coin, numericality: { greater_than: 1 }
   validates :register_date, uniqueness: true
-  validate :register_date_is_future
+  validates :register_date,
+            comparison: { greater_than_or_equal_to: Time.zone.today, message: 'não pode ser no passado' }
+
   validate :prevent_approvemment_by_creator, on: :update, unless: :recused?
   validate :prevent_recuse_by_nil, on: :update, unless: :approved?
 
@@ -15,7 +17,7 @@ class ExchangeRate < ApplicationRecord
   belongs_to :approved_by, class_name: 'Admin', optional: true
   belongs_to :recused_by, class_name: 'Admin', optional: true
 
-  enum status: { pending: 0, approved: 5, recused: 10 }
+  enum status: { pending: 0, approved: 5, recused: 10 }, _default: :pending
 
   def max_variation?
     calc_variation <= MAX_VARIATION
@@ -23,16 +25,11 @@ class ExchangeRate < ApplicationRecord
 
   private
 
-  def register_date_is_future
-    errors.add(:register_date, 'deve ser futura') if register_date.present? && register_date < Time.zone.today
-  end
-
   def set_status_exchange_rate
-    self.status = if ExchangeRate.all.empty? || max_variation?
-                    'approved'
-                  else
-                    'pending'
-                  end
+    if ExchangeRate.all.empty? || max_variation?
+      self.status = 'approved' 
+      self.approved_by = created_by
+    end
   end
 
   def calc_variation
@@ -43,9 +40,9 @@ class ExchangeRate < ApplicationRecord
   end
 
   def prevent_approvemment_by_creator
-    if approved_by.nil?
+    if approved_by.nil? 
       errors.add(:exchange_rate, 'não pode ser aprovada sem um administrador')
-    elsif approved_by == created_by
+    elsif approved_by == created_by && variation > MAX_VARIATION
       errors.add(:exchange_rate,
                  'não pode ser aprovada pelo mesmo administrador que registrou')
     end

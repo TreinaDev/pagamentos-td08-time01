@@ -6,8 +6,11 @@ class ExchangeRatesController < ApplicationController
   before_action :set_exchange_rate, only: %i[show recused approved]
 
   def index
-    @approved_exchange_rates = ExchangeRate.approved.last(30)
-    @exchange_rates = ExchangeRate.all
+    if admin_signed_in?
+      @exchange_rates = ExchangeRate.all
+    else
+      @approved_exchange_rates = ExchangeRate.approved.last(30)
+    end
   end
 
   def new
@@ -28,10 +31,10 @@ class ExchangeRatesController < ApplicationController
   def show; end
 
   def approved
-    @exchange_rate.approved_by = current_admin
     if current_admin == @exchange_rate.created_by
       redirect_to @exchange_rate, alert: 'Taxa não pode ser aprovada pelo mesmo administrador que registrou'
     else
+      @exchange_rate.approved_by = current_admin
       @exchange_rate.approved!
       redirect_to @exchange_rate, notice: 'Taxa aprovada com sucesso'
     end

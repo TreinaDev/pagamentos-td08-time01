@@ -14,12 +14,12 @@ RSpec.describe ExchangeRate, type: :model do
       end
     end
 
-    context 'when regiter date isnt uniq' do
+    context 'when regiter date isnt unique' do
       it 'false when date is repeated' do
         admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
                               password: '123456')
         create(:exchange_rate, register_date: 1.day.from_now, created_by: admin)
-        er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now)
+        er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now, created_by: admin)
 
         er.valid?
 
@@ -38,7 +38,7 @@ RSpec.describe ExchangeRate, type: :model do
     end
   end
 
-  describe '#register_date_is_future' do
+  describe '#register_date_isnt_in_past' do
     context 'when register date is in the past' do
       it 'register date is yesterday' do
         er = build(:exchange_rate, register_date: 3.days.ago)
@@ -46,7 +46,7 @@ RSpec.describe ExchangeRate, type: :model do
         er.valid?
 
         expect(er.errors.include?(:register_date)).to be true
-        expect(er.errors.full_messages_for(:register_date)).to include 'Data de registro deve ser futura'
+        expect(er.errors[:register_date]).to include 'não pode ser no passado'
       end
     end
   end
@@ -59,6 +59,7 @@ RSpec.describe ExchangeRate, type: :model do
         er = create(:exchange_rate, brl_coin: 50, created_by: admin)
 
         expect(er.status).to eq 'approved'
+        expect(er.approved_by).to eq admin
       end
     end
 
@@ -112,7 +113,7 @@ RSpec.describe ExchangeRate, type: :model do
       er.status = 'approved'
       er.approved_by = admin
       er.valid?
-
+     
       expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada pelo mesmo administrador que registrou'
     end
   end
