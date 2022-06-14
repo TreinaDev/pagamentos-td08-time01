@@ -5,7 +5,9 @@ require 'rails_helper'
 describe 'Pagamento API' do
   context 'when POST /api/v1/client_companies' do
     it 'success' do
-      client_company_params = { client_company: { company_name: 'ACME LTDA', cnpj: '12345678998745' } }
+      ClientCategory.create!(name: "Bronze", discount_percent: 0)
+      Client.create!(client_type: 5, client_category_id: 1)
+      client_company_params = { client_company: { company_name: 'ACME LTDA', cnpj: '12345678998745', client_id: 1 } }
 
       post '/api/v1/client_companies', params: client_company_params
 
@@ -19,7 +21,9 @@ describe 'Pagamento API' do
     end
 
     it 'if parameters are not complete' do
-      client_company_params = { client_company: { full_name: '', cpf: '' } }
+      ClientCategory.create!(name: "Bronze", discount_percent: 0)
+      Client.create!(client_type: 5, client_category_id: 1)
+      client_company_params = { client_company: { full_name: '', cpf: '', client_id: 1 } }
 
       post '/api/v1/client_companies', params: client_company_params
 

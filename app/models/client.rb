@@ -6,4 +6,5 @@ class Client < ApplicationRecord
 
   belongs_to :client_category
   has_many :client_people
+  has_many :client_companies
 end
