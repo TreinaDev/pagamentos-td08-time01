@@ -31,4 +31,10 @@ describe 'admin registers client category' do
     expect(page).to have_content 'Verifique os erros abaixo:'
     expect(page).to have_content 'Porcentagem de desconto não pode ficar em branco'
   end
+
+  it 'access new_client_category without be authenticated' do
+    visit new_client_category_path
+
+    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
+  end
 end
