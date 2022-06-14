@@ -32,9 +32,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "client_companies", force: :cascade do |t|
+    t.string "company_name"
+    t.string "cnpj"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "client_people", force: :cascade do |t|
     t.string "full_name"
     t.string "cpf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.integer "client_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
