@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :admin do
-    email { %w[example@userubis.com.br testexample@userubis.com.br].sample }
-    password { %w[984984498 testpassword].sample }
-    full_name { ['João Santos', 'Yuri'].sample }
-    cpf { %w[798.203.013-00 773.164.509-67].sample }
+    email { "#{Faker::Alphanumeric.alpha(number: 6)}@userubis.com.br" }
+    password { Faker::Internet.password }
+    full_name { Faker::Name.name }
+    cpf { CPF.generate }
   end
 end

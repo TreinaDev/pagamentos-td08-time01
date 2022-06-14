@@ -27,6 +27,10 @@ puts '------------ creating ClientCategory -------------'
 ClientCategory.create!(name: "Bronze", discount_percent: 0)
 ClientCategory.create!(name: "Ouro", discount_percent: 10)
 
+puts '------------ creating ClientPerson -------------'
+
+ClientPerson.create!(full_name: 'Zeca Urubú', cpf: '12345678999')
+
 puts
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'

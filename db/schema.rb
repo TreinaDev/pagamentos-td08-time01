@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_12_162631) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -40,12 +40,46 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_12_162631) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-  
+
+  create_table "client_companies", force: :cascade do |t|
+    t.string "company_name"
+    t.string "cnpj"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_people", force: :cascade do |t|
+    t.string "full_name"
+    t.string "cpf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clients", force: :cascade do |t|
     t.integer "client_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-  
+
+  create_table "exchange_rates", force: :cascade do |t|
+    t.integer "rubi_coin", default: 1
+    t.float "brl_coin"
+    t.date "register_date"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "created_by_id", null: false
+    t.integer "approved_by_id"
+    t.integer "recused_by_id"
+    t.float "variation", default: 0.0
+    t.index ["approved_by_id"], name: "index_exchange_rates_on_approved_by_id"
+    t.index ["created_by_id"], name: "index_exchange_rates_on_created_by_id"
+    t.index ["recused_by_id"], name: "index_exchange_rates_on_recused_by_id"
+    t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
+  end
+
   add_foreign_key "admin_permissions", "admins"
+  add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
+  add_foreign_key "exchange_rates", "admins", column: "created_by_id"
+  add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
 end

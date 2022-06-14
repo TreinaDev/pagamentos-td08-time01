@@ -1,0 +1,6 @@
+pt-BR:
+  activerecord:
+    attributes:
+      client/client_type:
+        client_person: Pessoa física
+        client_company: Pessoa jurídica

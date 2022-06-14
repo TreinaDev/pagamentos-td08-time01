@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe ClientCategory, type: :model do
   describe '#valid?' do
-    context 'with presence' do
+    context 'when client name isnt present' do
       it 'return false when name is empty' do
-        category = build(:client_category, name: '')
+        category = build(:client_category, name: '', discount_percent: 0)
 
         expect(category.valid?).to be false
       end
