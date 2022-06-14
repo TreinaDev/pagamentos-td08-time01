@@ -26,10 +26,10 @@ class ExchangeRate < ApplicationRecord
   private
 
   def set_status_exchange_rate
-    if ExchangeRate.all.empty? || max_variation?
-      self.status = 'approved' 
-      self.approved_by = created_by
-    end
+    return unless ExchangeRate.all.empty? || max_variation?
+
+    self.status = 'approved'
+    self.approved_by = created_by
   end
 
   def calc_variation
@@ -40,7 +40,7 @@ class ExchangeRate < ApplicationRecord
   end
 
   def prevent_approvemment_by_creator
-    if approved_by.nil? 
+    if approved_by.nil?
       errors.add(:exchange_rate, 'não pode ser aprovada sem um administrador')
     elsif approved_by == created_by && variation > MAX_VARIATION
       errors.add(:exchange_rate,

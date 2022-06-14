@@ -113,7 +113,7 @@ RSpec.describe ExchangeRate, type: :model do
       er.status = 'approved'
       er.approved_by = admin
       er.valid?
-     
+
       expect(er.errors[:exchange_rate]).to include 'não pode ser aprovada pelo mesmo administrador que registrou'
     end
   end
