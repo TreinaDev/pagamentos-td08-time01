@@ -1,0 +1,9 @@
+
+"pt-BR":
+  activerecord:
+    models:
+      client_company: "Cliente pessoa júridica"
+    attributes:
+      client_company:
+        company_name: "Razão social"
+        cnpj: "CNPJ" 
