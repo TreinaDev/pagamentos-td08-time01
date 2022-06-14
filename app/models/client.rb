@@ -5,4 +5,5 @@ class Client < ApplicationRecord
   enum client_type: { client_person: 0, client_company: 5 }
 
   belongs_to :client_category
+  has_many :client_people
 end

@@ -16,7 +16,7 @@ module Api
       private
 
       def client_person_params
-        params.require(:client_person).permit(:full_name, :cpf)
+        params.require(:client_person).permit(:full_name, :cpf, :client_id)
       end
     end
   end
