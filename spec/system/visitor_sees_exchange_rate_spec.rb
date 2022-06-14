@@ -4,9 +4,10 @@ require 'rails_helper'
 
 describe 'Visitor sees exchange rate list' do
   it 'successfully' do
-    ExchangeRate.create!(rubi_coin: 1, brl_coin: 5, register_date: 1.day.from_now, status: 'approved')
-    ExchangeRate.create!(rubi_coin: 1, brl_coin: 5.12, register_date: 2.days.from_now, status: 'approved')
-    ExchangeRate.create!(rubi_coin: 1, brl_coin: 10, register_date: 3.days.from_now, status: 'pending')
+    admin = create(:admin)
+    ExchangeRate.create!(rubi_coin: 1, brl_coin: 5, register_date: 1.day.from_now, created_by: admin)
+    ExchangeRate.create!(rubi_coin: 1, brl_coin: 5.12, register_date: 2.days.from_now, created_by: admin)
+    ExchangeRate.create!(rubi_coin: 1, brl_coin: 10, register_date: 3.days.from_now, created_by: admin)
 
     visit root_path
     click_on 'Taxa de câmbio'

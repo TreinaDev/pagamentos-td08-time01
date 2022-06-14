@@ -1,0 +1,21 @@
+<h1><%= ExchangeRate.model_name.human %> <%= I18n.l(@exchange_rate.register_date) %></h1>
+
+<section class="mt-3">
+  <h5>
+    <p><%= ExchangeRate.human_attribute_name(:status) %>: <%= ExchangeRate.human_attribute_name(@exchange_rate.status) %></p>
+    <p>Valor: <%= number_to_currency @exchange_rate.brl_coin %> reais</p>
+    <p><%= ExchangeRate.human_attribute_name(:variation) %> em relação a última taxa aprovada: <%= @exchange_rate.variation %>%</p>
+    <p><%= ExchangeRate.human_attribute_name(:created_by) %> <%= @exchange_rate.created_by.full_name %></p>
+    <% if @exchange_rate.approved_by.present? %>
+      <%= ExchangeRate.human_attribute_name(:approved_by) %> <%= @exchange_rate.approved_by.full_name %>
+    <% elsif @exchange_rate.recused_by.present? %>
+      <%= ExchangeRate.human_attribute_name(:recused_by) %> <%= @exchange_rate.recused_by.full_name %>
+    <% end %>
+  </h5>
+  <% if @exchange_rate.pending? %>
+    <section class="btn-group">
+      <%= button_to 'Aprovar taxa', approved_exchange_rate_path(@exchange_rate), class: 'btn btn-link button-status' %>
+      <%= button_to 'Recusar taxa', recused_exchange_rate_path(@exchange_rate), class: 'btn btn-link button-status' %>
+    </section>
+  <% end %>
+</section>

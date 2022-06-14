@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Client, type: :model do
   describe '#valid?' do
-    context 'when presence' do
-      it 'false when client_typeis empty' do
+    context 'when presence is missing' do
+      it 'false when client_type is empty' do
         client = described_class.new(client_type: '')
 
         expect(client.valid?).to be false
