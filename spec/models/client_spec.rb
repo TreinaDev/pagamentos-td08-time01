@@ -9,14 +9,14 @@ RSpec.describe Client, type: :model do
         expect(client.valid?).to eq false
       end
 
-      it 'true when client_type is not empty' do
-        client = Client.new(client_type: "Pessoa física")
+      it 'true when client_type is client_person' do
+        client = Client.new(client_type: 0)
 
         expect(client.valid?).to eq true
       end
 
-      it 'false when client_type is different to Pessoa física or Pessoa jurídica' do
-        client = Client.new(client_type: "Pessoa jurídica")
+      it 'true when client_type is client_company' do
+        client = Client.new(client_type: 5)
 
         expect(client.valid?).to eq true
       end
