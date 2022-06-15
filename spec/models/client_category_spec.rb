@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ClientCategory, type: :model do
+  describe 'are there validations?' do
+    context 'with active_model' do
+      it { is_expected.to validate_presence_of(:name) }
+      it { is_expected.to validate_presence_of(:discount_percent) }
+    end
+  end
+
   describe '#valid?' do
     context 'when client name isnt present' do
       it 'return false when name is empty' do
