@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ClientPerson, type: :model do
+  describe 'are there validations?' do
+    context 'with active_model' do
+      it { is_expected.to validate_presence_of(:full_name) }
+      it { is_expected.to validate_presence_of(:cpf) }
+    end
+  end
+
   describe '#valid?' do
     context 'when presence' do
       it 'false when full_name is empty' do

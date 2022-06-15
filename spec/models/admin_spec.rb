@@ -3,6 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe Admin, type: :model do
+  describe 'are there validations?' do
+    context 'with active_record' do
+      it { is_expected.to have_many(:exchange_rates) }
+    end
+
+    context 'with active_model' do
+      it { is_expected.to validate_presence_of(:full_name) }
+      it { is_expected.to validate_presence_of(:cpf) }
+      it { is_expected.to validate_presence_of(:email) }
+      it { is_expected.to validate_presence_of(:password) }
+    end
+  end
+
   describe '#valid?' do
     context 'with presence' do
       it 'when attributes is not present' do
