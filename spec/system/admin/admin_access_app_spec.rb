@@ -8,16 +8,18 @@ describe 'admin access the application' do
     click_on 'Entrar'
     click_on 'Registrar nova conta'
     fill_in 'Nome Completo', with: 'Sérgio Silva'
-    fill_in 'CPF', with: '00000000000'
+    fill_in 'CPF', with: '94934892303'
     fill_in 'E-mail', with: 'sergio@userubis.com.br'
     fill_in 'Senha', with: '123456'
     fill_in 'Confirme sua senha', with: '123456'
     click_on 'Criar Administrador'
 
     expect(page).not_to have_content 'Entrar'
-    expect(page).to have_content 'Sérgio Silva'
-    expect(page).to have_content 'sergio@userubis.com.br'
+    expect(page).to have_content 'Nome de Usuário: Sérgio Silva'
+    expect(page).to have_content 'E-mail: sergio@userubis.com.br'
+    expect(page).to have_content 'Status: Pendente'
     expect(page).to have_content 'Sair'
+    expect(page).not_to have_content 'Pendências'
   end
 
   it 'with blank fields' do
