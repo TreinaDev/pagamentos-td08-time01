@@ -37,7 +37,7 @@ RSpec.describe ClientPerson, type: :model do
       end
     end
 
-    context 'client_person should belong to client' do
+    context 'when client_person should belong to client' do
       it 'creates successfully' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         client = Client.create!(client_type: 0, client_category_id: client_category.id)
