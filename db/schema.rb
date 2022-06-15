@@ -11,6 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
+  create_table "admin_permissions", force: :cascade do |t|
+    t.integer "admin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "active_admin"
+    t.index ["admin_id"], name: "index_admin_permissions_on_admin_id"
+  end
+
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -21,6 +29,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
     t.string "cpf", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.index ["cpf"], name: "index_admins_on_cpf", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -75,6 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"

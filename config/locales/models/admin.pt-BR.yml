@@ -2,9 +2,13 @@ pt-BR:
   activerecord:
     models:
       admin:
-        one: "Administrador"
-        other: "Administradores"
+        one: 'Administrador'
+        other: 'Administradores'
     attributes:
       admin:
-        full_name: "Nome Completo"
-        cpf: "CPF"
+        full_name: 'Nome Completo'
+        cpf: 'CPF'
+        status: 'Status'
+        statuses:
+          pending: 'Pendente'
+          active: 'Ativo'
