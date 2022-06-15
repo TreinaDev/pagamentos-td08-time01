@@ -30,7 +30,7 @@ RSpec.describe ClientCompany, type: :model do
       end
     end
 
-    context 'when client_company belongs to client' do
+    context 'client_company belongs to client' do
       it 'with success' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         client = Client.create!(client_type: 5, client_category_id: client_category.id)
@@ -41,7 +41,6 @@ RSpec.describe ClientCompany, type: :model do
 
       it 'false when client_id is empty' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
-        Client.create!(client_type: 5, client_category_id: client_category.id)
         client_company = described_class.new(company_name: 'Pedro Gomes', cnpj: '11234567910111', client_id: '')
 
         expect(client_company.valid?).to be false
