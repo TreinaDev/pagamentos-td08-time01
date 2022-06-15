@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -67,6 +67,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_13_200145) do
     t.index ["created_by_id"], name: "index_exchange_rates_on_created_by_id"
     t.index ["recused_by_id"], name: "index_exchange_rates_on_recused_by_id"
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
+  end
+
+  create_table "transaction_settings", force: :cascade do |t|
+    t.decimal "max_credit", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
