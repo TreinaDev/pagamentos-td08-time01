@@ -5,6 +5,6 @@ FactoryBot.define do
     email { "#{Faker::Alphanumeric.alpha(number: 6)}@userubis.com.br" }
     password { Faker::Internet.password }
     full_name { Faker::Name.name }
-    cpf { Faker::IDNumber.brazilian_citizen_number(formatted: true) }
+    cpf { CPF.generate }
   end
 end
