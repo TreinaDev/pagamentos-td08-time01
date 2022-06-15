@@ -30,8 +30,8 @@ RSpec.describe ClientPerson, type: :model do
       end
     end
 
-    context 'when client_person belongs to client' do
-      it 'with success' do
+    context 'when client_person should belong to client' do
+      it 'creates successfully' do
         ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         Client.create!(client_type: 0, client_category_id: 1)
         client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: 1)
@@ -39,7 +39,7 @@ RSpec.describe ClientPerson, type: :model do
         expect(client_person.valid?).to be true
       end
 
-      it 'false when client_id is empty' do
+      it 'unsuccessfully when client not present' do
         ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         Client.create!(client_type: 0, client_category_id: 1)
         client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: '')
