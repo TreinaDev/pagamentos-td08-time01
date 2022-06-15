@@ -16,7 +16,7 @@ module Api
       private
 
       def client_company_params
-        params.require(:client_company).permit(:company_name, :cnpj)
+        params.require(:client_company).permit(:company_name, :cnpj, :client_id)
       end
     end
   end
