@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ClientCompany, type: :model do
+  describe 'are there validations?' do
+    context 'with active_model' do
+      it { is_expected.to validate_presence_of(:company_name) }
+      it { is_expected.to validate_presence_of(:cnpj) }
+    end
+  end
+
   describe '#valid?' do
     context 'when presence' do
       it 'with success' do

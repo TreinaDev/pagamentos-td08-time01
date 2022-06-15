@@ -3,6 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe ExchangeRate, type: :model do
+  describe 'are there validations?' do
+    context 'with active_record' do
+      it { is_expected.to belong_to(:created_by) }
+      it { is_expected.to belong_to(:approved_by).optional }
+      it { is_expected.to belong_to(:recused_by).optional }
+    end
+
+    context 'with active_model' do
+      subject { create(:exchange_rate, created_by: create(:admin)) }
+
+      it { is_expected.to validate_presence_of(:brl_coin) }
+      it { is_expected.to validate_presence_of(:register_date) }
+      it { is_expected.to define_enum_for(:status) }
+      it { is_expected.to validate_numericality_of(:brl_coin).is_greater_than(1) }
+      it { is_expected.to validate_uniqueness_of(:register_date) }
+    end
+  end
+
   describe '#valid?' do
     context 'when atributes arent present' do
       it 'false when attributes are not present' do
