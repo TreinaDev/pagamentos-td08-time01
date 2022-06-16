@@ -10,12 +10,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.is_a?(Admin) && resource.pending?
-      sign_out resource
-      flash[:alert] = 'Admin pendente'
-      root_path
-    else
-      super
-    end
+    return unless resource.is_a?(Admin) && resource.pending?
+
+    sign_out resource
+
+    flash.clear
+    flash[:alert] = 'Apenas administradores ativos tem a permissão de acessar a aplicação de pagamentos'
+
+    root_path
   end
 end
