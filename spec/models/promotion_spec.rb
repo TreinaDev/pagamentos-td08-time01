@@ -12,7 +12,7 @@ RSpec.describe Promotion, type: :model do
         expect(promotion.errors.full_messages_for(:name)).to include 'Nome não pode ficar em branco'
         expect(promotion.errors.full_messages_for(:start_date)).to include 'Data de início não pode ficar em branco'
         expect(promotion.errors.full_messages_for(:end_date)).to include 'Data de encerramento não pode ficar em branco'
-        expect(promotion.errors.full_messages_for(:discount_percent)).to include 'Desconto(%) não pode ficar em branco'
+        expect(promotion.errors.full_messages_for(:bonus)).to include 'Bônus(%) não pode ficar em branco'
         expect(promotion.errors.full_messages_for(:limit_day)).to include 'Prazo para uso não pode ficar em branco'
         expect(promotion.errors.full_messages).to include 'Client category é obrigatório(a)'
       end
@@ -28,12 +28,12 @@ RSpec.describe Promotion, type: :model do
       end
     end
 
-    context 'when discount_percent and limit_day are less than 1' do
+    context 'when bonus and limit_day are less than 1' do
       it 'promotion should not be valid' do
-        promotion = build(:promotion, discount_percent: 0, limit_day: 0)
+        promotion = build(:promotion, bonus: 0, limit_day: 0)
 
         expect(promotion).not_to be_valid
-        expect(promotion.errors[:discount_percent]).to include 'deve ser maior ou igual a 1'
+        expect(promotion.errors[:bonus]).to include 'deve ser maior ou igual a 1'
         expect(promotion.errors.full_messages_for(:limit_day)).to include
         'Prazo para uso deve ser maior ou igual a 1'
       end

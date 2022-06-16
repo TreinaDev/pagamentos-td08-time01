@@ -15,7 +15,7 @@ describe 'Admin register new promotion' do
     fill_in 'Nome', with: 'Dia das mães'
     fill_in 'Data de início', with: 2.days.from_now
     fill_in 'Data de encerramento', with: 1.week.from_now
-    fill_in 'Desconto(%)', with: 10
+    fill_in 'Bônus(%)', with: 10
     fill_in 'Prazo para uso', with: 90
     select 'ouro', from: 'Categoria de cliente'
     click_on 'Cadastrar'
@@ -39,12 +39,12 @@ describe 'Admin register new promotion' do
     login_as admin
     visit new_promotion_path
     fill_in 'Nome', with: ''
-    fill_in 'Desconto(%)', with: ''
+    fill_in 'Bônus(%)', with: ''
     click_on 'Cadastrar'
 
     expect(page).to have_content 'Erro ao cadastrar promoção'
     expect(page).to have_content 'Nome não pode ficar em branco'
-    expect(page).to have_content 'Desconto(%) não pode ficar em branco'
+    expect(page).to have_content 'Bônus(%) não pode ficar em branco'
   end
 
   it 'and needs to be logged in' do

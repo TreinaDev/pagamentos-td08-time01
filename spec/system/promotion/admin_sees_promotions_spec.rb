@@ -6,9 +6,9 @@ describe 'Admin sees promotion list' do
   it 'successfully' do
     admin = create(:admin)
     client_category = ClientCategory.create!(name: 'ouro', discount_percent: 15.5)
-    Promotion.create!(name: 'treina', start_date: 2.days.from_now, end_date: 3.days.from_now, discount_percent: 30,
+    Promotion.create!(name: 'treina', start_date: 2.days.from_now, end_date: 3.days.from_now, bonus: 30,
                       limit_day: 40, client_category:)
-    Promotion.create!(name: 'dev', start_date: 4.days.from_now, end_date: 3.weeks.from_now, discount_percent: 10,
+    Promotion.create!(name: 'dev', start_date: 4.days.from_now, end_date: 3.weeks.from_now, bonus: 10,
                       limit_day: 90, client_category:)
 
     login_as admin
