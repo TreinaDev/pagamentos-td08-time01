@@ -4,13 +4,10 @@ require 'rails_helper'
 
 describe 'Admin views client category' do
   it 'with success' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
-                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = create(:admin)
 
-    visit root_path
-    click_on 'Entrar'
     login_as(admin)
-    click_on 'Log in'
+    visit root_path
     click_on 'Categoria de clientes'
     visit client_categories_path
 
@@ -18,8 +15,7 @@ describe 'Admin views client category' do
   end
 
   it 'and see all client categories' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
-                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = create(:admin)
     ClientCategory.create!(name: 'Bronze', discount_percent: 0)
     ClientCategory.create!(name: 'Ouro', discount_percent: 10)
 
@@ -33,8 +29,7 @@ describe 'Admin views client category' do
   end
 
   it 'without any client categories' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
-                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = create(:admin)
 
     login_as(admin)
     visit client_categories_path
@@ -44,21 +39,19 @@ describe 'Admin views client category' do
   end
 
   it 'access new_client_category page' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
-                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = create(:admin)
 
     login_as(admin)
     visit client_categories_path
     click_on 'Cadastrar categoria'
 
-    expect(page).to have_current_path new_client_category_path, ignore_query: true
+    expect(page).to have_current_path new_client_category_path
     expect(page).to have_field 'Nome'
     expect(page).to have_field 'Porcentagem de desconto'
   end
 
   it 'return to client_categories_path' do
-    admin = Admin.create(email: 'example@userubis.com.br', password: 'password', password_confirmation: 'password',
-                         full_name: 'Pedrinho Junior Gomes', cpf: '12345678944')
+    admin = create(:admin)
 
     login_as(admin)
     visit client_categories_path

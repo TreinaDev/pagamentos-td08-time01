@@ -3,6 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe ExchangeRate, type: :model do
+  describe 'are there validations?' do
+    context 'with active_record' do
+      it { is_expected.to belong_to(:created_by) }
+      it { is_expected.to belong_to(:approved_by).optional }
+      it { is_expected.to belong_to(:recused_by).optional }
+    end
+
+    context 'with active_model' do
+      subject { create(:exchange_rate, created_by: create(:admin)) }
+
+      it { is_expected.to validate_presence_of(:brl_coin) }
+      it { is_expected.to validate_presence_of(:register_date) }
+      it { is_expected.to define_enum_for(:status) }
+      it { is_expected.to validate_numericality_of(:brl_coin).is_greater_than(1) }
+      it { is_expected.to validate_uniqueness_of(:register_date) }
+    end
+  end
+
   describe '#valid?' do
     context 'when atributes arent present' do
       it 'false when attributes are not present' do
@@ -16,8 +34,7 @@ RSpec.describe ExchangeRate, type: :model do
 
     context 'when regiter date isnt unique' do
       it 'false when date is repeated' do
-        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
-                              password: '123456')
+        admin = create(:admin)
         create(:exchange_rate, register_date: 1.day.from_now, created_by: admin)
         er = build(:exchange_rate, brl_coin: 5.1, register_date: 1.day.from_now, created_by: admin)
 
@@ -54,8 +71,7 @@ RSpec.describe ExchangeRate, type: :model do
   describe '#set_status_exchange_rate' do
     context 'when is the first exchange rate register' do
       it 'set approved status' do
-        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
-                              password: '123456')
+        admin = create(:admin)
         er = create(:exchange_rate, brl_coin: 50, created_by: admin)
 
         expect(er.status).to eq 'approved'
@@ -74,8 +90,7 @@ RSpec.describe ExchangeRate, type: :model do
 
     context 'when variation is greater than 10%' do
       it 'set pending status' do
-        admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20',
-                              password: '123456')
+        admin = create(:admin)
         create(:exchange_rate, brl_coin: 5, created_by: admin)
         er = create(:exchange_rate, register_date: 2.days.from_now, brl_coin: 6, created_by: admin)
 
@@ -86,7 +101,7 @@ RSpec.describe ExchangeRate, type: :model do
 
   describe '#max_variation?' do
     it 'true when variation is lower than 10%' do
-      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      admin = create(:admin)
       create(:exchange_rate, brl_coin: 5, created_by: admin)
       er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 5.2, created_by: admin)
 
@@ -94,7 +109,7 @@ RSpec.describe ExchangeRate, type: :model do
     end
 
     it 'false when variation is greater than 10%' do
-      admin = Admin.create!(email: 'b@userubis.com.br', full_name: 'Junior', cpf: '510.695.623-20', password: '123456')
+      admin = create(:admin)
       create(:exchange_rate, brl_coin: 5, created_by: admin)
       er = create(:exchange_rate, register_date: 3.days.from_now, brl_coin: 6, created_by: admin)
 
