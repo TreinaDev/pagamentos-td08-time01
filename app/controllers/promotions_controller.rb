@@ -29,6 +29,6 @@ class PromotionsController < ApplicationController
   end
 
   def promotion_params
-    params.require(:promotion).permit(:name, :start_date, :end_date, :discount_percent, :limit_day, :client_category_id)
+    params.require(:promotion).permit(:name, :start_date, :end_date, :bonus, :limit_day, :client_category_id)
   end
 end

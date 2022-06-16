@@ -16,9 +16,9 @@
           <% end %>
         </div>
         <div class="col">
-          <%= f.label :discount_percent, class: "form-label" %>
-          <%= f.text_field :discount_percent, class: "form-control" %>
-          <% @promotion.errors.full_messages_for(:discount_percent).each do |message| %>
+          <%= f.label :bonus, class: "form-label" %>
+          <%= f.text_field :bonus, class: "form-control" %>
+          <% @promotion.errors.full_messages_for(:bonus).each do |message| %>
             <p class="mt-1"><%= message %></p>
           <% end %>
         </div>

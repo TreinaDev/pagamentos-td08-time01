@@ -9,6 +9,6 @@ pt-BR:
         name: 'Nome'
         start_date: 'Data de início'
         end_date: 'Data de encerramento'
-        discount_percent: 'Desconto(%)'
+        bonus: 'Bônus(%)'
         limit_day: 'Prazo para uso'
         client_category_id: 'Categoria de cliente'

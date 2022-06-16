@@ -4,11 +4,13 @@ class CreatePromotions < ActiveRecord::Migration[7.0]
       t.string :name
       t.date :start_date
       t.date :end_date
-      t.float :discount_percent
+      t.float :bonus
       t.integer :limit_day
       t.references :client_category, null: false, foreign_key: true
 
       t.timestamps
     end
+
+    add_index :promotions, [:start_date, :client_category_id], unique: true
   end
 end
