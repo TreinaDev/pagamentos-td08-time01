@@ -14,8 +14,7 @@ describe 'admin access the application' do
     fill_in 'Confirme sua senha', with: '123456'
     click_on 'Criar Administrador'
 
-    expect(page).to have_content 'Entrar'
-    expect(page).to have_content 'Admin pendente'
+    expect(page).to have_content 'Apenas administradores ativos tem a permissão de acessar a aplicação de pagamentos'
     expect(page).not_to have_content 'Pendências'
   end
 
