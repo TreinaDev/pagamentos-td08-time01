@@ -17,5 +17,14 @@ Rails.logger.debug 'Adiciona cliente - INÍCIO'
 ClientPerson.create!(full_name: 'Zeca Urubú', cpf: '12345678999')
 Rails.logger.debug 'Adiciona cliente - FIM'
 
-puts "Adiciona admin"
+Rails.logger.debug 'Adiciona admin - INÍCIO'
 Admin.create!(email: 'b@userubis.com.br', password: '123456', full_name: 'TreinaDev Júnior', cpf: '510.695.623-20')
+Rails.logger.debug 'Adiciona admin - FIM'
+
+Rails.logger.debug 'Adiciona Categoria de cliente - INÍCIO'
+ClientCategory.create!(name: 'ouro', discount_percent: 20)
+Rails.logger.debug 'Adiciona Categoria de cliente - FIM'
+
+Rails.logger.debug 'Adiciona Promoção - INÍCIO'
+Promotion.create!(name: 'treina', start_date: 2.days.from_now, end_date: 3.days.from_now, discount_percent: 30, limit_day: 40, client_category_id: 1)
+Rails.logger.debug 'Adiciona Promoção - FIM'

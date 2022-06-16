@@ -1,18 +1,21 @@
-<h1>Promoções</h1>
+<h1><%= Promotion.model_name.human(:count => 2) %></h1>
+
+
+<div class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to 'Cadastrar promoção', new_promotion_path, class:"btn btn-primary" %></li>
+</div>
 
 <div>
-  <% if @promotions.empty? %>
-    <p>Nenhuma promoção cadastrada</p>
-  <% else %>
-    <table class="table">
+  <% if @promotions.any? %>
+  <table class="table">
       <thead>
         <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">Data de início</th>
-          <th scope="col">Data de encerramento</th>
-          <th scope="col">Desconto</th>
-          <th scope="col">Prazo para uso do bônus</th>
-          <th scope="col">Categoria</th>
+          <th scope="col"><%= Promotion.human_attribute_name(:name) %></th>
+          <th scope="col"><%= Promotion.human_attribute_name(:start_date) %></th>
+          <th scope="col"><%= Promotion.human_attribute_name(:end_date) %></th>
+          <th scope="col"><%= Promotion.human_attribute_name(:discount_percent) %></th>
+          <th scope="col"><%= Promotion.human_attribute_name(:limit_day) %></th>
+          <th scope="col"><%= Promotion.human_attribute_name(:client_category_id) %></th>
         </tr>
       </thead>
       <tbody>
@@ -22,11 +25,13 @@
             <td><%= I18n.l(promo.start_date) %></td>
             <td><%= I18n.l(promo.end_date) %></td>
             <td><%= promo.discount_percent %>%</td>
-            <td><%= promo.limit_days %> dias</td>
+            <td><%= promo.limit_day %> dias</td>
             <td><%= promo.client_category.name %></td>
           </td>
         <% end %>
       </tbody>
     </table>
+  <% else %>
+    <p>Nenhuma promoção cadastrada</p>
   <% end %>
 </div>

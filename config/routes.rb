@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     post 'approved', on: :member
   end
   resources :client_categories, only: %i[index new create]
-  resources :promotions, only: %i[index]
+  resources :promotions, only: %i[index new create]
 
   namespace :api do
     namespace :v1 do
