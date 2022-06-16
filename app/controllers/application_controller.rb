@@ -3,8 +3,6 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  @transaction_setting_root = TransactionSetting.all
-
   protected
 
   def configure_permitted_parameters
