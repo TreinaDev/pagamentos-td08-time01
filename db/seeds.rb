@@ -19,8 +19,8 @@ puts '------------ creating AdminPermissions -----------'
 AdminPermission.create!(admin_id: 1, active_admin: active.id)
 
 puts '------------ creating ClientCategory -------------'
-ClientCategory.create!(name: "Bronze", discount_percent: 0)
-ClientCategory.create!(name: "Ouro", discount_percent: 10)
+ClientCategory.create!(name: 'Bronze', discount_percent: 0)
+ClientCategory.create!(name: 'Ouro', discount_percent: 10)
 
 puts '------------ creating Client ---------------------'
 Client.create!(client_type: 0, client_category_id: 1)
