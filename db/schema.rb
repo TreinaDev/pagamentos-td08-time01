@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
     t.string "cnpj"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_id", null: false
+    t.index ["client_id"], name: "index_client_companies_on_client_id"
   end
 
   create_table "client_people", force: :cascade do |t|
@@ -54,12 +56,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
     t.string "cpf"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_id", null: false
+    t.index ["client_id"], name: "index_client_people_on_client_id"
   end
 
   create_table "clients", force: :cascade do |t|
     t.integer "client_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_category_id", null: false
+    t.index ["client_category_id"], name: "index_clients_on_client_category_id"
   end
 
   create_table "exchange_rates", force: :cascade do |t|
@@ -86,6 +92,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
   end
 
   add_foreign_key "admin_permissions", "admins"
+  add_foreign_key "client_companies", "clients"
+  add_foreign_key "client_people", "clients"
+  add_foreign_key "clients", "client_categories"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
