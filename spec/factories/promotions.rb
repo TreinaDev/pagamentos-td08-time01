@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :promotion do
-    name { "MyString" }
-    start_date { "2022-06-14" }
-    end_date { "2022-06-14" }
-    discount_percent { 1.5 }
-    limit_dats { 1 }
-    client_category { nil }
+    name { Faker::Name.name }
+    start_date { I18n.l(Faker::Date.forward(days: 30)) }
+    end_date { I18n.l(Faker::Date.forward(days: 60)) }
+    discount_percent { Faker::Number.decimal(l_digits: 2) }
+    limit_day { Faker::Number.number(digits: 2) }
+    client_category { create(:client_category) }
   end
 end
