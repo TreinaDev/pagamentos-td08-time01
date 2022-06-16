@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_16_015526) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "client_category_id", null: false
+    t.float "balance", default: 0.0
     t.index ["client_category_id"], name: "index_clients_on_client_category_id"
   end
 
@@ -85,10 +86,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
+  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
   add_foreign_key "clients", "client_categories"
-  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
