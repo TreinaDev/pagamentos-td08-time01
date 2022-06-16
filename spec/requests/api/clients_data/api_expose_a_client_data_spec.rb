@@ -14,7 +14,14 @@ describe 'Pagamento API' do
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
-      expect(json_response['balance']).to eq 0.0
+      expect(json_response[0]['balance']).to eq 0.0
+      expect(json_response[1]['name']).to eq 'Bronze'
+      expect(json_response[1]['discount_percent']).to eq 0
+      expect(json_response[2][0]['full_name']).to eq 'Jossoandenson Kirton'
+      expect(json_response[2][0]['cpf']).to eq '277.759.424-44'
+      expect(json_response[0].count).to eq 1
+      expect(json_response[1].count).to eq 2
+      expect(json_response[2][0].count).to eq 2
     end
 
     it 'fail' do
