@@ -85,10 +85,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
+  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
   add_foreign_key "clients", "client_categories"
-  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
