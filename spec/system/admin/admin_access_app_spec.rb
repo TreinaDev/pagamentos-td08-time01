@@ -14,11 +14,8 @@ describe 'admin access the application' do
     fill_in 'Confirme sua senha', with: '123456'
     click_on 'Criar Administrador'
 
-    expect(page).not_to have_content 'Entrar'
-    expect(page).to have_content 'Nome de Usuário: Sérgio Silva'
-    expect(page).to have_content 'E-mail: sergio@userubis.com.br'
-    expect(page).to have_content 'Status: Pendente'
-    expect(page).to have_content 'Sair'
+    expect(page).to have_content 'Entrar'
+    expect(page).to have_content 'Admin pendente'
     expect(page).not_to have_content 'Pendências'
   end
 
