@@ -24,7 +24,7 @@ RSpec.describe TransactionSetting, type: :model do
         transaction_setting = build(:transaction_setting, max_credit: -10)
 
         expect(transaction_setting).not_to be_valid
-        expect(transaction_setting.errors[:max_credit]).to include 'deve ser maior ou igual a 0'
+        expect(transaction_setting.errors[:max_credit]).to include 'deve ser maior que 0'
       end
     end
   end
