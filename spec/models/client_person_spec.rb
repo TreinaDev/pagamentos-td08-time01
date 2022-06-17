@@ -31,7 +31,7 @@ RSpec.describe ClientPerson, type: :model do
       it 'with success' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         client = Client.create!(client_type: 0, client_category_id: client_category.id)
-        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: client.id)
+        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '53533989550', client_id: client.id)
 
         expect(client_person.valid?).to be true
       end
@@ -41,13 +41,13 @@ RSpec.describe ClientPerson, type: :model do
       it 'creates successfully' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
         client = Client.create!(client_type: 0, client_category_id: client_category.id)
-        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: client.id)
+        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '53533989550', client_id: client.id)
 
         expect(client_person.valid?).to be true
       end
 
       it 'unsuccessfully when client not present' do
-        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '12345678999', client_id: '')
+        client_person = described_class.new(full_name: 'Pedro Gomes', cpf: '53533989550', client_id: '')
 
         expect(client_person.valid?).to be false
       end
