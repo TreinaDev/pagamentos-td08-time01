@@ -17,7 +17,6 @@ describe 'POST /api/v1/client' do
 
       post api_v1_clients_path, params: attributes
       expect(response).to have_http_status :created
-      # debugger
       expect(Client.last.client_category.name).to eq 'Padrão'
       expect(JSON.parse(response.body)).to eq(
         { 'client_type' => 'client_person', 'client_person' => { 'full_name' => 'Zezinho', 'cpf' => '12345678995' } }
