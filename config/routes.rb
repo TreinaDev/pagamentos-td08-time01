@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :client_companies, only: %i[create]
       resources :client_people, only: %i[create]
+      resources :clients, only: %i[create]
     end
   end
 
