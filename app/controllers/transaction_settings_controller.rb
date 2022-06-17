@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TransactionSettingsController < ApplicationController
+  before_action :authenticate_admin!
   before_action :set_transaction_setting, only: %i[edit update]
 
   def new
