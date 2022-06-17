@@ -1,23 +1,15 @@
 # frozen_string_literal: true
 
-module Api
-  module V1
-    class ClientCompaniesController < ActionController::API
-      def create
-        client_company = ClientCompany.new(client_company_params)
+class Api::V1::ClientCompaniesController < Api::ApiController
+  def create
+    client_company = ClientCompany.create!(client_company_params)
 
-        if client_company.save
-          render json: client_company, status: :created
-        else
-          render status: :precondition_failed, json: { errors: client_company.errors.full_messages }
-        end
-      end
+    render json: client_company, status: :created
+  end
 
-      private
+  private
 
-      def client_company_params
-        params.require(:client_company).permit(:company_name, :cnpj, :client_id)
-      end
-    end
+  def client_company_params
+    params.require(:client_company).permit(:company_name, :cnpj, :client_id)
   end
 end

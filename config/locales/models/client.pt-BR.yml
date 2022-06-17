@@ -1,6 +1,9 @@
 pt-BR:
   activerecord:
+    models:
+      client: 'Cliente'
     attributes:
-      client/client_type:
-        client_person: Pessoa física
-        client_company: Pessoa jurídica
+      client:
+        client_type: 'Tipo de cliente'
+        client_person: 'Pessoa física'
+        client_company: 'Pessoa jurídica'

@@ -27,7 +27,7 @@ describe 'Register a new client_person' do
 
       post '/api/v1/client_people', params: client_person_params
 
-      expect(response).to have_http_status :precondition_failed
+      expect(response).to have_http_status :unprocessable_entity
       expect(response.body).to include 'Nome completo não pode ficar em branco'
       expect(response.body).to include 'CPF não pode ficar em branco'
       expect(ClientPerson.count).to eq 0

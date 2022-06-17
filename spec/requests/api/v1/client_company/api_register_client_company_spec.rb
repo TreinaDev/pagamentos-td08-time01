@@ -27,7 +27,7 @@ describe 'Pagamento API' do
 
       post '/api/v1/client_companies', params: client_company_params
 
-      expect(response).to have_http_status :precondition_failed
+      expect(response).to have_http_status :unprocessable_entity
       expect(response.body).to include 'Razão social não pode ficar em branco'
       expect(response.body).to include 'CNPJ não pode ficar em branco'
       expect(ClientCompany.count).to eq 0

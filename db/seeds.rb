@@ -6,11 +6,11 @@ puts '--------------------------------------------------'
 
 puts '------------ creating Admins ---------------------'
 pending = Admin.create!(full_name: 'Admin', cpf: '24365465686',
-              email: 'admin@userubis.com.br', password: '123456',
-              status: 0)
+                        email: 'admin@userubis.com.br', password: '123456',
+                        status: 0)
 active = Admin.create!(full_name: 'Admin Ativo', cpf: '06001818398',
-              email: 'adminativo@userubis.com.br', password: '123456',
-              status: 5)
+                       email: 'adminativo@userubis.com.br', password: '123456',
+                       status: 5)
 Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
               email: 'felipe@userubis.com.br', password: '123456',
               status: 5)
