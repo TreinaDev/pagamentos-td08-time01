@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    return unless resource.is_a?(Admin) && resource.pending?
+    return super unless resource.is_a?(Admin) && resource.pending?
 
     sign_out resource
 
