@@ -1,0 +1,14 @@
+pt-BR:
+  activerecord:
+    models:
+      promotion:
+        one: 'Promoção'
+        other: 'Promoções'
+    attributes:
+      promotion:
+        name: 'Nome'
+        start_date: 'Data de início'
+        end_date: 'Data de encerramento'
+        bonus: 'Bônus(%)'
+        limit_day: 'Prazo para uso'
+        client_category_id: 'Categoria de cliente'

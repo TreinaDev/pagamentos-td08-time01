@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     post 'approved', on: :member
   end
 
+  resources :promotions, only: %i[index new create]
+
   namespace :api do
     namespace :v1 do
       resources :client_companies, only: %i[create]
