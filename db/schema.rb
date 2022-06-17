@@ -85,11 +85,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
     t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
   end
 
+  create_table "promotions", force: :cascade do |t|
+    t.string "name"
+    t.date "start_date"
+    t.date "end_date"
+    t.float "bonus"
+    t.integer "limit_day"
+    t.integer "client_category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_category_id"], name: "index_promotions_on_client_category_id"
+    t.index ["start_date", "client_category_id"], name: "index_promotions_on_start_date_and_client_category_id", unique: true
+  end
+
+  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
   add_foreign_key "clients", "client_categories"
-  add_foreign_key "admin_permissions", "admins"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
+  add_foreign_key "promotions", "client_categories"
 end
