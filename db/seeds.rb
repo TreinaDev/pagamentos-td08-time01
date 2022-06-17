@@ -27,10 +27,10 @@ Client.create!(client_type: 0, client_category_id: 1)
 Client.create!(client_type: 5, client_category_id: 1)
 
 puts '------------ creating ClientPerson ---------------'
-ClientPerson.create!(full_name: 'Luiz Santos', cpf: '12345678999', client_id: 1)
+ClientPerson.create!(full_name: 'Luiz Santos', cpf: '53533989550', client_id: 1)
 
 puts '------------ creating ClientCompany --------------'
-ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '12345678912345', client_id: 2)
+ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '71721257678217', client_id: 2)
 
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
