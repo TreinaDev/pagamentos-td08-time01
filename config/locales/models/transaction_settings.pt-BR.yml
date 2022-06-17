@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    models:
+      transaction_setting: "Configurações"
+    attributes:
+      transaction_setting:
+        max_credit: "Crédito máximo"

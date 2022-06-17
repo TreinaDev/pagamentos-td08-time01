@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :admin_permissions, only: %i[create]
   resources :client_categories, only: %i[index new create]
+  resources :transaction_settings, only: %i[new create edit update]
 
   resources :exchange_rates, only: %i[index new create show] do
     post 'recused', on: :member

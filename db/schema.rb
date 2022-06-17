@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_124233) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -96,6 +96,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_203808) do
     t.datetime "updated_at", null: false
     t.index ["client_category_id"], name: "index_promotions_on_client_category_id"
     t.index ["start_date", "client_category_id"], name: "index_promotions_on_start_date_and_client_category_id", unique: true
+  end
+
+  create_table "transaction_settings", force: :cascade do |t|
+    t.decimal "max_credit", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "admin_permissions", "admins"
