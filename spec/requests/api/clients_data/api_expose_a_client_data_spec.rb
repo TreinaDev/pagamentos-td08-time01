@@ -3,13 +3,14 @@
 require 'rails_helper'
 
 describe 'Pagamento API' do
-  context 'when GET /api/v1/clients/1' do
+  context 'when POST /api/v1/clients' do
     it 'success as client person' do
       client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
       client = Client.create!(client_type: 0, client_category_id: client_category.id, balance: 0)
-      client_person = ClientPerson.create!(full_name: 'Jossoandenson Kirton', cpf: '277.759.424-44', client_id: client.id)
+      client_person = ClientPerson.create!(full_name: 'Jossoandenson Kirton', cpf: '277.759.424-44',
+                                           client_id: client.id)
 
-      get "/api/v1/clients/1", params: {registration_number: client_person.cpf}
+      post '/api/v1/clients', params: { registration_number: client_person.cpf }
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -29,7 +30,7 @@ describe 'Pagamento API' do
       client = Client.create!(client_type: 0, client_category_id: client_category.id, balance: 0)
       client_company = ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '71721257678217', client_id: client.id)
 
-      get "/api/v1/clients/1", params: {registration_number: client_company.cnpj}
+      post '/api/v1/clients', params: { registration_number: client_company.cnpj }
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -39,15 +40,13 @@ describe 'Pagamento API' do
       expect(json_response[1]['discount_percent']).to eq 0
       expect(json_response[2]['company_name']).to eq 'ACME LTDA'
       expect(json_response[2]['cnpj']).to eq '71721257678217'
-      #71.721.257/6782-17
       expect(json_response[0].count).to eq 1
       expect(json_response[1].count).to eq 2
       expect(json_response[2].count).to eq 2
     end
 
-
     it 'fail' do
-      get '/api/v1/clients/2'
+      post '/api/v1/clients'
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 404
