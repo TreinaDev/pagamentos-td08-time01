@@ -2,7 +2,6 @@
 
 class PendenciesController < ApplicationController
   before_action :authenticate_admin!
-  before_action :admin_active?
 
   def index
     @pending_admins = []
@@ -17,11 +16,5 @@ class PendenciesController < ApplicationController
         @pending_admins << pending_admin
       end
     end
-  end
-
-  def admin_active?
-    return if current_admin.active?
-
-    redirect_to root_path, alert: 'Apenas administradores ativos tem a permissão de acessar a página de pendências'
   end
 end
