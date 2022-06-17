@@ -18,6 +18,21 @@ describe 'admin access the application' do
     expect(page).not_to have_content 'Pendências'
   end
 
+  it 'and log in' do
+    create(:admin, email: 'sergio@userubis.com.br', password: '123456', status: 5)
+
+    visit root_path
+    click_on 'Entrar'
+    fill_in 'E-mail', with: 'sergio@userubis.com.br'
+    fill_in 'Senha', with: '123456'
+    within 'form' do
+      click_on 'Entrar'
+    end
+
+    expect(page).to have_content 'Login efetuado com sucesso.'
+    expect(page).to have_content 'Pendências'
+  end
+
   it 'with blank fields' do
     visit root_path
     click_on 'Entrar'
