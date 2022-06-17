@@ -16,15 +16,6 @@ describe 'Admin see all pending accounts' do
     expect(page).to have_content 'Entrar como administrador'
   end
 
-  it 'a pending admin forces its entry to pendencies page' do
-    pending_admin = create(:admin, status: 0)
-    login_as pending_admin
-    visit pendencies_path
-
-    expect(page).not_to have_content 'Administradores pendentes'
-    expect(page).to have_content 'Apenas administradores ativos tem a permissão de acessar a página de pendências'
-  end
-
   it 'and dont have pendencies' do
     admin = create(:admin, status: 5)
 
