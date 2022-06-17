@@ -5,7 +5,7 @@ puts 'Start "seeds"'
 puts '--------------------------------------------------'
 
 puts '------------ creating Admins ---------------------'
-Admin.create!(full_name: 'Admin', cpf: '24365465686',
+pending = Admin.create!(full_name: 'Admin', cpf: '24365465686',
               email: 'admin@userubis.com.br', password: '123456',
               status: 0)
 active = Admin.create!(full_name: 'Admin Ativo', cpf: '06001818398',
@@ -16,21 +16,21 @@ Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
               status: 5)
 
 puts '------------ creating AdminPermissions -----------'
-AdminPermission.create!(admin_id: 1, active_admin: active.id)
+AdminPermission.create!(admin_id: pending.id, active_admin: active.id)
 
 puts '------------ creating ClientCategory -------------'
-ClientCategory.create!(name: 'Bronze', discount_percent: 0)
+category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
 ClientCategory.create!(name: 'Ouro', discount_percent: 10)
 
 puts '------------ creating Client ---------------------'
-Client.create!(client_type: 0, client_category_id: 1)
-Client.create!(client_type: 5, client_category_id: 1)
+client_one = Client.create!(client_type: 0, client_category_id: category.id)
+client_two = Client.create!(client_type: 5, client_category_id: category.id)
 
 puts '------------ creating ClientPerson ---------------'
-ClientPerson.create!(full_name: 'Luiz Santos', cpf: '12345678999', client_id: 1)
+ClientPerson.create!(full_name: 'Luiz Santos', cpf: '12345678999', client_id: client_one.id)
 
 puts '------------ creating ClientCompany --------------'
-ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '12345678912345', client_id: 2)
+ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '12345678912345', client_id: client_two.id)
 
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
