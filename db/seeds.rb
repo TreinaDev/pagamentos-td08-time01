@@ -27,7 +27,7 @@ client_one = Client.create!(client_type: 0, client_category_id: category.id)
 client_two = Client.create!(client_type: 5, client_category_id: category.id)
 
 puts '------------ creating ClientPerson ---------------'
-ClientPerson.create!(full_name: 'Luiz Santos', cpf: '12345678999', client_id: client_one.id)
+ClientPerson.create!(full_name: 'Luiz Santos', cpf: '06001818398', client_id: client_one.id)
 
 puts '------------ creating ClientCompany --------------'
 ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '12345678912345', client_id: client_two.id)
