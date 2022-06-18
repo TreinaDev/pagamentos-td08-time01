@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 describe 'Pagamento API' do
-  context 'when POST /api/v1/clients' do
+  context 'when POST /api/v1/clients_info' do
     it 'success as client person' do
       client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
       client = Client.create!(client_type: 0, client_category_id: client_category.id, balance: 0)
       client_person = ClientPerson.create!(full_name: 'Jossoandenson Kirton', cpf: '277.759.424-44',
                                            client_id: client.id)
 
-      post '/api/v1/clients', params: { registration_number: client_person.cpf }
+      post '/api/v1/clients_info', params: { registration_number: client_person.cpf }
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -30,7 +30,7 @@ describe 'Pagamento API' do
       client = Client.create!(client_type: 0, client_category_id: client_category.id, balance: 0)
       client_company = ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '71721257678217', client_id: client.id)
 
-      post '/api/v1/clients', params: { registration_number: client_company.cnpj }
+      post '/api/v1/clients_info', params: { registration_number: client_company.cnpj }
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -46,7 +46,7 @@ describe 'Pagamento API' do
     end
 
     it 'fail' do
-      post '/api/v1/clients'
+      post '/api/v1/clients_info'
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 404

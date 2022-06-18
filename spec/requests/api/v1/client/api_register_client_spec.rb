@@ -10,7 +10,7 @@ describe 'POST /api/v1/client' do
           client_type: 'client_person',
           client_person_attributes: {
             full_name: 'Zezinho',
-            cpf: '12345678995'
+            cpf: '06001818398'
           }
         }
       }
@@ -19,7 +19,8 @@ describe 'POST /api/v1/client' do
       expect(response).to have_http_status :created
       expect(Client.last.client_category.name).to eq 'Padrão'
       expect(JSON.parse(response.body)).to eq(
-        { 'client_type' => 'client_person', 'client_person' => { 'full_name' => 'Zezinho', 'cpf' => '12345678995' } }
+        { 'client_type' => 'client_person', 'balance' => 0.0,
+          'client_person' => { 'full_name' => 'Zezinho', 'cpf' => '060.018.183-98' } }
       )
     end
 
@@ -40,7 +41,7 @@ describe 'POST /api/v1/client' do
       expect(Client.last.client_category.name).to eq 'Padrão'
       expect(JSON.parse(response.body)).to eq(
         {
-          'client_type' => 'client_company', 'client_company' => {
+          'client_type' => 'client_company', 'balance' => 0.0, 'client_company' => {
             'company_name' => 'ACME LTDA', 'cnpj' => '9494949498494'
           }
         }
@@ -54,7 +55,7 @@ describe 'POST /api/v1/client' do
         client: {
           client_person_attributes: {
             full_name: 'Zezinho',
-            cpf: '12345678995'
+            cpf: '06001818398'
           }
         }
       }
@@ -62,6 +63,7 @@ describe 'POST /api/v1/client' do
       post api_v1_clients_path, params: attributes
 
       json_response = JSON.parse(response.body).values.last
+
       expect(response).to have_http_status :unprocessable_entity
       expect(json_response).to eq 'A validação falhou: Tipo de cliente não pode ficar em branco'
     end
