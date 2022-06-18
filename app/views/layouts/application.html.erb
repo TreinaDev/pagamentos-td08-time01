@@ -17,18 +17,22 @@
         <h1 class="display-4">Pagamentos</h1>
       <% end %>
       <nav>
-        <%= link_to 'Taxa de câmbio', exchange_rates_path %>
+
         <% if admin_signed_in? %>
           <div style="display: flex; flex-direction: row;">
             <%= "Nome de Usuário: #{current_admin.full_name}" %> |
             <%= "E-mail: #{current_admin.email}" %> |
-            <%= "Status: #{Admin.human_enum_name(:status, current_admin.status)}" %> |  
+            <%= "Status: #{Admin.human_enum_name(:status, current_admin.status)}" %> |
             <%= link_to 'Categoria de clientes', client_categories_path %> |
+            <%= link_to 'Configurações', new_transaction_setting_path %> |
+            <%= link_to 'Taxa de câmbio', exchange_rates_path %> |
+            <%= link_to 'Promoções', promotions_path %>
             <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: 'button' %>
           </div>
         <% else %>
           <div>
-            <%= link_to 'Entrar', new_admin_session_path %>
+            <%= link_to 'Entrar', new_admin_session_path %> |
+            <%= link_to 'Taxa de câmbio', exchange_rates_path %>
           </div>
         <% end %>
       </nav>
