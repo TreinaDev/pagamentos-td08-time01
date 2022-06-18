@@ -30,7 +30,7 @@ describe 'POST /api/v1/client' do
           client_type: 'client_company',
           client_company_attributes: {
             company_name: 'ACME LTDA',
-            cnpj: '9494949498494'
+            cnpj: '07638546899424'
           }
         }
       }
@@ -42,7 +42,7 @@ describe 'POST /api/v1/client' do
       expect(JSON.parse(response.body)).to eq(
         {
           'client_type' => 'client_company', 'balance' => 0.0, 'client_company' => {
-            'company_name' => 'ACME LTDA', 'cnpj' => '9494949498494'
+            'company_name' => 'ACME LTDA', 'cnpj' => '07.638.546/8994-24'
           }
         }
       )

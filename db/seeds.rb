@@ -30,7 +30,7 @@ puts '------------ creating ClientPerson ---------------'
 ClientPerson.create!(full_name: 'Luiz Santos', cpf: '06001818398', client_id: client_one.id)
 
 puts '------------ creating ClientCompany --------------'
-ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '12345678912345', client_id: client_two.id)
+ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '07638546899424', client_id: client_two.id)
 
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
