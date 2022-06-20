@@ -60,16 +60,16 @@ RSpec.describe ClientCompany, type: :model do
         client = Client.create(client_type: 5, client_category_id: client_category.id)
         client_company_one = create(:client_company, client_id: client.id)
         client_company_two = build(:client_company, client_id: client.id, cnpj: client_company_one.cnpj)
-            
+
         expect(client_company_two.valid?).to be false
       end
 
       it 'successfully when CNPJ is unique' do
         client_category = create(:client_category)
         client = Client.create(client_type: 5, client_category_id: client_category.id)
-        client_company_one = create(:client_company, client_id: client.id)
+        create(:client_company, client_id: client.id)
         client_company_two = build(:client_company, client_id: client.id)
-            
+
         expect(client_company_two.valid?).to be true
       end
     end

@@ -26,7 +26,7 @@ RSpec.describe ClientCategory, type: :model do
 
       it 'return true when all fields are completed' do
         category = build(:client_category)
-        
+
         expect(category.valid?).to be true
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe ClientCategory, type: :model do
       end
 
       it 'successfully when name is unique' do
-        category_one = create(:client_category)
+        create(:client_category)
         category_two = build(:client_category)
 
         expect(category_two.valid?).to be true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_125151) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_125151) do
     t.float "discount_percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_client_categories_on_name", unique: true
   end
 
   create_table "client_companies", force: :cascade do |t|
@@ -58,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_125151) do
     t.datetime "updated_at", null: false
     t.integer "client_id", null: false
     t.index ["client_id"], name: "index_client_companies_on_client_id"
+    t.index ["cnpj"], name: "index_client_companies_on_cnpj", unique: true
   end
 
   create_table "client_people", force: :cascade do |t|
@@ -67,6 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_125151) do
     t.datetime "updated_at", null: false
     t.integer "client_id", null: false
     t.index ["client_id"], name: "index_client_people_on_client_id"
+    t.index ["cpf"], name: "index_client_people_on_cpf", unique: true
   end
 
   create_table "clients", force: :cascade do |t|

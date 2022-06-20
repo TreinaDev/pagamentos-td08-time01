@@ -59,18 +59,18 @@ RSpec.describe ClientPerson, type: :model do
         client = Client.create(client_type: 0, client_category_id: client_category.id)
         client_person_one = create(:client_person, client_id: client.id)
         client_person_two = build(:client_person, client_id: client.id, cpf: client_person_one.cpf)
-            
+
         expect(client_person_two.valid?).to be false
       end
 
       it 'successfully when CPF is unique' do
         client_category = create(:client_category)
         client = Client.create!(client_type: 0, client_category_id: client_category.id)
-        client_person_one = create(:client_person, client_id: client.id)
+        create(:client_person, client_id: client.id)
         client_person_two = build(:client_person, client_id: client.id)
-            
+
         expect(client_person_two.valid?).to be true
       end
     end
-  end 
+  end
 end
