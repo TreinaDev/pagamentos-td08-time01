@@ -6,7 +6,7 @@ describe 'Admin register new promotion' do
   it 'with success' do
     admin = create(:admin)
     ClientCategory.create!(name: 'bronze', discount_percent: 15.5)
-    ClientCategory.create!(name: 'ouro', discount_percent: 20)
+    ClientCategory.create!(name: 'Ouro', discount_percent: 20)
 
     login_as admin
     visit root_path
@@ -17,7 +17,7 @@ describe 'Admin register new promotion' do
     fill_in 'Data de encerramento', with: 1.week.from_now
     fill_in 'Bônus(%)', with: 10
     fill_in 'Prazo para uso', with: 90
-    select 'ouro', from: 'Categoria de cliente'
+    select 'Ouro', from: 'Categoria de cliente'
     click_on 'Cadastrar'
 
     expect(page).to have_content 'Promoção cadastrada com sucesso'
@@ -27,8 +27,8 @@ describe 'Admin register new promotion' do
     expect(page).to have_content I18n.l(1.week.from_now.to_date).to_s
     expect(page).to have_content '10'
     expect(page).to have_content '90'
-    expect(page).to have_content 'ouro'
-    expect(Promotion.last.client_category.name).to eq 'ouro'
+    expect(page).to have_content 'Ouro'
+    expect(Promotion.last.client_category.name).to eq 'Ouro'
   end
 
   it 'and doesnt fill all field' do
