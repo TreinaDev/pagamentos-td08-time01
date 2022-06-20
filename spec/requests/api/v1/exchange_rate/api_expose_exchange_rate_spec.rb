@@ -32,7 +32,6 @@ describe 'API pagaments' do
     end
 
     it 'when exchange rate is not found on the last 4 days' do
-      
       get "/api/v1/exchange_rates/#{Time.zone.today}"
       json_response = JSON.parse(response.body)
 
