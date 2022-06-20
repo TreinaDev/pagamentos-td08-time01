@@ -20,37 +20,15 @@ RSpec.describe ClientCompany, type: :model do
         expect(client_company.valid?).to be true
       end
 
-      it 'false when company_name is empty' do
+      it 'false when attributes are empty' do
         client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
-        client = Client.create!(client_type: 5, client_category_id: client_category.id)
-        client_company = described_class.new(company_name: '', cnpj: '07638546899424', client_id: client.id)
+        Client.create!(client_type: 5, client_category_id: client_category.id)
+        client_company = described_class.new(company_name: '', cnpj: '', client_id: '')
 
         expect(client_company.valid?).to be false
-      end
-
-      it 'false when cnpj is empty' do
-        client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
-        client = Client.create!(client_type: 5, client_category_id: client_category.id)
-        client_company = described_class.new(company_name: 'ACME LTDA', cnpj: '', client_id: client.id)
-
-        expect(client_company.valid?).to be false
-      end
-    end
-
-    context 'when client_company belongs to client' do
-      it 'with success' do
-        client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
-        client = Client.create!(client_type: 5, client_category_id: client_category.id)
-        client_company = described_class.new(company_name: 'Pedro Gomes', cnpj: '07638546899424', client_id: client.id)
-
-        expect(client_company.valid?).to be true
-      end
-
-      it 'false when client_id is empty' do
-        ClientCategory.create!(name: 'Bronze', discount_percent: 0)
-        client_company = described_class.new(company_name: 'Pedro Gomes', cnpj: '07638546899424', client_id: '')
-
-        expect(client_company.valid?).to be false
+        expect(client_company.errors[:company_name]).to include 'não pode ficar em branco'
+        expect(client_company.errors[:cnpj]).to include 'não pode ficar em branco'
+        expect(client_company.errors[:client]).to include 'é obrigatório(a)'
       end
     end
 
@@ -62,6 +40,7 @@ RSpec.describe ClientCompany, type: :model do
         client_company_two = build(:client_company, client_id: client.id, cnpj: client_company_one.cnpj)
 
         expect(client_company_two.valid?).to be false
+        expect(client_company_two.errors[:cnpj]).to include 'já está em uso'
       end
 
       it 'successfully when CNPJ is unique' do

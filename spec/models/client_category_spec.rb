@@ -11,17 +11,13 @@ RSpec.describe ClientCategory, type: :model do
   end
 
   describe '#valid?' do
-    context 'when client name isnt present' do
-      it 'return false when name is empty' do
-        category = build(:client_category, name: '', discount_percent: 0)
+    context 'when client attributes are not present' do
+      it 'return false' do
+        category = build(:client_category, name: '', discount_percent: '')
 
         expect(category.valid?).to be false
-      end
-
-      it 'return false when discount_percent is empty' do
-        category = build(:client_category, discount_percent: '')
-
-        expect(category.valid?).to be false
+        expect(category.errors[:name]).to include 'não pode ficar em branco'
+        expect(category.errors[:discount_percent]).to include 'não pode ficar em branco'
       end
 
       it 'return true when all fields are completed' do
@@ -33,10 +29,11 @@ RSpec.describe ClientCategory, type: :model do
 
     context 'when name already on use' do
       it 'unsuccessfully when name is not unique' do
-        category_one = create(:client_category)
-        category_two = build(:client_category, name: category_one.name)
+        create(:client_category, name: 'Ouro')
+        category_two = build(:client_category, name: 'ouro')
 
         expect(category_two.valid?).to be false
+        expect(category_two.errors[:name]).to include 'já está em uso'
       end
 
       it 'successfully when name is unique' do

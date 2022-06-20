@@ -6,7 +6,7 @@ describe 'Admin register new promotion' do
   it 'with success' do
     admin = create(:admin)
     ClientCategory.create!(name: 'bronze', discount_percent: 15.5)
-    ClientCategory.create!(name: 'ouro', discount_percent: 20)
+    ClientCategory.create!(name: 'Ouro', discount_percent: 20)
 
     login_as admin
     visit root_path
