@@ -23,7 +23,7 @@ describe 'Admin sees promotion list' do
     expect(page).to have_content '10'
     expect(page).to have_content '40'
     expect(page).to have_content '90'
-    expect(page).to have_content 'ouro'
+    expect(page).to have_content 'Ouro'
   end
 
   it 'and theres no promotion registered' do

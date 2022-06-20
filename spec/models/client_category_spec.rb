@@ -26,8 +26,24 @@ RSpec.describe ClientCategory, type: :model do
 
       it 'return true when all fields are completed' do
         category = build(:client_category)
-
+        
         expect(category.valid?).to be true
+      end
+    end
+
+    context 'when name already on use' do
+      it 'unsuccessfully when name is not unique' do
+        category_one = create(:client_category)
+        category_two = build(:client_category, name: category_one.name)
+
+        expect(category_two.valid?).to be false
+      end
+
+      it 'successfully when name is unique' do
+        category_one = create(:client_category)
+        category_two = build(:client_category)
+
+        expect(category_two.valid?).to be true
       end
     end
   end
