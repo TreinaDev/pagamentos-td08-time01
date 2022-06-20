@@ -137,7 +137,7 @@ Resposta retorna mensagem em requisição ruim
 ]
  ```
  
- #### Resposta de Falha - Requisição ruim:
+ #### Resposta de Falha - Não encontrado:
 ![404: Not Found ](https://img.shields.io/badge/code%3A%20404-NOT%20FOUND-red)
 
 Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
