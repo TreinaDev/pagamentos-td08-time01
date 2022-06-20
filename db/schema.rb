@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_16_015526) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_125151) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -33,6 +33,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_16_015526) do
     t.index ["cpf"], name: "index_admins_on_cpf", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "client_bonus_balances", force: :cascade do |t|
+    t.float "bonus_value", default: 0.0
+    t.date "expire_date"
+    t.integer "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_bonus_balances_on_client_id"
   end
 
   create_table "client_categories", force: :cascade do |t|
@@ -106,6 +115,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_16_015526) do
   end
 
   add_foreign_key "admin_permissions", "admins"
+  add_foreign_key "client_bonus_balances", "clients"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
   add_foreign_key "clients", "client_categories"

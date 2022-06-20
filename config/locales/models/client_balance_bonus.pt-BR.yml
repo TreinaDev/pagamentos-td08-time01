@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    models:
+      client_bonus_balance: "Saldo Bônus de Cliente"
+    attributes:
+      client_bonus_balance:
+        expire_date: "Data de Encerramento"
+        bonus_value: "Saldo Bônus"
+        client: "Cliente"
