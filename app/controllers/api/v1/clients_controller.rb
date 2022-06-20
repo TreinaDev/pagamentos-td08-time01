@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 class Api::V1::ClientsController < Api::ApiController
+  def info
+    registration_number = params[:registration_number]
+    if CPF.valid?(registration_number, strict: true)
+      render_client_person(CPF.new(registration_number).formatted)
+    elsif CNPJ.valid?(registration_number, strict: true)
+      render_client_company(CNPJ.new(registration_number).formatted)
+    else
+      render json: { errors: 'Cliente não encontrado' }, status: :not_found
+    end
+  end
+
   def create
     @client = Client.new(client_params)
 
@@ -16,6 +27,24 @@ class Api::V1::ClientsController < Api::ApiController
   end
 
   private
+
+  def render_client_person(cpf)
+    client_person = ClientPerson.find_by(cpf:)
+    client = client_person.client
+    client_category = client.client_category
+    render json: [client.as_json(only: %i[balance]),
+                  client_category.as_json(only: %i[name discount_percent]),
+                  client_person.as_json(only: %i[full_name cpf])]
+  end
+
+  def render_client_company(cnpj)
+    client_company = ClientCompany.find_by(cnpj:)
+    client = client_company.client
+    client_category = client.client_category
+    render json: [client.as_json(only: %i[balance]),
+                  client_category.as_json(only: %i[name discount_percent]),
+                  client_company.as_json(only: %i[company_name cnpj])]
+  end
 
   def client_params
     params.require(:client).permit(
