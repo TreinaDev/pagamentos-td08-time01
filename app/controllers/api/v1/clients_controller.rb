@@ -55,10 +55,6 @@ class Api::V1::ClientsController < Api::ApiController
   end
 
   def person_save_render
-    client_person = ClientPerson.new(client_params[:client_person_attributes])
-    client_person.client_id = @client.id
-    client_person.save!
-
     render json: @client,
            include: { client_person: { only: %i[full_name cpf] } },
            except: %i[id created_at updated_at client_category_id],
@@ -66,10 +62,6 @@ class Api::V1::ClientsController < Api::ApiController
   end
 
   def company_save_render
-    client_company = ClientCompany.new(client_params[:client_company_attributes])
-    client_company.client_id = @client.id
-    client_company.save!
-
     render json: @client,
            include: { client_company: { only: %i[company_name cnpj] } },
            except: %i[id created_at updated_at client_category_id],

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_134617) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -35,11 +35,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_134617) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "client_bonus_balances", force: :cascade do |t|
+    t.float "bonus_value", default: 0.0
+    t.date "expire_date"
+    t.integer "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_bonus_balances_on_client_id"
+  end
+
   create_table "client_categories", force: :cascade do |t|
     t.string "name"
     t.float "discount_percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_client_categories_on_name", unique: true
   end
 
   create_table "client_companies", force: :cascade do |t|
@@ -49,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_134617) do
     t.datetime "updated_at", null: false
     t.integer "client_id", null: false
     t.index ["client_id"], name: "index_client_companies_on_client_id"
+    t.index ["cnpj"], name: "index_client_companies_on_cnpj", unique: true
   end
 
   create_table "client_people", force: :cascade do |t|
@@ -58,6 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_134617) do
     t.datetime "updated_at", null: false
     t.integer "client_id", null: false
     t.index ["client_id"], name: "index_client_people_on_client_id"
+    t.index ["cpf"], name: "index_client_people_on_cpf", unique: true
   end
 
   create_table "client_transactions", force: :cascade do |t|
@@ -118,6 +130,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_134617) do
   end
 
   add_foreign_key "admin_permissions", "admins"
+  add_foreign_key "client_bonus_balances", "clients"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
   add_foreign_key "client_transactions", "clients"

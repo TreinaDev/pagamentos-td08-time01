@@ -2,6 +2,7 @@
 
 class ClientPerson < ApplicationRecord
   validates :full_name, :cpf, presence: true
+  validates :cpf, uniqueness: true
   belongs_to :client
 
   validate :cpf_validator

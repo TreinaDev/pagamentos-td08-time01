@@ -2,6 +2,7 @@
 
 class ClientCompany < ApplicationRecord
   validates :company_name, :cnpj, presence: true
+  validates :cnpj, uniqueness: true
 
   belongs_to :client
 
