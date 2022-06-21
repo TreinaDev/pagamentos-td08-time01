@@ -60,23 +60,14 @@
 
 Resposta retorna mensagem de erro por não ser enviado parâmetros necessários. Exemplo:
 ``` 
+#### Pessoa Jurídica:
 {
-    "message": "Nome completo não pode ficar em branco"
+    "message": "A validação falhou: Tipo de cliente não pode ficar em branco, Razão social não pode ficar em branco, CNPJ não pode ficar em branco, CNPJ não é válido"
 }
+
+#### Pessoa Física:
 {
-    "message": "A validação falhou: Tipo de cliente não pode ficar em branco"
-}
-{
-    "message": "CPF não pode ficar em branco"
-}
-{
-    "message": "A validação falhou: Tipo de cliente não pode ficar em branco"
-}
-{
-    "message": "CNPJ não pode ficar em branco"
-}
-{
-    "message": "Razão social não pode ficar em branco"
+    "message": "A validação falhou: Tipo de cliente não pode ficar em branco, Nome completo não pode ficar em branco, CPF não pode ficar em branco, CPF não é válido"
 }
 ```
 
@@ -91,7 +82,7 @@ Resposta retorna mensagem em requisição ruim
 ```
 
 ## Exibindo Informações do cliente
-![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/clients_info`
+![GET](https://img.shields.io/badge/-GET-blue)`/api/v1/clients_info`
 
 #### Parâmetros - Pessoa Física:
 ```
@@ -100,19 +91,16 @@ Resposta retorna mensagem em requisição ruim
 ####  Resposta de Sucesso:
 ![200: OK](https://img.shields.io/badge/code%3A%20200-OK-green)  
 ```
-[
-    {
+{
+    "client_balance": {
         "balance": 0.0
     },
-    {
-        "name": "Padrão",
-        "discount_percent": 0.0
-    },
-    {
+    "client_info": {
         "full_name": "Zezinho",
         "cpf": "060.018.183-98"
     }
-]
+}
+
  ```
 
 #### Parâmetros - Pessoa Jurídica:
@@ -122,19 +110,15 @@ Resposta retorna mensagem em requisição ruim
 ####  Resposta de Sucesso:
 ![200: OK](https://img.shields.io/badge/code%3A%20200-OK-green)  
 ```
-[
-    {
+{
+    "client_balance": {
         "balance": 0.0
     },
-    {
-        "name": "Padrão",
-        "discount_percent": 0.0
-    },
-    {
+    "client_info": {
         "company_name": "ACME LTDA",
         "cnpj": "07.638.546/8994-24"
     }
-]
+}
  ```
  
  #### Resposta de Falha - Não encontrado:
