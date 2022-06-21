@@ -20,7 +20,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/clients_info', to: 'clients#info'
       resources :clients, only: %i[create]
-      resources :exchange_rates, only: %i[show], param: 'register_date'
+      resources :exchange_rates, only: %i[] do
+        get 'search', on: :collection
+      end
     end
   end
 

@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class Api::V1::ExchangeRatesController < Api::ApiController
-  def show
-    if search_approved_exchange_rate
+  def search
+    if params[:register_date].nil?
+      render status: :bad_request,
+             json: { message: 'Não foi possível fazer busca, é necessário uma data como parâmetro' }
+    elsif search_approved_exchange_rate
       render status: :ok, json: @exchange_rate, only: %i[brl_coin register_date]
     else
-      render status: :internal_server_error,
-             json: { message: 'Não foi encontrada taxa de câmbio disponível, entre em contato' }
+      render status: :not_found,
+             json: { message:
+                    'Não foi encontrada taxa de câmbio disponível. Entre em contato com a API de Pagamento' }
     end
   end
 
@@ -14,8 +18,8 @@ class Api::V1::ExchangeRatesController < Api::ApiController
 
   def search_approved_exchange_rate
     @exchange_rate = nil
-    4.times do |days|
-      @exchange_rate = ExchangeRate.find_by(register_date: params[:register_date].to_date - days.days,
+    4.times do |day|
+      @exchange_rate = ExchangeRate.find_by(register_date: params[:register_date].to_date - day.days,
                                             status: 'approved')
       break if @exchange_rate.present?
     end

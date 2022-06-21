@@ -6,10 +6,11 @@ describe 'API pagaments' do
   context 'when GET /api/v1/exchage_rate' do
     it 'with success' do
       admin = create(:admin)
-      exchange_rate = create(:exchange_rate, register_date: Time.zone.today,
-                                             status: 'approved', brl_coin: 5.12, created_by: admin)
+      create(:exchange_rate, register_date: Time.zone.today,
+                             status: 'approved', brl_coin: 5.12, created_by: admin)
 
-      get "/api/v1/exchange_rates/#{exchange_rate.register_date}"
+      params = { register_date: Time.zone.today }
+      get "/api/v1/exchange_rates/search/?register_date=#{params[:register_date]}"
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -23,7 +24,8 @@ describe 'API pagaments' do
       exchange_rate = create(:exchange_rate, register_date: Time.zone.tomorrow,
                                              status: 'pending', brl_coin: 6, created_by: admin)
 
-      get "/api/v1/exchange_rates/#{exchange_rate.register_date}"
+      params = { register_date: exchange_rate.register_date }
+      get "/api/v1/exchange_rates/search/?register_date=#{params[:register_date]}"
       json_response = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -32,12 +34,27 @@ describe 'API pagaments' do
     end
 
     it 'when exchange rate is not found on the last 4 days' do
-      get "/api/v1/exchange_rates/#{Time.zone.today}"
+      params = { register_date: Time.zone.today }
+      get "/api/v1/exchange_rates/search/?register_date=#{params[:register_date]}"
       json_response = JSON.parse(response.body)
 
-      expect(response.status).to eq 500
+      expect(response.status).to eq 404
       expect(response.content_type).to include 'application/json'
-      expect(json_response['message']).to eq 'Não foi encontrada taxa de câmbio disponível, entre em contato'
+      message = 'Não foi encontrada taxa de câmbio disponível. Entre em contato com a API de Pagamento'
+      expect(json_response['message']).to eq message
+    end
+
+    it 'when regiter_date was not deliveried' do
+      admin = create(:admin)
+      create(:exchange_rate, register_date: Time.zone.today,
+                             status: 'approved', brl_coin: 5.12, created_by: admin)
+
+      get '/api/v1/exchange_rates/search/'
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 400
+      expect(response.content_type).to include 'application/json'
+      expect(json_response['message']).to eq 'Não foi possível fazer busca, é necessário uma data como parâmetro'
     end
   end
 end
