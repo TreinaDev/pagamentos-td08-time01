@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 module ExceptionHandler
   extend ActiveSupport::Concern
@@ -14,6 +14,11 @@ module ExceptionHandler
 
     rescue_from ActiveRecord::RecordInvalid do |error|
       render json: { message: error.message }, status: :unprocessable_entity
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |error|
+      render json: { message: "Não foi possível encontrar #{I18n.t(error.model)} com os dados informados" },
+             status: :not_found
     end
   end
 end

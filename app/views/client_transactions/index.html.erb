@@ -1,0 +1,30 @@
+<h1>Lista de transações</h1>
+
+<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Tipo de transação</th>
+				<th scope="col">Valor</th>
+				<th scope="col">Data</th>
+				<th scope="col">Status</th>
+				<th scope="col">Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% if @client_transactions.empty? %>
+				<p>Não há transações pendentes</p>
+			<% else %>
+				<% @client_transactions.each do |client_transaction| %>
+					<tr>
+						<td><%= ClientTransaction.human_enum_name(:type_transaction, client_transaction.type_transaction) %></td>
+						<td><%= client_transaction.credit_value %></td>
+						<td><%= client_transaction.transaction_date.strftime('%d/%m/%Y - %H:%M') %></td>
+						<td><%= ClientTransaction.human_enum_name(:status, client_transaction.status) %></td>
+						<td><%= link_to 'Aprovar/Recusar', edit_client_transaction_path(client_transaction) %></td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+</div>

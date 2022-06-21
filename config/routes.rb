@@ -15,11 +15,13 @@ Rails.application.routes.draw do
   end
 
   resources :promotions, only: %i[index new create]
+  resources :client_transactions, only: %i[index edit update]
 
   namespace :api do
     namespace :v1 do
       post '/clients_info', to: 'clients#info'
       resources :clients, only: %i[create]
+      resources :client_transactions, only: %i[create]
     end
   end
 
