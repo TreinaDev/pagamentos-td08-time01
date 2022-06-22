@@ -19,9 +19,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      post '/clients_info', to: 'clients#info'
       resources :clients, only: %i[create]
       resources :client_transactions, only: %i[create]
+
+      resources :exchange_rates, only: %i[] do
+        get 'search', on: :collection
+      end
+
+      get '/clients_info', to: 'clients#info'
     end
   end
 
