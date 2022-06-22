@@ -56,6 +56,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :not_found
+      expect(ClientTransaction.count).to eq 0
       expect(JSON.parse(response.body)['message']).to eq(
         'Não foi possível encontrar Pessoa física com os dados informados'
       )
@@ -76,6 +77,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :not_found
+      expect(ClientTransaction.count).to eq 0
       expect(JSON.parse(response.body)['message']).to eq(
         'Não foi possível encontrar Pessoa jurídica com os dados informados'
       )
@@ -96,6 +98,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :unprocessable_entity
+      expect(ClientTransaction.count).to eq 0
       expect(JSON.parse(response.body)['message']).to eq 'A validação falhou: Valor não é um número'
     end
   end
@@ -115,9 +118,46 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :unprocessable_entity
+      expect(ClientTransaction.count).to eq 0
       expect(JSON.parse(response.body)['message']).to eq(
         'A validação falhou: Valor não pode ficar em branco, Valor não é um número'
       )
+    end
+
+    it 'when client person registration number is empty' do
+      create(:client_person, cpf: '06001818398')
+
+      attributes = {
+        cpf: '',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :bad_request
+      expect(JSON.parse(response.body)['message']).to eq('A validação falhou: sintaxe inválida')
+      expect(ClientTransaction.count).to eq 0
+    end
+
+    it 'when client company registration number is empty' do
+      create(:client_company, cnpj: '07638546899424')
+
+      attributes = {
+        cnpj: '',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :bad_request
+      expect(JSON.parse(response.body)['message']).to eq('A validação falhou: sintaxe inválida')
+      expect(ClientTransaction.count).to eq 0
     end
   end
 
@@ -128,6 +168,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :bad_request
+      expect(ClientTransaction.count).to eq 0
     end
 
     it 'when registration number is missing' do
@@ -155,6 +196,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :bad_request
+      expect(ClientTransaction.count).to eq 0
     end
   end
 end

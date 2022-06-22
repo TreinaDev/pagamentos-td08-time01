@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CnpjValidator
+class CnpjFormatter
   def self.perform(cnpj)
     CNPJ.new(cnpj).formatted
   end

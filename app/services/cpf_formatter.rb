@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CpfValidator
+class CpfFormatter
   def self.perform(cpf)
     CPF.new(cpf).formatted
   end

@@ -2,7 +2,7 @@
 
 class TransactionCompany
   def self.perform(cnpj, client_transaction_params)
-    cnpj_formated = CnpjValidator.perform(cnpj)
+    cnpj_formated = CnpjFormatter.perform(cnpj)
     client = ClientCompany.find_by!(cnpj: cnpj_formated)
 
     client_transaction = ClientTransaction.new(client_transaction_params)

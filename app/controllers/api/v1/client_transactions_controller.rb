@@ -5,14 +5,14 @@ class Api::V1::ClientTransactionsController < Api::ApiController
     if params[:cpf].present?
       TransactionPerson.perform(params[:cpf], client_transaction_params)
 
-      return render json: {}, status: :created
+      render json: {}, status: :created
     elsif params[:cnpj].present?
       TransactionCompany.perform(params[:cnpj], client_transaction_params)
 
-      return render json: {}, status: :created
+      render json: {}, status: :created
+    else
+      render json: { message: 'A validação falhou: sintaxe inválida' }, status: :bad_request
     end
-
-    render json: {}, status: :bad_request
   end
 
   private

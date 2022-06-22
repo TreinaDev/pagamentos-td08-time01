@@ -2,7 +2,7 @@
 
 class TransactionPerson
   def self.perform(cpf, client_transaction_params)
-    cpf_formated = CpfValidator.perform(cpf)
+    cpf_formated = CpfFormatter.perform(cpf)
     client = ClientPerson.find_by!(cpf: cpf_formated)
 
     client_transaction = ClientTransaction.new(client_transaction_params)
