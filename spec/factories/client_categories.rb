@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :client_category do
-    name { Faker::Games::ClashOfClans.rank }
-    discount_percent { Faker::Number.decimal(l_digits: 2) }
+    name { 'Padrão' }
+    discount_percent { 0 }
   end
 end

@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :client do
-    client_type { 'MyString' }
+    client_type { nil }
+    client_category
   end
 end

@@ -1,0 +1,6 @@
+'pt-BR':
+  ClientPerson: "Pessoa física"
+  ClientCompany: "Pessoa jurídica"
+  ClientCategory: "Categoria de cliente"
+  Client: "Cliente"
+  ClientTransaction: "Transação de cliente"

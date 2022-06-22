@@ -36,3 +36,6 @@ Style/ClassAndModuleChildren:
 
 Rails/Output:
   Enabled: false
+
+Metrics/AbcSize:
+  Max: 25

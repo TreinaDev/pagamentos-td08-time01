@@ -32,6 +32,12 @@ ClientPerson.create!(full_name: 'Luiz Santos', cpf: '06001818398', client_id: cl
 puts '------------ creating ClientCompany --------------'
 ClientCompany.create!(company_name: 'ACME LTDA', cnpj: '07638546899424', client_id: client_two.id)
 
+puts '------------ creating ClientTransaction ----------'
+ClientTransaction.create!(credit_value: 10_000, type_transaction: :buy_rubys, transaction_date: DateTime.now,
+                          status: :pending, approval_date: nil, client_id: client_one.id)
+ClientTransaction.create!(credit_value: 5_000, type_transaction: :buy_rubys, transaction_date: DateTime.now,
+                          status: :pending, approval_date: nil, client_id: client_one.id)
+
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
 puts '--------------------------------------------------'

@@ -1,0 +1,15 @@
+"pt-BR":
+  activerecord:
+    models:
+      client_transaction: "Transação"
+    attributes:
+      client_transaction:
+        credit_value: 'Valor'
+        type_transaction: 'Tipo de transação'
+        type_transactions:
+          buy_rubys: 'Compra de rubis'
+        status: 'Status'
+        statuses:
+          pending: 'Pendente'
+          active: 'Ativo'
+          refused: 'Recusado'

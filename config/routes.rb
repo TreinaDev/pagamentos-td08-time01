@@ -15,14 +15,18 @@ Rails.application.routes.draw do
   end
 
   resources :promotions, only: %i[index new create]
+  resources :client_transactions, only: %i[index edit update]
 
   namespace :api do
     namespace :v1 do
-      get '/clients_info', to: 'clients#info'
       resources :clients, only: %i[create]
+      resources :client_transactions, only: %i[create]
+
       resources :exchange_rates, only: %i[] do
         get 'search', on: :collection
       end
+
+      get '/clients_info', to: 'clients#info'
     end
   end
 

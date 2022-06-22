@@ -72,6 +72,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
     t.index ["cpf"], name: "index_client_people_on_cpf", unique: true
   end
 
+  create_table "client_transactions", force: :cascade do |t|
+    t.decimal "credit_value"
+    t.integer "type_transaction"
+    t.datetime "transaction_date"
+    t.integer "client_id", null: false
+    t.integer "status", default: 0
+    t.datetime "approval_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_transactions_on_client_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.integer "client_type"
     t.datetime "created_at", null: false
@@ -121,6 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
   add_foreign_key "client_bonus_balances", "clients"
   add_foreign_key "client_companies", "clients"
   add_foreign_key "client_people", "clients"
+  add_foreign_key "client_transactions", "clients"
   add_foreign_key "clients", "client_categories"
   add_foreign_key "exchange_rates", "admins", column: "approved_by_id"
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
