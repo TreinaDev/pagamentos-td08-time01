@@ -31,19 +31,15 @@ class Api::V1::ClientsController < Api::ApiController
   def render_client_person(cpf)
     client_person = ClientPerson.find_by(cpf:)
     client = client_person.client
-    client_category = client.client_category
-    render json: [client.as_json(only: %i[balance]),
-                  client_category.as_json(only: %i[name discount_percent]),
-                  client_person.as_json(only: %i[full_name cpf])]
+    render json: { client_balance: client.as_json(only: %i[balance]),
+                   client_info: client_person.as_json(only: %i[full_name cpf]) }
   end
 
   def render_client_company(cnpj)
     client_company = ClientCompany.find_by(cnpj:)
     client = client_company.client
-    client_category = client.client_category
-    render json: [client.as_json(only: %i[balance]),
-                  client_category.as_json(only: %i[name discount_percent]),
-                  client_company.as_json(only: %i[company_name cnpj])]
+    render json: { client_balance: client.as_json(only: %i[balance]),
+                   client_info: client_company.as_json(only: %i[company_name cnpj]) }
   end
 
   def client_params
