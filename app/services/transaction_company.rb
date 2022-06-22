@@ -10,6 +10,5 @@ class TransactionCompany
     client_transaction.client_id = client.id
     client_transaction.transaction_date = DateTime.current
     client_transaction.save!
-    client_transaction
   end
 end

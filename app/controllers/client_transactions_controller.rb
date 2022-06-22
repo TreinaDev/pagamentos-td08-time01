@@ -4,7 +4,7 @@ class ClientTransactionsController < ApplicationController
   before_action :set_client_transaction, only: %i[edit update]
 
   def index
-    @client_transactions = ClientTransaction.where(status: :pending)
+    @client_transactions = ClientTransaction.pending
   end
 
   def edit

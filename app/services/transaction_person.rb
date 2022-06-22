@@ -10,6 +10,5 @@ class TransactionPerson
     client_transaction.client_id = client.id
     client_transaction.transaction_date = Time.current.strftime('%d/%m/%Y - %H:%M')
     client_transaction.save!
-    client_transaction
   end
 end

@@ -1,30 +1,21 @@
-<% if @client_transaction.errors.any? %>
-  <p>Verifique os erros abaixo:</p>
-  <ul>
-    <% @client_transaction.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-  </ul>
-<% end %>
-
 <div class="card mb-4">
 	<div class="card-header">
 		<i class="fas fa-table me-1"></i>Formulário
 	</div>
-	<div class="card-body">
+  <div class="card-body">
     <%= form_with(model: @client_transaction) do |f| %>
-    <div class="mb-3 row">
-      <div class="col">
-        <%= f.label :status, class: "form-label" %>
-        <%= f.select(:status, options_for_client_transaction_status(@client_transaction.status), {:selected => "Pendente"}, {:class =>"form-select", include_blank: false})%>
+      <div class="mb-3 row">
+        <div class="col">
+          <%= f.label :status, class: "form-label" %>
+          <%= f.select(:status, options_for_client_transaction_status(@client_transaction.status), {:selected => "Pendente"}, {:class =>"form-select", include_blank: false})%>
+        </div>
       </div>
-    </div>
-    <div class="form-group button-form-group">
-      <%= f.submit 'Salvar', disable_with: 'Salvando...', class:"btn btn-primary" %>
-    </div>
-    <div class="form-group button-form-group">
-      <%= link_to 'Voltar', client_transactions_path, class:"btn btn-light" %>
-    </div>
+      <div class="form-group button-form-group">
+        <%= f.submit 'Salvar', disable_with: 'Salvando...', class:"btn btn-primary" %>
+      </div>
+      <div class="form-group button-form-group">
+        <%= link_to 'Voltar', client_transactions_path, class:"btn btn-light" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
-
+</div>

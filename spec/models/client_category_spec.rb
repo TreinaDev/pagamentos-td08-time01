@@ -35,13 +35,6 @@ RSpec.describe ClientCategory, type: :model do
         expect(category_two.valid?).to be false
         expect(category_two.errors[:name]).to include 'já está em uso'
       end
-
-      it 'successfully when name is unique' do
-        create(:client_category)
-        category_two = build(:client_category, name: 'Bronze')
-
-        expect(category_two.valid?).to be true
-      end
     end
   end
 end

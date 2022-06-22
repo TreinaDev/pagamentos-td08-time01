@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Admin change transaction status' do
   context 'when status is pending' do
-    it 'with success' do
+    it 'and approve a transaction' do
       client = create(:client_person).client
       create(:client_transaction, status: :pending, client:)
 
@@ -12,11 +12,26 @@ describe 'Admin change transaction status' do
       visit root_path
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
-      select 'Ativo', from: 'Status'
+      select 'Aprovar', from: 'Status'
       click_on 'Salvar'
 
       expect(page).to have_content 'A transação foi alterada com sucesso.'
       expect(ClientTransaction.last.active?).to be true
+    end
+
+    it 'and refuse a transaction' do
+      client = create(:client_person).client
+      create(:client_transaction, status: :pending, client:)
+
+      login_as create(:admin, status: :active)
+      visit root_path
+      click_on 'Transações'
+      click_on 'Aprovar/Recusar'
+      select 'Recusar', from: 'Status'
+      click_on 'Salvar'
+
+      expect(page).to have_content 'A transação foi alterada com sucesso.'
+      expect(ClientTransaction.last.refused?).to be true
     end
   end
 
