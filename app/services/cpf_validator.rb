@@ -2,9 +2,6 @@
 
 class CpfValidator
   def self.perform(cpf)
-    CPF.valid?(cpf, strict: true)
-
-    register_id = CPF.new(cpf)
-    register_id.formatted
+    CPF.new(cpf).formatted
   end
 end

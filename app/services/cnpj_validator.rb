@@ -2,9 +2,6 @@
 
 class CnpjValidator
   def self.perform(cnpj)
-    CNPJ.valid?(cnpj, strict: true)
-
-    register_id = CNPJ.new(cnpj)
-    register_id.formatted
+    CNPJ.new(cnpj).formatted
   end
 end
