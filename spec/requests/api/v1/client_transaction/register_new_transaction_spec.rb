@@ -46,7 +46,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(JSON.parse(response.body)).to be_empty
     end
 
-    it 'when client transaction overpass the credit limit' do
+    it 'when client company transaction overpass the credit limit' do
       create(:transaction_setting, max_credit: 10_000)
       client = create(:client, client_type: 5, balance: 5000)
       create(:client_company, cnpj: '07638546899424', client: client)
@@ -68,7 +68,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(JSON.parse(response.body)).to be_empty
     end
 
-    it 'when client transaction overpass the credit limit' do
+    it 'when client person transaction overpass the credit limit' do
       create(:transaction_setting, max_credit: 10_000)
       client = create(:client, client_type: 0, balance: 5000)
       create(:client_person, cpf: '06001818398', client: client)

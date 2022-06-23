@@ -6,7 +6,7 @@ describe 'Admin change transaction status' do
   context 'when status is pending' do
     it 'and approve a transaction' do
       client = create(:client_person).client
-      create(:client_transaction, status: :pending, client:)
+      create(:client_transaction, status: :pending, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -21,7 +21,7 @@ describe 'Admin change transaction status' do
 
     it 'and refuse a transaction' do
       client = create(:client_person).client
-      create(:client_transaction, status: :pending, client:)
+      create(:client_transaction, status: :pending, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -38,7 +38,7 @@ describe 'Admin change transaction status' do
   context 'when status is not pending' do
     it 'redirect when status is active' do
       client = create(:client_person).client
-      create(:client_transaction, status: :active, client:)
+      create(:client_transaction, status: :active, client: client)
 
       login_as create(:admin, status: :active)
       visit edit_client_transaction_path(ClientTransaction.last.id)
@@ -48,7 +48,7 @@ describe 'Admin change transaction status' do
 
     it 'redirect when status is refused' do
       client = create(:client_person).client
-      create(:client_transaction, status: :refused, client:)
+      create(:client_transaction, status: :refused, client: client)
 
       login_as create(:admin, status: :active)
       visit edit_client_transaction_path(ClientTransaction.last.id)

@@ -6,8 +6,8 @@ describe 'Admin visit client_transactions' do
   context 'when exist client_transactions register' do
     it 'when only exist client_transactions pending' do
       client = create(:client_person).client
-      create(:client_transaction, credit_value: 10_000, status: :pending, client:)
-      create(:client_transaction, credit_value: 5_000, status: :pending, client:)
+      create(:client_transaction, credit_value: 10_000, status: :pending, client: client)
+      create(:client_transaction, credit_value: 5_000, status: :pending, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -21,8 +21,8 @@ describe 'Admin visit client_transactions' do
 
     it 'when only exist client_transactions refused' do
       client = create(:client_person).client
-      create(:client_transaction, status: :refused, client:)
-      create(:client_transaction, status: :refused, client:)
+      create(:client_transaction, status: :refused, client: client)
+      create(:client_transaction, status: :refused, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -34,8 +34,8 @@ describe 'Admin visit client_transactions' do
 
     it 'when only exist client_transactions active' do
       client = create(:client_person).client
-      create(:client_transaction, status: :active, client:)
-      create(:client_transaction, status: :active, client:)
+      create(:client_transaction, status: :active, client: client)
+      create(:client_transaction, status: :active, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path

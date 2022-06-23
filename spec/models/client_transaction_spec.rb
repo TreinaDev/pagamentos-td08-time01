@@ -7,7 +7,7 @@ RSpec.describe ClientTransaction, type: :model do
     context 'with success' do
       it 'when all attributes is present' do
         client = create(:client_person).client
-        client_transaction = build(:client_transaction, client:)
+        client_transaction = build(:client_transaction, client: client)
 
         expect(client_transaction).to be_valid
       end
