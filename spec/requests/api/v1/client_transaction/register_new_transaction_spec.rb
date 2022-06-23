@@ -251,4 +251,58 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.count).to eq 0
     end
   end
+
+  context 'when client category has a promotion' do
+    it 'when client person buying rubys' do
+      create(:transaction_setting, max_credit: 50_000)
+      bronze = create(:client_category, name: 'Bronze')
+      client = create(:client, client_type: 'client_person', client_category: bronze)
+      create(:client_person, cpf: '06001818398', client: client)
+      create(:promotion, start_date: Time.zone.today,
+                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+
+      attributes = {
+        cpf: '06001818398',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'active'
+      expect(Client.last.balance).to eq 10_000
+      expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to be_empty
+    end
+
+    it 'when client company is buying rubys' do
+      create(:transaction_setting, max_credit: 50_000)
+      bronze = create(:client_category, name: 'Bronze')
+      client = create(:client, client_type: 'client_company', client_category: bronze)
+      create(:client_company, cnpj: '07638546899424', client: client)
+      create(:promotion, start_date: Time.zone.today,
+                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+
+      attributes = {
+        cnpj: '07638546899424',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'active'
+      expect(Client.last.balance).to eq 10_000
+      expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to be_empty
+    end
+  end
 end
