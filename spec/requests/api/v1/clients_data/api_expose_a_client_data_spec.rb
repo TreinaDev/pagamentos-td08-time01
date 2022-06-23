@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Pagamento API' do
-  context 'when POST /api/v1/clients_info' do
+  context 'when GET /api/v1/clients_info' do
     it 'success as client person' do
       client_category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
       client = Client.create!(client_type: 0, client_category_id: client_category.id, balance: 0)
