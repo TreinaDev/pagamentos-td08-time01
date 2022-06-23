@@ -107,6 +107,7 @@ Resposta retorna mensagem em requisição ruim
 ```
   { "registration_number": "07638546899424" }
 ```
+
 ####  Resposta de Sucesso:
 ![200: OK](https://img.shields.io/badge/code%3A%20200-OK-green)  
 ```
@@ -147,14 +148,7 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 
 ####  Resposta de Sucesso:
 ![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created") 
-```
-{
-    "credit_value": "10000.0",
-    "type_transaction": "buy_rubys",
-    "transaction_date": "2022-06-22T16:55:00.000-03:00",
-    "status": "pending"
-}
-```
+
 
  #### Parâmetros da Transação - Pessoa Jurídica
 ![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transaction` 
@@ -170,14 +164,7 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 
 ####  Resposta de Sucesso:
 ![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created")  
-```
-{
-    "credit_value": "10000.0",
-    "type_transaction": "buy_rubys",
-    "transaction_date": "2022-06-22T16:55:00.000-03:00",
-    "status": "pending"
-}
-```
+
 
 #### Resposta de Falha - Não encontrado:
 ![404: Not Found ](https://img.shields.io/badge/code%3A%20404-NOT%20FOUND-red)
