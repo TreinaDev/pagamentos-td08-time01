@@ -7,7 +7,7 @@ class Client < ApplicationRecord
   belongs_to :client_category
   has_one :client_person, dependent: :destroy
   has_one :client_company, dependent: :destroy
-  has_one :client_bonus_balance, dependent: :destroy
+  has_many :client_bonus_balances, dependent: :destroy
   has_many :client_transactions, dependent: :destroy
 
   accepts_nested_attributes_for :client_person, allow_destroy: true
