@@ -149,6 +149,11 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 ####  Resposta de Sucesso:
 ![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created") 
 
+Retorna um Json vazio e um status 201: Created
+
+```
+ {}
+```
 
  #### Parâmetros da Transação - Pessoa Jurídica
 ![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transaction` 
@@ -163,8 +168,12 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 ```
 
 ####  Resposta de Sucesso:
-![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created")  
+![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created")
 
+Retorna um Json vazio e um status 201: Created
+```
+ {}
+```
 
 #### Resposta de Falha - Não encontrado:
 ![404: Not Found ](https://img.shields.io/badge/code%3A%20404-NOT%20FOUND-red)
