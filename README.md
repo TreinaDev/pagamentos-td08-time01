@@ -32,9 +32,8 @@ Menu
 
 ## 🔨 API
 
-[Documentação]()
+[Documentação](https://github.com/TreinaDev/pagamentos-td08-time01/blob/main/documentation/documentation.md)
 
-Obs.: O link estará disponível em breve.
 
 ## 👥 Visitante
  - `Taxa de câmbio` - Qualquer visitante pode visualizar a taxa de câmbio.
