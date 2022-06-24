@@ -258,8 +258,8 @@ describe 'POST /api/v1/client_transaction' do
       bronze = create(:client_category, name: 'Bronze')
       client = create(:client, client_type: 'client_person', client_category: bronze)
       create(:client_person, cpf: '06001818398', client: client)
-      create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+      create(:promotion, start_date: Time.current,
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
 
       attributes = {
         cpf: '06001818398',
