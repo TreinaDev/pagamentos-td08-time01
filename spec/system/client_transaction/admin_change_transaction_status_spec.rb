@@ -5,8 +5,14 @@ require 'rails_helper'
 describe 'Admin change transaction status' do
   context 'when status is pending' do
     it 'and approve a transaction' do
-      client = create(:client_person).client
-      create(:client_transaction, status: :pending, client: client)
+      create(:transaction_setting, max_credit: 50_000)
+      bronze = create(:client_category, name: 'Bronze')
+      client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
+      create(:client_company, cnpj: '07638546899424', client: client)
+      create(:promotion, start_date: Time.zone.today,
+                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+      create(:client_transaction, status: :pending,
+                                  client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -15,13 +21,21 @@ describe 'Admin change transaction status' do
       select 'Aprovar', from: 'Status'
       click_on 'Salvar'
 
-      expect(page).to have_content 'A transação foi alterada com sucesso.'
-      expect(ClientTransaction.last.active?).to be true
+      expect(page).to have_content 'A transação foi realizada com sucesso.'
+      expect(ClientTransaction.last).to be_active
+      expect(client.reload.balance).to eq 51_000
+      expect(client.client_bonus_balances.bonus_value).to eq 5100
     end
 
     it 'and refuse a transaction' do
-      client = create(:client_person).client
-      create(:client_transaction, status: :pending, client: client)
+      create(:transaction_setting, max_credit: 50_000)
+      bronze = create(:client_category, name: 'Bronze')
+      client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
+      create(:client_company, cnpj: '07638546899424', client: client)
+      create(:promotion, start_date: Time.zone.today,
+                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+      create(:client_transaction, status: :pending,
+                                  client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -30,8 +44,7 @@ describe 'Admin change transaction status' do
       select 'Recusar', from: 'Status'
       click_on 'Salvar'
 
-      expect(page).to have_content 'A transação foi alterada com sucesso.'
-      expect(ClientTransaction.last.refused?).to be true
+      expect(ClientTransaction.last).to be_refused
     end
   end
 

@@ -14,15 +14,31 @@ class ClientTransactionsController < ApplicationController
   end
 
   def update
+
     @client_transaction.update!(status: params[:client_transaction][:status])
 
+    set_client_type
+
     redirect_to client_transactions_path,
-                notice: 'A transação foi alterada com sucesso.'
+                notice: 'A transação foi realizada com sucesso.'
   end
 
   private
 
   def set_client_transaction
     @client_transaction = ClientTransaction.find(params[:id])
+  end
+
+  def set_client_type
+    if @client_transaction.active?
+      if @client_transaction.client.client_person?
+        client_type = @client_transaction.client.client_person
+      elsif @client_transaction.client.client_company?
+        client_type = @client_transaction.client.client_company
+      end
+      Check.transaction(@client_transaction.credit_value, client_type, @client_transaction)
+    else
+      # fazer um post atualizando o ecommerce
+    end
   end
 end
