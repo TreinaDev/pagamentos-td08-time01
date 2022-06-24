@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
     flash.clear
     flash[:alert] = 'Apenas administradores ativos tem a permissão de acessar a aplicação de pagamentos'
 
-    root_path
+    new_admin_session_path
   end
 end
