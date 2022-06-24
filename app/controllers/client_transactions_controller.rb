@@ -14,7 +14,6 @@ class ClientTransactionsController < ApplicationController
   end
 
   def update
-
     @client_transaction.update!(status: params[:client_transaction][:status])
 
     set_client_type
