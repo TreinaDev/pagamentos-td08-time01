@@ -7,9 +7,17 @@
       <div class="mb-3 row">
         <div class="col">
           <%= f.label :status, class: "form-label" %>
-          <%= f.select(:status, options_for_client_transaction_status(@client_transaction.status), {:selected => "Pendente"}, {:class =>"form-select", include_blank: false})%>
+          <%= f.select(:status, options_for_client_transaction_status(@client_transaction.status), {:selected => "Pendente"}, {:class =>"form-select", include_blank: false, onchange:"yesnoCheck(this);"})%>
         </div>
       </div>
+      <%= f.fields_for :transaction_notification do |notification| %>
+        <div id="divescription" class="mb-3 row">
+            <div class="col">
+              <%= notification.label :description, 'Descrição', class: "form-label" %>
+              <%= notification.text_area :description, class: "form-control", disabled: true %>
+            </div>
+        </div>
+      <% end %>
       <div class="form-group button-form-group">
         <%= f.submit 'Salvar', disable_with: 'Salvando...', class:"btn btn-primary" %>
       </div>
