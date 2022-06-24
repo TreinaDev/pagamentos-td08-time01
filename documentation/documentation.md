@@ -133,7 +133,7 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 ```
 
 ## Cria Transações
-![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transaction`
+![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transactions`
 
 #### Parâmetros da Transação - Pessoa Física
 ```
@@ -156,7 +156,7 @@ Retorna um Json vazio e um status 201: Created
 ```
 
  #### Parâmetros da Transação - Pessoa Jurídica
-![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transaction` 
+![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transactions` 
 ```
 {
   cnpj: '07638546899424',
@@ -199,7 +199,7 @@ Resposta retorna mensagem caso `credit_value` não seja número
 ```
 
 ## Disponibiliza taxa de câmbio
-![GET](https://img.shields.io/badge/-GET-blue)`/api/v1/exchage_rate`
+![GET](https://img.shields.io/badge/-GET-blue)`/api/v1/exchange_rates/search`
 
 
 #### Parâmetros - Taxa de Câmbio
