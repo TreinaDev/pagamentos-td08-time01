@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'admin access the application' do
   it 'and create an account' do
     visit root_path
-    click_on 'Entrar'
+    click_on 'Login'
     click_on 'Registrar nova conta'
     fill_in 'Nome Completo', with: 'Sérgio Silva'
     fill_in 'CPF', with: '94934892303'
@@ -15,14 +15,14 @@ describe 'admin access the application' do
     click_on 'Criar Administrador'
 
     expect(page).to have_content 'Apenas administradores ativos tem a permissão de acessar a aplicação de pagamentos'
-    expect(page).not_to have_content 'Pendências'
+    expect(page).to have_field 'E-mail'
   end
 
   it 'and log in' do
     create(:admin, email: 'sergio@userubis.com.br', password: '123456', status: 5)
 
     visit root_path
-    click_on 'Entrar'
+    click_on 'Login'
     fill_in 'E-mail', with: 'sergio@userubis.com.br'
     fill_in 'Senha', with: '123456'
     within 'form' do
@@ -30,12 +30,12 @@ describe 'admin access the application' do
     end
 
     expect(page).to have_content 'Login efetuado com sucesso.'
-    expect(page).to have_content 'Pendências'
+    expect(page).to have_content 'Página Inicial'
   end
 
   it 'with blank fields' do
     visit root_path
-    click_on 'Entrar'
+    click_on 'Login'
     click_on 'Registrar nova conta'
     fill_in 'Nome Completo', with: ''
     click_on 'Criar Administrador'
@@ -53,6 +53,7 @@ describe 'admin access the application' do
     visit root_path
     click_on 'Sair'
 
-    expect(page).to have_link 'Entrar'
+    expect(page).to have_content 'Entrar como administrador'
+    expect(page).to have_content 'E-mail'
   end
 end

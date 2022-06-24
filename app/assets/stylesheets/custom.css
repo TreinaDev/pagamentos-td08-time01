@@ -36,3 +36,10 @@ a:hover {
 .button-status:hover {
   background-color: azure;
 }
+
+/* nav */
+.nav-description {
+  margin-top: 2%;
+  vertical-align: middle;
+  color: #ccc;
+}
