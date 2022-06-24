@@ -37,6 +37,8 @@ ClientTransaction.create!(credit_value: 10_000, type_transaction: :buy_rubys, tr
                           status: :pending, approval_date: nil, client_id: client_one.id)
 ClientTransaction.create!(credit_value: 5_000, type_transaction: :buy_rubys, transaction_date: DateTime.now,
                           status: :pending, approval_date: nil, client_id: client_one.id)
+puts '------------ creating ExchangeRate ----------'
+ExchangeRate.create!(brl_coin: 5, created_by: active, register_date: Time.zone.today, status: 'approved')
 
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
