@@ -1,0 +1,31 @@
+<h1>Clientes</h1>
+
+<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Nome</th>
+				<th scope="col">CPF/CNPJ</th>
+				<th scope="col">Saldo</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% if @clients.empty? %>
+				<p>Não há cliente cadastrado</p>
+			<% else %>
+				<% @clients.each do |client| %>
+					<tr>
+            <% if client.client_person? %>
+              <td><%= client.client_person.full_name %></td>
+              <td><%= client.client_person.cpf %></td>
+            <% elsif client.client_company? %>
+              <td><%= client.client_company.company_name %></td>
+              <td><%= client.client_company.cnpj %></td>
+            <% end %>
+            <td><%= client.balance %></td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+</div>
