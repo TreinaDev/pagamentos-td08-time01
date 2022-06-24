@@ -21,7 +21,7 @@ describe 'Admin see all pending accounts' do
 
     login_as admin
     visit root_path
-    click_on 'Pendências'
+    click_on 'Admins'
 
     expect(page).to have_content 'Administradores pendentes'
     expect(page).to have_content 'O Sistema não possui administradores pendentes'
@@ -38,7 +38,7 @@ describe 'Admin see all pending accounts' do
 
     login_as admin
     visit root_path
-    click_on 'Pendências'
+    click_on 'Admins'
 
     expect(page).to have_content 'José Arantes'
     expect(page).to have_content 'jose@userubis.com.br'
@@ -60,7 +60,7 @@ describe 'Admin see all pending accounts' do
 
     login_as admin
     visit root_path
-    click_on 'Pendências'
+    click_on 'Admins'
     click_on 'Aceitar Usuário'
 
     expect(page).to have_content 'Permissão concedida a um administrador pendente'

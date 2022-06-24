@@ -28,12 +28,4 @@ describe 'Visitor sees exchange rate list' do
     expect(page).to have_content 'Nenhuma taxa de câmbio cadastrada'
     expect(page).not_to have_content 'Registrar taxa de câmbio'
   end
-
-  it 'and is abble to back to home page' do
-    visit root_path
-    click_on 'Taxa de câmbio'
-    click_on 'Pagamentos'
-
-    expect(page).to have_current_path root_path, ignore_query: true
-  end
 end

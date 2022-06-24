@@ -11,9 +11,9 @@ pending = Admin.create!(full_name: 'Admin', cpf: '24365465686',
 active = Admin.create!(full_name: 'Admin Ativo', cpf: '06001818398',
                        email: 'adminativo@userubis.com.br', password: '123456',
                        status: 5)
-Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
-              email: 'felipe@userubis.com.br', password: '123456',
-              status: 5)
+active_two = Admin.create!(full_name: 'Felipe Ferreira', cpf: '64262244563',
+                           email: 'felipe@userubis.com.br', password: '123456',
+                           status: 5)
 
 puts '------------ creating AdminPermissions -----------'
 AdminPermission.create!(admin_id: pending.id, active_admin: active.id)
@@ -21,6 +21,10 @@ AdminPermission.create!(admin_id: pending.id, active_admin: active.id)
 puts '------------ creating ClientCategory -------------'
 category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
 ClientCategory.create!(name: 'Ouro', discount_percent: 10)
+
+puts '------------ creating ExchangeRate ---------------'
+ExchangeRate.create!(rubi_coin: 1, brl_coin: 10, register_date: Time.current, status: 'approved', created_by: active,
+                     approved_by: active_two)
 
 puts '------------ creating Client ---------------------'
 client_one = Client.create!(client_type: 0, client_category_id: category.id)
