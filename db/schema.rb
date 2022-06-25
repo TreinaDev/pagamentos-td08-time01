@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_24_200708) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_25_005110) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -81,7 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_200708) do
     t.datetime "approval_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code"
     t.index ["client_id"], name: "index_client_transactions_on_client_id"
+    t.index ["code"], name: "index_client_transactions_on_code", unique: true
   end
 
   create_table "clients", force: :cascade do |t|

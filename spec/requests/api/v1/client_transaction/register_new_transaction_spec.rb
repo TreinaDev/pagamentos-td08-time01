@@ -22,7 +22,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.last.status).to eq 'active'
       expect(Client.last.balance).to eq 10_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
 
     it 'with client company is buying rubys' do
@@ -43,7 +43,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.last.status).to eq 'active'
       expect(Client.last.balance).to eq 10_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
 
     it 'when client company transaction overpass the credit limit' do
@@ -65,7 +65,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.last.status).to eq 'pending'
       expect(Client.last.balance).to eq 5_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
 
     it 'when client person transaction overpass the credit limit' do
@@ -87,7 +87,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.last.status).to eq 'pending'
       expect(Client.last.balance).to eq 5_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
   end
 
@@ -276,7 +276,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(Client.last.balance).to eq 10_000
       expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
 
     it 'when client company is buying rubys' do
@@ -302,7 +302,7 @@ describe 'POST /api/v1/client_transaction' do
       expect(Client.last.balance).to eq 10_000
       expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
       expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to be_empty
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
   end
 end
