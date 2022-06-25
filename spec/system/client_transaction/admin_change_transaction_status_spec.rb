@@ -28,24 +28,27 @@ describe 'Admin change transaction status' do
       expect(client.client_bonus_balances.last.expire_date).to eq Time.zone.today + Promotion.last.limit_day.days
     end
 
-    xit 'and refuse a transaction' do
+    it 'and refuse a transaction' do
       create(:transaction_setting, max_credit: 50_000)
       bronze = create(:client_category, name: 'Bronze')
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
                          end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
-      create(:client_transaction, status: :pending,
-                                  client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
+      transaction = create(:client_transaction, status: :pending,
+                                                client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
       login_as create(:admin, status: :active)
       visit root_path
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
       select 'Recusar', from: 'Status'
+      fill_in 'Descrição', with: 'Transação recusada por suspeita de fraude.'
       click_on 'Salvar'
 
       expect(ClientTransaction.last).to be_refused
+      expect(page).to have_content 'A transação foi recusada com sucesso.'
+      expect(transaction.transaction_notification.description).to eq 'Transação recusada por suspeita de fraude.'
     end
   end
 

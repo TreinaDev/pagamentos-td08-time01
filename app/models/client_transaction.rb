@@ -2,6 +2,8 @@
 
 class ClientTransaction < ApplicationRecord
   belongs_to :client
+  has_one :transaction_notification, dependent: :destroy
+
   validates :credit_value, :type_transaction, :transaction_date, :status, presence: true
   validates :credit_value, numericality: { greater_than: 0 }
 
