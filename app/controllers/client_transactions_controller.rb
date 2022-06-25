@@ -14,11 +14,11 @@ class ClientTransactionsController < ApplicationController
   end
 
   def update
-    description = params[:client_transaction][:transaction_notification]&.values
-
     @client_transaction.update!(status: params[:client_transaction][:status])
 
-    if description.present?
+    if @client_transaction.refused?
+      description = params[:client_transaction][:transaction_notification][:description]
+
       TransactionNotification.create!(description: description, client_transaction: @client_transaction)
 
       return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'

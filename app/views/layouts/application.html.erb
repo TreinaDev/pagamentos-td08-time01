@@ -52,11 +52,15 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 
         <script>
-          function yesnoCheck(that) {
-            if (that.value != "refused") {
-                document.getElementById("client_transaction_transaction_notification_description").setAttribute("disabled","disabled");
-            } else {
-                document.getElementById("client_transaction_transaction_notification_description").removeAttribute('disabled');
+          var divescription = document.getElementById("divescription");
+          if(divescription) {
+            document.getElementById("divescription").style.display = 'none';
+            function yesnoCheck(that) {
+              if (that.value != "refused") {
+                  document.getElementById("divescription").style.display = 'none';
+              } else {
+                  document.getElementById("divescription").style.display = 'block';
+              }
             }
           }
         </script>
