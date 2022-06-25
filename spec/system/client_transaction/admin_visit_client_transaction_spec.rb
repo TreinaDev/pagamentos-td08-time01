@@ -34,8 +34,8 @@ describe 'Admin visit client_transactions' do
 
     it 'when only exist client_transactions active' do
       client = create(:client_person).client
-      create(:client_transaction, status: :active, client: client)
-      create(:client_transaction, status: :active, client: client)
+      create(:client_transaction, status: :approved, client: client)
+      create(:client_transaction, status: :approved, client: client)
 
       login_as create(:admin, status: :active)
       visit root_path

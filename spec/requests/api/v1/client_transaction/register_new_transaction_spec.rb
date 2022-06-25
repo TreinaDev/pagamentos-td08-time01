@@ -19,7 +19,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'active'
+      expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
       expect(ClientTransaction.all.count).to eq 1
       expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
@@ -40,7 +40,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'active'
+      expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
       expect(ClientTransaction.all.count).to eq 1
       expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
@@ -272,7 +272,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'active'
+      expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
       expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
       expect(ClientTransaction.all.count).to eq 1
@@ -298,7 +298,7 @@ describe 'POST /api/v1/client_transaction' do
       post api_v1_client_transactions_path, params: attributes
 
       expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'active'
+      expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
       expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
       expect(ClientTransaction.all.count).to eq 1
