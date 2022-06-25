@@ -1,45 +1,31 @@
-body {
-  font-size: 1.1em;
-  line-height: 1em;
+.breadcrumb-menu {
+  background-color: rgb(234, 234, 234);
+  padding: 0.4% !important;
+  margin-top: 2%;
 }
 
-a {
-  text-decoration: none;
+.page-title {
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
-/* buttons */
-.button-form-group {
+.card-footer-buttons-group {
   display: flex;
 }
 
-a:hover {
-  background-color: azure;
+.card-footer-buttons {
+  margin-right: 1%;
 }
 
-.button {
-  background: none;
-  border: none;
-  padding: 1;
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
+/* align */
+.text-left {
+  text-align: left;
 }
 
-.button:hover {
-  color: black;
+.text-right {
+  text-align: right;
 }
 
-.button-status {
-  text-decoration: none;
-}
-
-.button-status:hover {
-  background-color: azure;
-}
-
-/* nav */
-.nav-description {
-  margin-top: 2%;
-  vertical-align: middle;
-  color: #ccc;
+.text-center {
+  text-align: center;
 }

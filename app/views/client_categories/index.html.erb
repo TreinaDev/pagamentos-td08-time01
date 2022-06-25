@@ -1,27 +1,34 @@
-<h1>Categoria de Clientes</h1>
+<h1 class="mt-4">Categoria de Clientes</h1>
 
-<div class="breadcrumb">
-    <li class="breadcrumb-item"><%= link_to "Cadastrar categoria", new_client_category_path, class:"btn btn-primary" %></li>
+<div class="breadcrumb breadcrumb-menu card">
+	<li class="breadcrumb-item"><%= link_to "Cadastrar categoria", new_client_category_path, class:"btn btn-primary" %></li>
 </div>
-<div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">Nome</th>
-				<th scope="col">Desconto (porcentagem)</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% if @client_categories.empty? %>
-				<p>Não há categoria cadastrada</p>
-			<% else %>
-				<% @client_categories.each do |client_category| %>
-					<tr>
-						<td><%= client_category.name %></td>
-						<td><%= client_category.discount_percent %></td>
-					</tr>
+
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>
+		Lista
+	</div>
+	<div class="card-body">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Nome</th>
+					<th scope="col">Desconto (porcentagem)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if @client_categories.empty? %>
+					<p>Não há categoria cadastrada</p>
+				<% else %>
+					<% @client_categories.each do |client_category| %>
+						<tr>
+							<td><%= client_category.name %></td>
+							<td><%= client_category.discount_percent %></td>
+						</tr>
+					<% end %>
 				<% end %>
-			<% end %>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
