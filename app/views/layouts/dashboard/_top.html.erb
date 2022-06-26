@@ -1,6 +1,8 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <%= link_to 'API Pagamentos', root_path, class: 'navbar-brand ps-3' %>
+    <%= link_to root_path, class: 'navbar-brand ps-3' do %>
+        <%= image_tag 'logo.png', style: 'height:100%;width:90%;' %>
+    <% end %>
 
     <% if admin_signed_in? %>
         <!-- Sidebar Toggle-->

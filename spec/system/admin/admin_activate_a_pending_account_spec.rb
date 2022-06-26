@@ -13,7 +13,9 @@ describe 'Admin see all pending accounts' do
     visit pendencies_path
 
     expect(page).not_to have_content 'Administradores pendentes'
-    expect(page).to have_content 'Entrar como administrador'
+    expect(page).to have_content 'Login'
+    expect(page).to have_field 'E-mail'
+    expect(page).to have_field 'Senha'
   end
 
   it 'and dont have pendencies' do
@@ -23,7 +25,7 @@ describe 'Admin see all pending accounts' do
     visit root_path
     click_on 'Admins'
 
-    expect(page).to have_content 'Administradores pendentes'
+    expect(page).to have_content 'Admins Pendentes'
     expect(page).to have_content 'O Sistema não possui administradores pendentes'
   end
 
@@ -46,8 +48,8 @@ describe 'Admin see all pending accounts' do
     expect(page).to have_content 'Lucio Santos'
     expect(page).to have_content 'lucio22@userubis.com.br'
     expect(page).to have_content '060.018.183-98'
-    expect(page).to have_content 'Permissões 0/2'
-    expect(page).to have_button 'Aceitar Usuário'
+    expect(page).to have_content '0/2'
+    expect(page).to have_button 'Aceitar'
   end
 
   it 'and accept a pending account' do
@@ -61,7 +63,7 @@ describe 'Admin see all pending accounts' do
     login_as admin
     visit root_path
     click_on 'Admins'
-    click_on 'Aceitar Usuário'
+    click_on 'Aceitar'
 
     expect(page).to have_content 'Permissão concedida a um administrador pendente'
     expect(page).not_to have_content 'José Arantes'

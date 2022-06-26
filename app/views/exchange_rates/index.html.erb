@@ -1,24 +1,68 @@
-<h1><%= ExchangeRate.model_name.human %> RUBI/REAL</h1>
-
+<h1 class="mt-4 page-title">Taxa de câmbio</h1>
 
 <% if admin_signed_in? %>
-  <h3><%= link_to 'Registrar taxa de câmbio', new_exchange_rate_path %></h3>
-  <section class="mt-3">
-    <% if @exchange_rates.any? %>
-      <% @exchange_rates.each do |er| %>
-        <p><%= link_to I18n.l(er.register_date), exchange_rate_path(er) %> <%= er.rubi_coin %> rubi equivale a <%= number_to_currency er.brl_coin %> reais | <%= ExchangeRate.human_attribute_name(:status) %>: <%= ExchangeRate.human_attribute_name(er.status) %></p>
-      <% end %>
-    <% else %>
-      <p>Nenhuma taxa de câmbio cadastrada<p>
-    <% end %>
+  
+  <div class="breadcrumb breadcrumb-menu card">
+    <li class="breadcrumb-item"><%= link_to "Cadastrar Taxa", new_exchange_rate_path, class:"btn btn-primary" %></li>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Lista
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col text-center">Data</th>
+            <th scope="col">Rubi <i class="fa fa-exchange"></i> Real</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @exchange_rates.empty? %>
+            <p>Não há taxa de câmbio cadastrada</p>
+          <% else %>
+            <% @exchange_rates.each do |exchange_rate| %>
+              <tr>
+                <td><%= link_to I18n.l(exchange_rate.register_date), exchange_rate_path(exchange_rate) %></td>
+                <td><%= exchange_rate.rubi_coin %> rubi equivale a <%= number_to_currency exchange_rate.brl_coin %> reais</td>
+                <td><%= ExchangeRate.human_attribute_name(exchange_rate.status) %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% else %>
-  <section class="mt-3">
-    <% if @approved_exchange_rates.any? %>
-      <% @approved_exchange_rates.each do |er| %>
-        <p><%= I18n.l(er.register_date) %> <%= er.rubi_coin %> rubi equivale a <%= number_to_currency er.brl_coin %> reais.</p>
-      <% end %>
-    <% else %>
-      <p>Nenhuma taxa de câmbio cadastrada<p>
-    <% end %>
-  </section>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Lista
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col text-center">Data</th>
+            <th scope="col">Rubi <i class="fa fa-exchange"></i> Real</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @approved_exchange_rates.empty? %>
+            <p>Não há taxa de câmbio cadastrada</p>
+          <% else %>
+            <% @approved_exchange_rates.each do |exchange_rate| %>
+              <tr>
+                <td><%= I18n.l(exchange_rate.register_date) %></td>
+                <td><%= exchange_rate.rubi_coin %> rubi equivale a <%= number_to_currency exchange_rate.brl_coin %> reais</td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% end %>

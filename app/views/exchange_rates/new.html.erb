@@ -1,23 +1,39 @@
-<h1>Registrar taxa de câmbio Rubi/Real</h1>
+<% if @exchange_rate.errors.any? %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @exchange_rate.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h1 class="mt-4 page-title">Registrar taxa de câmbio</h1>
 
 <p>Variações superiores a 10% em relação ao último valor de 1 rubi em real deverão ser aprovadas por um segundo administrador</p>
 
-<%= form_with model: @exchange_rate do |f| %>
-  <div>
-    <%= f.label :register_date %>
-    <%= f.date_field :register_date %>
-    <% @exchange_rate.errors.full_messages_for(:register_date).each do |message| %>
-      <p class="mt-1"><%= message %></p>
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>Formulário
+	</div>
+	<div class="card-body">
+    <%= form_with(model: @exchange_rate) do |f| %>
+      <div class="mb-3 row">
+        <div class="col">
+          <%= f.label :register_date, class:"form-label" %>
+          <%= f.date_field :register_date, class:"form-control" %>
+        </div>
+        <div class="col">
+          <%= f.label :brl_coin, class:"form-label" %>
+          <%= f.number_field :brl_coin, class:"form-control" %>
+        </div>
+      </div>
+      <div class="form-group button-form-group">
+        <%= f.submit 'Cadastrar', disable_with: 'cadastrando...', class:"btn btn-primary" %>
+      </div>
     <% end %>
   </div>
-  
-  <div>
-    <%= f.label :brl_coin, 'Valor em reais' %>
-    <%= f.number_field :brl_coin, step: 0.1, min: 0 %>
-    <% @exchange_rate.errors.full_messages_for(:brl_coin).each do |message| %>
-      <p class="mt-1"><%= message %></p>
-    <% end %>
-  </div>
+</div>
 
-  <%= f.submit 'Registrar taxa', class: 'mt-2' %>
-<% end %>
+<div class="form-group button-form-group">
+  <%= link_to 'Voltar', exchange_rates_path, class:"btn btn-secondary" %>
+</div>

@@ -15,11 +15,11 @@ describe 'Admin sees details from a' do
     click_on 'Taxa de câmbio'
     click_on I18n.l(1.day.from_now.to_date)
 
-    expect(page).to have_content "Taxa de Câmbio #{I18n.l(1.day.from_now.to_date)}"
+    expect(page).to have_content I18n.l(1.day.from_now.to_date)
     expect(page).to have_content 'Status: Aprovada'
-    expect(page).to have_content "Registrada por #{admin.full_name}"
-    expect(page).to have_content "Aprovada por #{admin2.full_name}"
-    expect(page).to have_content 'Valor: R$ 6,00 reais'
+    expect(page).to have_content "Registrada por: #{admin.full_name}"
+    expect(page).to have_content "Aprovada por: #{admin2.full_name}"
+    expect(page).to have_content 'Valor: R$ 6,00'
     expect(page).to have_content 'Variação em relação a última taxa aprovada: 20.0%'
     expect(ExchangeRate.last.status).to eq 'approved'
   end
@@ -32,9 +32,9 @@ describe 'Admin sees details from a' do
     login_as admin
     visit exchange_rate_path(er)
 
-    expect(page).to have_content "Taxa de Câmbio #{I18n.l(1.day.from_now.to_date)}"
+    expect(page).to have_content I18n.l(1.day.from_now.to_date)
     expect(page).to have_content 'Status: Pendente'
-    expect(page).to have_content "Registrada por #{admin.full_name}"
+    expect(page).to have_content "Registrada por: #{admin.full_name}"
   end
 
   it 'and needs to be logged in' do

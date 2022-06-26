@@ -43,7 +43,7 @@ class ExchangeRatesController < ApplicationController
   def recused
     @exchange_rate.recused_by = current_admin
     @exchange_rate.recused!
-    redirect_to @exchange_rate, alert: 'Taxa recusada com sucesso'
+    redirect_to @exchange_rate, notice: 'Taxa recusada com sucesso'
   end
 
   private
@@ -54,7 +54,7 @@ class ExchangeRatesController < ApplicationController
 
   def verify_status
     if @exchange_rate.pending?
-      redirect_to exchange_rates_path, alert: 'Taxa de câmbio em análise'
+      redirect_to exchange_rates_path, notice: 'Taxa de câmbio em análise'
     else
       redirect_to exchange_rates_path, notice: 'Taxa de câmbio registrada com sucesso'
     end

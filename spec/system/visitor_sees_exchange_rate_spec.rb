@@ -12,7 +12,7 @@ describe 'Visitor sees exchange rate list' do
     visit root_path
     click_on 'Taxa de câmbio'
 
-    expect(page).to have_content 'Taxa de Câmbio RUBI/REAL'
+    expect(page).to have_content 'Taxa de câmbio'
     expect(page).to have_content I18n.l(1.day.from_now.to_date)
     expect(page).to have_content I18n.l(2.days.from_now.to_date)
     expect(page).to have_content '1 rubi equivale a R$ 5,00 reais'
@@ -25,7 +25,7 @@ describe 'Visitor sees exchange rate list' do
     visit root_path
     click_on 'Taxa de câmbio'
 
-    expect(page).to have_content 'Nenhuma taxa de câmbio cadastrada'
+    expect(page).to have_content 'Não há taxa de câmbio cadastrada'
     expect(page).not_to have_content 'Registrar taxa de câmbio'
   end
 end

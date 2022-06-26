@@ -9,13 +9,13 @@ describe 'Admin register new exchange rate' do
     login_as admin
     visit root_path
     click_on 'Taxa de câmbio'
-    click_on 'Registrar taxa de câmbio'
+    click_on 'Cadastrar Taxa'
     fill_in 'Data de registro', with: I18n.l(3.days.from_now.to_date)
-    fill_in 'Valor em reais', with: 5.10
-    click_on 'Registrar taxa'
+    fill_in 'Real', with: 5.10
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Taxa de câmbio registrada com sucesso'
-    expect(page).to have_content 'Taxa de Câmbio RUBI/REAL'
+    expect(page).to have_content 'Taxa de câmbio'
     expect(page).to have_content I18n.l(3.days.from_now.to_date)
     expect(page).to have_content '1 rubi equivale a R$ 5,10 reais'
     expect(page).to have_current_path exchange_rates_path
@@ -29,10 +29,10 @@ describe 'Admin register new exchange rate' do
     login_as admin
     visit root_path
     click_on 'Taxa de câmbio'
-    click_on 'Registrar taxa de câmbio'
+    click_on 'Cadastrar Taxa'
     fill_in 'Data de registro', with: '25/08/2022'
-    fill_in 'Valor em reais', with: 5.2
-    click_on 'Registrar taxa'
+    fill_in 'Real', with: 5.2
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Taxa de câmbio registrada com sucesso'
     expect(ExchangeRate.last.status).to eq 'approved'
@@ -45,11 +45,11 @@ describe 'Admin register new exchange rate' do
     login_as admin
     visit root_path
     click_on 'Taxa de câmbio'
-    click_on 'Registrar taxa de câmbio'
+    click_on 'Cadastrar Taxa'
 
     fill_in 'Data de registro', with: '25/08/2022'
-    fill_in 'Valor em reais', with: 6
-    click_on 'Registrar taxa'
+    fill_in 'Real', with: 6
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Taxa de câmbio em análise'
     expect(page).to have_current_path exchange_rates_path, ignore_query: true
@@ -61,7 +61,7 @@ describe 'Admin register new exchange rate' do
     login_as admin
     visit new_exchange_rate_path
     fill_in 'Data de registro', with: ''
-    click_on 'Registrar taxa'
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Erro ao registrar taxa de câmbio'
     expect(page).to have_content 'Data de registro não pode ficar em branco'
