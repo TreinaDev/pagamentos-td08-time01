@@ -23,7 +23,7 @@ describe 'Admin see all pending accounts' do
     visit root_path
     click_on 'Admins'
 
-    expect(page).to have_content 'Administradores pendentes'
+    expect(page).to have_content 'Admins Pendentes'
     expect(page).to have_content 'O Sistema não possui administradores pendentes'
   end
 
@@ -46,7 +46,7 @@ describe 'Admin see all pending accounts' do
     expect(page).to have_content 'Lucio Santos'
     expect(page).to have_content 'lucio22@userubis.com.br'
     expect(page).to have_content '060.018.183-98'
-    expect(page).to have_content 'Permissões 0/2'
+    expect(page).to have_content '0/2'
     expect(page).to have_button 'Aceitar Usuário'
   end
 
