@@ -33,7 +33,7 @@
         <% end %>
         <!-- body -->
         <main>
-          <% if request.url.include?("/admins/sign_in") %>
+          <% if request.url.include?("/admins/sign_in") or request.url.include?("/admins/sign_up") %>
             <div class="container-fluid px-4 bg_login">
           <% else %>
             <div class="container-fluid px-4">

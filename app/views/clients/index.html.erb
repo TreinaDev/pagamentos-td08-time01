@@ -1,31 +1,39 @@
-<h1>Clientes</h1>
+<h1 class="mt-4">Clientes</h1>
 
-<div>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th scope="col">Nome</th>
-				<th scope="col">CPF/CNPJ</th>
-				<th scope="col">Saldo</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% if @clients.empty? %>
-				<p>Não há cliente cadastrado</p>
-			<% else %>
-				<% @clients.each do |client| %>
-					<tr>
-            <% if client.client_person? %>
-              <td><%= client.client_person.full_name %></td>
-              <td><%= client.client_person.cpf %></td>
-            <% elsif client.client_company? %>
-              <td><%= client.client_company.company_name %></td>
-              <td><%= client.client_company.cnpj %></td>
-            <% end %>
-            <td><%= client.balance %></td>
-					</tr>
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>
+		Lista
+	</div>
+	<div class="card-body">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Nome</th>
+					<th scope="col">CPF/CNPJ</th>
+					<th scope="col">Saldo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if @clients.empty? %>
+					<p>Não há cliente cadastrado</p>
+				<% else %>
+					<% @clients.each do |client| %>
+						<tr>
+							<% if client.client_person? %>
+								<td><%= client.client_person.full_name %></td>
+								<td><%= client.client_person.cpf %></td>
+							<% elsif client.client_company? %>
+								<td><%= client.client_company.company_name %></td>
+								<td><%= client.client_company.cnpj %></td>
+							<% end %>
+							<td>
+								<%= image_tag 'ruby.png', style: 'height:19px;width:19px;' %><%= number_to_currency(client.balance, precision: 2).gsub('R$', '') %>
+							</td>
+						</tr>
+					<% end %>
 				<% end %>
-			<% end %>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>

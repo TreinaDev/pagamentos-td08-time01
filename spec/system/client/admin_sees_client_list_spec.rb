@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Admin lists client informations' do
@@ -10,7 +12,7 @@ describe 'Admin lists client informations' do
     click_on 'Clientes'
 
     expect(page).to have_content 'Jubeba das Dores'
-    expect(page).to have_content '0.0'
+    expect(page).to have_content '0,00'
   end
 
   it 'must be authenticated' do
@@ -19,7 +21,7 @@ describe 'Admin lists client informations' do
     visit clients_path
 
     expect(page).not_to have_content 'Jubeba das Dores'
-    expect(page).not_to have_content '0.0'
+    expect(page).not_to have_content '0,00'
     expect(page).to have_content 'Login'
   end
 end
