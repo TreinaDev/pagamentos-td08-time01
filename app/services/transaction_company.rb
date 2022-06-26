@@ -18,7 +18,8 @@ class TransactionCompany
   end
 
   def self.can_buy_rubis?(client_transaction, client_company, value)
+    return true if TransactionSetting.last.nil?
     client_transaction.buy_rubys? && (SummingTransaction.sum(client_company,
-                                                             value)) < TransactionSetting.last.max_credit
+                                                             value)) <= TransactionSetting.last.max_credit
   end
 end

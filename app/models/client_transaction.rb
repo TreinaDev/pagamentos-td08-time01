@@ -9,7 +9,7 @@ class ClientTransaction < ApplicationRecord
 
   before_create :set_code
 
-  enum status: { pending: 0, active: 5, refused: 10 }
+  enum status: { pending: 0, approved: 5, refused: 10 }
   enum type_transaction: { buy_rubys: 0, transaction_order: 5, cashback: 10 }
 
   private

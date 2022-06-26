@@ -45,6 +45,9 @@ ClientTransaction.create!(credit_value: 5_000, type_transaction: :buy_rubys, tra
 puts '------------ creating ExchangeRate ---------------'
 ExchangeRate.create!(brl_coin: 5, created_by: active, register_date: Time.zone.today, status: 'approved')
 
+puts '------------ creating TransactionSetting ---------'
+TransactionSetting.create!(max_credit: 50_000)
+
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
 puts '--------------------------------------------------'

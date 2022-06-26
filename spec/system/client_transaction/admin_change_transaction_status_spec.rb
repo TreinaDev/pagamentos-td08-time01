@@ -11,8 +11,21 @@ describe 'Admin change transaction status' do
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
                          end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
-      create(:client_transaction, status: :pending,
+      client_transaction = create(:client_transaction, status: :pending,
                                   client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
+
+      transaction_data = {
+        transaction: {
+          code: client_transaction.code,
+          status: 'approved',
+          error_type: ''
+        }
+      }
+
+      allow(Faraday).to receive(:patch).with(
+        'http://localhost:3000/api/v1/payment_results',
+        transaction_data.as_json
+      )
 
       login_as create(:admin, status: :active)
       visit root_path
@@ -22,7 +35,7 @@ describe 'Admin change transaction status' do
       click_on 'Salvar'
 
       expect(page).to have_content 'A transação foi realizada com sucesso.'
-      expect(ClientTransaction.last).to be_active
+      expect(ClientTransaction.last).to be_approved
       expect(client.reload.balance).to eq 51_000
       expect(client.client_bonus_balances.last.bonus_value).to eq 5_100
       expect(client.client_bonus_balances.last.expire_date).to eq Time.zone.today + Promotion.last.limit_day.days
@@ -55,7 +68,7 @@ describe 'Admin change transaction status' do
   context 'when status is not pending' do
     it 'redirect when status is active' do
       client = create(:client_person).client
-      create(:client_transaction, status: :active, client: client)
+      create(:client_transaction, status: :approved, client: client)
 
       login_as create(:admin, status: :active)
       visit edit_client_transaction_path(ClientTransaction.last.id)

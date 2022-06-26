@@ -3,7 +3,7 @@
 module ApplicationHelper
   CLIENT_TRANSACTION_STATUS = [
     ['Pendente', :pending],
-    ['Aprovar', :active],
+    ['Aprovar', :approved],
     ['Recusar', :refused]
   ].freeze
 

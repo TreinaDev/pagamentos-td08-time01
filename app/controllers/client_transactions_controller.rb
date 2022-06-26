@@ -20,7 +20,7 @@ class ClientTransactionsController < ApplicationController
       description = params[:client_transaction][:transaction_notification][:description]
 
       TransactionNotification.create!(description: description, client_transaction: @client_transaction)
-
+      
       return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
     end
 
@@ -37,14 +37,16 @@ class ClientTransactionsController < ApplicationController
   end
 
   def set_client_type
-    if @client_transaction.active?
+    if @client_transaction.approved?
       if @client_transaction.client.client_person?
         client_type = @client_transaction.client.client_person
       elsif @client_transaction.client.client_company?
         client_type = @client_transaction.client.client_company
       end
       Check.transaction(@client_transaction.credit_value, client_type, @client_transaction)
-    else
+      TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status)
+    elsif @client_transaction.refused?
+      
       # fazer um post atualizando o ecommerce
     end
   end
