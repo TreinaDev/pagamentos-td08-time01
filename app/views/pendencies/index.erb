@@ -23,10 +23,10 @@
           <% @pending_admins.each do |pending_admin| %>
             <tr>
               <td><%= pending_admin.full_name %></td>
-              <td><%= pending_admin.cpf %></td>
               <td><%= pending_admin.email %></td>
+              <td><%= pending_admin.cpf %></td>
               <td><%= pending_admin.admin_permissions.count %>/2</td>
-              <td><%= button_to 'Aceitar Usuário',
+              <td><%= button_to 'Aceitar',
                 admin_permissions_path(pending_admin: pending_admin.id), class:"btn btn-primary" %></td>
             </tr>
 					<% end %>

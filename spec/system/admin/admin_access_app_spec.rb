@@ -12,7 +12,7 @@ describe 'admin access the application' do
     fill_in 'E-mail', with: 'sergio@userubis.com.br'
     fill_in 'Senha', with: '123456'
     fill_in 'Confirme sua senha', with: '123456'
-    click_on 'Criar Administrador'
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Apenas administradores ativos tem a permissão de acessar a aplicação de pagamentos'
     expect(page).to have_field 'E-mail'
@@ -38,7 +38,7 @@ describe 'admin access the application' do
     click_on 'Login'
     click_on 'Registrar nova conta'
     fill_in 'Nome Completo', with: ''
-    click_on 'Criar Administrador'
+    click_on 'Cadastrar'
 
     expect(page).to have_content 'Nome Completo não pode ficar em branco'
     expect(page).to have_content 'CPF não pode ficar em branco'
@@ -53,7 +53,8 @@ describe 'admin access the application' do
     visit root_path
     click_on 'Sair'
 
-    expect(page).to have_content 'Entrar como administrador'
-    expect(page).to have_content 'E-mail'
+    expect(page).to have_content 'Login'
+    expect(page).to have_field 'E-mail'
+    expect(page).to have_field 'Senha'
   end
 end

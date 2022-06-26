@@ -29,3 +29,11 @@
 .text-center {
   text-align: center;
 }
+
+/* login */
+.bg_login {
+  background: url('bg_login.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
