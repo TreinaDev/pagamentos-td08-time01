@@ -42,3 +42,6 @@ Metrics/AbcSize:
 
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
+
+RSpec/VerifiedDoubleReference:
+  EnforcedStyle: string
