@@ -20,7 +20,7 @@ class ClientTransactionsController < ApplicationController
       description = params[:client_transaction][:transaction_notification][:description]
 
       TransactionNotification.create!(description: description, client_transaction: @client_transaction)
-      
+      TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status, 'fraud_warning')
       return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
     end
 
@@ -45,8 +45,7 @@ class ClientTransactionsController < ApplicationController
       end
       Check.transaction(@client_transaction.credit_value, client_type, @client_transaction)
       TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status)
-    elsif @client_transaction.refused?
-      
+    else
       # fazer um post atualizando o ecommerce
     end
   end
