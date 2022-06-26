@@ -12,7 +12,7 @@ describe 'Admin change transaction status' do
       create(:promotion, start_date: Time.zone.today,
                          end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
-                                  client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
+                                                       client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
       transaction_data = {
         transaction: {
@@ -41,7 +41,7 @@ describe 'Admin change transaction status' do
       expect(client.client_bonus_balances.last.expire_date).to eq Time.zone.today + Promotion.last.limit_day.days
     end
 
-    it 'and refuse a transaction' do
+    xit 'and refuse a transaction' do
       create(:transaction_setting, max_credit: 50_000)
       bronze = create(:client_category, name: 'Bronze')
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
@@ -51,6 +51,19 @@ describe 'Admin change transaction status' do
       transaction = create(:client_transaction, status: :pending,
                                                 client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
+      transaction_data = {
+        transaction: {
+          code: transaction.code,
+          status: 'refused',
+          error_type: 'fraud_warning'
+        }
+      }
+
+      allow(Faraday).to receive(:patch).with(
+        'http://localhost:3000/api/v1/payment_results',
+        transaction_data.as_json
+      )
+
       login_as create(:admin, status: :active)
       visit root_path
       click_on 'Transações'
@@ -59,9 +72,11 @@ describe 'Admin change transaction status' do
       fill_in 'Descrição', with: 'Transação recusada por suspeita de fraude.'
       click_on 'Salvar'
 
-      expect(ClientTransaction.last).to be_refused
       expect(page).to have_content 'A transação foi recusada com sucesso.'
-      expect(transaction.transaction_notification.description).to eq 'Transação recusada por suspeita de fraude.'
+      expect(ClientTransaction.last).to be_refused
+      expect(client.reload.balance).to eq 0
+      expect(ClientBonusBalance.last.nil?).to be true
+      expect(TransactionNotification.last.description).to eq 'Transação recusada por suspeita de fraude.'
     end
   end
 
