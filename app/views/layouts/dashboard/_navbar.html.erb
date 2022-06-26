@@ -1,63 +1,63 @@
 <div id="layoutSidenav_nav">
-    <% if admin_signed_in? %>
+  <% if admin_signed_in? %>
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu">
-            <div class="nav">
-                <%= link_to root_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                    Página Inicial
-                <% end %>
-                <%= link_to client_categories_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa fa-book"></i></div>
-                    Categoria de clientes
-                <% end %>
-                <%= link_to new_transaction_setting_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
-                    Configurações
-                <% end %>
-                <%= link_to exchange_rates_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
-                    Taxa de câmbio
-                <% end %>
-                <%= link_to promotions_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
-                    Promoções
-                <% end %>
-                <%= link_to client_transactions_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
-                    Transações
-                <% end %>
-                <%= link_to pendencies_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                    Admins
-                <% end %>
-                <%= link_to clients_path, class:"nav-link" do %>
-                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                    Clientes
-                <% end %>
-            </div>
+      <div class="sb-sidenav-menu">
+        <div class="nav">
+          <%= link_to root_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+            Página Inicial
+          <% end %>
+          <%= link_to client_categories_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa fa-book"></i></div>
+            Categoria de clientes
+          <% end %>
+          <%= link_to new_transaction_setting_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+            Configurações
+          <% end %>
+          <%= link_to exchange_rates_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
+            Taxa de câmbio
+          <% end %>
+          <%= link_to promotions_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
+            Promoções
+          <% end %>
+          <%= link_to client_transactions_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+            Transações
+          <% end %>
+          <%= link_to pendencies_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+            Admins
+          <% end %>
+          <%= link_to clients_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+            Clientes
+          <% end %>
         </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">
-               <%= current_admin.email %> <br/>
-               <%= current_admin.full_name %> <br/>
-            </div>
+      </div>
+      <div class="sb-sidenav-footer">
+        <div class="small">
+          <%= current_admin.email %> <br/>
+          <%= current_admin.full_name %> <br/>
         </div>
+      </div>
     </nav>
-    <% else %>
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <%= link_to new_admin_session_path, class:"nav-link" do %>
-                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                        Login
-                    <% end %>
-                    <%= link_to exchange_rates_path, class:"nav-link" do %>
-                        <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
-                        Taxa de câmbio
-                    <% end %>
-                </div>
-            </div>
-        </nav>
-    <% end %>
+  <% else %>
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+      <div class="sb-sidenav-menu">
+        <div class="nav">
+          <%= link_to new_admin_session_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+            Login
+          <% end %>
+          <%= link_to exchange_rates_path, class:"nav-link" do %>
+            <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
+            Taxa de câmbio
+          <% end %>
+        </div>
+      </div>
+    </nav>
+  <% end %>
 </div>
