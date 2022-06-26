@@ -8,6 +8,7 @@
 				<th scope="col">Valor</th>
 				<th scope="col">Data</th>
 				<th scope="col">Status</th>
+				<th scope="col">Código</th>
 				<th scope="col">Ações</th>
 			</tr>
 		</thead>
@@ -21,7 +22,8 @@
 						<td><%= client_transaction.credit_value %></td>
 						<td><%= client_transaction.transaction_date.strftime('%d/%m/%Y - %H:%M') %></td>
 						<td><%= ClientTransaction.human_enum_name(:status, client_transaction.status) %></td>
-						<td><%= link_to 'Aprovar/Recusar', edit_client_transaction_path(client_transaction) %></td>
+						<td><%= client_transaction.code %></td>
+						<td><%= link_to 'Aprovar/Recusar', edit_client_transaction_path(client_transaction) %></td>	
 					</tr>
 				<% end %>
 			<% end %>

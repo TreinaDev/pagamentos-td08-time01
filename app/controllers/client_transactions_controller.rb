@@ -19,12 +19,26 @@ class ClientTransactionsController < ApplicationController
     if @client_transaction.refused?
       description = params[:client_transaction][:transaction_notification][:description]
 
-      TransactionNotification.create!(description: description, client_transaction: @client_transaction)
-      TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status, 'fraud_warning')
-      return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
+      transaction_notification = TransactionNotification.create!(description: description, client_transaction: @client_transaction)
+      response = TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status, transaction_notification.description)
+      if response.status == 422
+        @client_transaction.pending!
+        return redirect_to client_transactions_path, alert: 'Tipo de erro em branco'
+      elsif response.status == 200
+        return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
+      end  
     end
 
     set_client_type
+    response = TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status)
+
+    if response.status == 404
+      @client_transaction.pending!
+      return redirect_to client_transactions_path, alert: 'Transação desconhecida pelo ecommerce.'
+    elsif response.status == 500
+      @client_transaction.pending!
+      return redirect_to client_transactions_path, alert: 'Alguma coisa deu errado, por favor contate o suporte do ecommerce'
+    end
 
     redirect_to client_transactions_path,
                 notice: 'A transação foi realizada com sucesso.'
@@ -44,9 +58,6 @@ class ClientTransactionsController < ApplicationController
         client_type = @client_transaction.client.client_company
       end
       Check.transaction(@client_transaction.credit_value, client_type, @client_transaction)
-      TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status)
-    else
-      # fazer um post atualizando o ecommerce
     end
   end
 end
