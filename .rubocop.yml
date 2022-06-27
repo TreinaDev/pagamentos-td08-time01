@@ -39,3 +39,9 @@ Rails/Output:
 
 Metrics/AbcSize:
   Max: 25
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+RSpec/VerifiedDoubleReference:
+  EnforcedStyle: string

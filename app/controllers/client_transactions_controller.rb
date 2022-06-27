@@ -14,15 +14,33 @@ class ClientTransactionsController < ApplicationController
   end
 
   def update
-    @client_transaction.update!(status: params[:client_transaction][:status])
+    transaction_data = ClientTransactionService.new(@client_transaction, set_description, set_transaction_status)
 
-    redirect_to client_transactions_path,
-                notice: 'A transação foi alterada com sucesso.'
+    transaction_data.perform
+
+    case transaction_data.status
+    when 200
+      @client_transaction.update!(status: set_transaction_status)
+
+      redirect_to client_transactions_path, notice: transaction_data.message
+    when 404, 422, 500
+      @client_transaction.pending!
+
+      redirect_to client_transactions_path, alert: transaction_data.message
+    end
   end
 
   private
 
   def set_client_transaction
     @client_transaction = ClientTransaction.find(params[:id])
+  end
+
+  def set_description
+    params[:client_transaction][:transaction_notification]&.values&.last
+  end
+
+  def set_transaction_status
+    params[:client_transaction][:status]
   end
 end

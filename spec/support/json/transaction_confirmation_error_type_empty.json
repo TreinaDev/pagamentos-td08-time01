@@ -1,0 +1,3 @@
+{ 
+  "message": "O tipo de erro não pode ficar em branco quando a transação foi recusada (status: 'refused')."
+}

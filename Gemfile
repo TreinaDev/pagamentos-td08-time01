@@ -9,6 +9,8 @@ gem 'devise'
 
 gem 'cpf_cnpj'
 
+gem 'faraday'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.3'
 
@@ -63,5 +65,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'timecop'
   gem 'webdrivers'
 end

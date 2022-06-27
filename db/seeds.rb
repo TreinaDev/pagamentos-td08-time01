@@ -42,6 +42,9 @@ ClientTransaction.create!(credit_value: 10_000, type_transaction: :buy_rubys, tr
 ClientTransaction.create!(credit_value: 5_000, type_transaction: :buy_rubys, transaction_date: DateTime.now,
                           status: :pending, approval_date: nil, client_id: client_one.id)
 
+puts '------------ creating TransactionSetting ---------'
+TransactionSetting.create!(max_credit: 50_000)
+
 puts '--------------------------------------------------'
 puts 'Finished "seeds"'
 puts '--------------------------------------------------'

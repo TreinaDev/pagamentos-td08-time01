@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_25_005110) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -81,7 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
     t.datetime "approval_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code"
     t.index ["client_id"], name: "index_client_transactions_on_client_id"
+    t.index ["code"], name: "index_client_transactions_on_code", unique: true
   end
 
   create_table "clients", force: :cascade do |t|
@@ -123,6 +125,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
     t.index ["start_date", "client_category_id"], name: "index_promotions_on_start_date_and_client_category_id", unique: true
   end
 
+  create_table "transaction_notifications", force: :cascade do |t|
+    t.text "description", null: false
+    t.integer "client_transaction_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_transaction_id"], name: "index_transaction_notifications_on_client_transaction_id"
+  end
+
   create_table "transaction_settings", force: :cascade do |t|
     t.decimal "max_credit", null: false
     t.datetime "created_at", null: false
@@ -139,4 +149,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_135947) do
   add_foreign_key "exchange_rates", "admins", column: "created_by_id"
   add_foreign_key "exchange_rates", "admins", column: "recused_by_id"
   add_foreign_key "promotions", "client_categories"
+  add_foreign_key "transaction_notifications", "client_transactions"
 end

@@ -117,6 +117,10 @@ GEM
       railties (>= 5.0.0)
     faker (2.21.0)
       i18n (>= 1.8.11, < 2)
+    faraday (2.3.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.3)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
@@ -241,6 +245,7 @@ GEM
     rubocop-rspec (2.11.1)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
@@ -265,6 +270,7 @@ GEM
     sqlite3 (1.4.4)
     strscan (3.0.3)
     thor (1.2.1)
+    timecop (0.9.5)
     timeout (0.3.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -297,6 +303,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  faraday
   importmap-rails
   jbuilder
   puma (~> 5.0)
@@ -310,6 +317,7 @@ DEPENDENCIES
   simplecov
   sprockets-rails
   sqlite3 (~> 1.4)
+  timecop
   tzinfo-data
   webdrivers
 

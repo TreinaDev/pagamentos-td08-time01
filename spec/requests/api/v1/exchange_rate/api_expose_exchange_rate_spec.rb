@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'API pagaments' do
-  context 'when GET /api/v1/exchage_rate' do
+  context 'when GET /api/v1/exchange_rates/search' do
     it 'with success' do
       admin = create(:admin)
       create(:exchange_rate, register_date: Time.zone.today,
