@@ -1,37 +1,42 @@
-<h1><%= Promotion.model_name.human(:count => 2) %></h1>
+<h1 class="mt-4 page-title">Promoções</h1>
 
-
-<div class="breadcrumb">
+<div class="breadcrumb breadcrumb-menu card">
     <li class="breadcrumb-item"><%= link_to 'Cadastrar promoção', new_promotion_path, class:"btn btn-primary" %></li>
 </div>
 
-<div>
-  <% if @promotions.any? %>
-  <table class="table">
-      <thead>
-        <tr>
-          <th scope="col"><%= Promotion.human_attribute_name(:name) %></th>
-          <th scope="col"><%= Promotion.human_attribute_name(:start_date) %></th>
-          <th scope="col"><%= Promotion.human_attribute_name(:end_date) %></th>
-          <th scope="col"><%= Promotion.human_attribute_name(:bonus) %></th>
-          <th scope="col"><%= Promotion.human_attribute_name(:limit_day) %></th>
-          <th scope="col"><%= Promotion.human_attribute_name(:client_category_id) %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @promotions.each do |promo| %>
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>
+		Lista
+	</div>
+	<div class="card-body">
+  	<% if @promotions.empty? %>
+			<p>Nenhuma promoção cadastrada</p>
+		<% else %>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td><%= promo.name %></td>
-            <td><%= I18n.l(promo.start_date) %></td>
-            <td><%= I18n.l(promo.end_date) %></td>
-            <td><%= promo.bonus %>%</td>
-            <td><%= promo.limit_day %> dias</td>
-            <td><%= promo.client_category.name %></td>
-          </td>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>Nenhuma promoção cadastrada</p>
-  <% end %>
+            <th scope="col">Nome</th>
+            <th scope="col">Bônus(%)</th>
+            <th scope="col">Data de início</th>
+            <th scope="col">Data de encerramento</th>
+            <th scope="col">Prazo para uso</th>
+            <th scope="col">Categoria de cliente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @promotions.each do |promotion| %>
+            <tr>
+              <td><%= promotion.name %></td>
+              <td><%= promotion.bonus %></td>
+              <td><%= I18n.l(promotion.start_date) %></td>
+              <td><%= I18n.l(promotion.end_date) %></td>
+              <td><%= promotion.limit_day %></td>
+              <td><%= promotion.client_category.name %></td>
+            </tr>
+					<% end %>
+			  </tbody>
+      <% end %>
+		</table>
+	</div>
 </div>

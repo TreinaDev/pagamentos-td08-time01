@@ -1,25 +1,37 @@
-<h2><%= Admin.model_name.human(count:2)%> pendentes</h2>
+<h1 class="mt-4 page-title">Admins Pendentes</h1>
 
-<% if @pending_admins.any?%>
-    <% @pending_admins.each do |pending_admin| %>  
-      <div>
-        <dl class="row">
-          <dt class="col-sm-3"><%= Admin.human_attribute_name(:full_name) %></dt>
-          <dd class="col-sm-9"><%= pending_admin.full_name %></dd>
-
-          <dt class="col-sm-3"><%= Admin.human_attribute_name(:email) %></dt>
-          <dd class="col-sm-9"><%= pending_admin.email %></dd>
-
-          <dt class="col-sm-3"><%= Admin.human_attribute_name(:cpf) %></dt>
-          <dd class="col-sm-9"><%= pending_admin.cpf %></dd>
-
-          <dt class="col-sm-3">Permissões <%= pending_admin.admin_permissions.count %>/2</dt>
-
-          <%= button_to 'Aceitar Usuário',
-            admin_permissions_path(pending_admin: pending_admin.id) %>
-        </dl>
-      </div>
-    <% end %>
-<% else %>
-  <p>O Sistema não possui administradores pendentes</p>
-<% end %>
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>
+		Lista
+	</div>
+	<div class="card-body">
+  	<% if @pending_admins.empty? %>
+			<p>O Sistema não possui administradores pendentes</p>
+		<% else %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">Email</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Permissões</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @pending_admins.each do |pending_admin| %>
+            <tr>
+              <td><%= pending_admin.full_name %></td>
+              <td><%= pending_admin.email %></td>
+              <td><%= pending_admin.cpf %></td>
+              <td><%= pending_admin.admin_permissions.count %>/2</td>
+              <td><%= button_to 'Aceitar',
+                admin_permissions_path(pending_admin: pending_admin.id), class:"btn btn-primary" %></td>
+            </tr>
+					<% end %>
+			  </tbody>
+      <% end %>
+		</table>
+	</div>
+</div>

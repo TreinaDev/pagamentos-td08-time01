@@ -135,13 +135,21 @@ Resposta retorna mensagem em caso CNPJ ou CPF não encontrem um cliente
 ## Cria Transações
 ![POST](https://img.shields.io/badge/-POST-blue "POST")`/api/v1/client_transactions`
 
+Existem três tipos de parametros que são aceitos no `type_transaction`, são eles:
+
+```
+"buy_rubys"
+"transaction_order"
+"cashback"
+```
+
 #### Parâmetros da Transação - Pessoa Física
 ```
 {
   "cpf": "06001818398",
   "client_transaction": {
     "credit_value": "10_000",
-    "type_transaction": "buy_rubys"
+    "type_transaction": "buy_rubys" 
   }
 }
 ```

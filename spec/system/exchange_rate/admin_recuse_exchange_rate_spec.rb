@@ -21,6 +21,6 @@ describe 'admin recuse exchange rate' do
     expect(page).to have_content 'Taxa recusada com sucesso'
     expect(page).to have_current_path exchange_rate_path(er)
     expect(ExchangeRate.last.status).to eq 'recused'
-    expect(page).to have_content "Recusada por #{admin.full_name}"
+    expect(page).to have_content "Recusada por: #{admin.full_name}"
   end
 end
