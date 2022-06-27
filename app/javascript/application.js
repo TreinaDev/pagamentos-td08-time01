@@ -3,8 +3,6 @@ import * as bootstrap from "bootstrap"
 
 import './scripts'
 
-// onload="codeAddress();
-
 document.addEventListener('DOMContentLoaded', function() {
   var divescription = document.getElementById("divescription");
   if(divescription) {
