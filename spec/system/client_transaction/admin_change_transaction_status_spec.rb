@@ -4,6 +4,11 @@ require 'rails_helper'
 
 describe 'Admin change transaction status' do
   context 'when admin approve a transaction' do
+    before do
+      Timecop.freeze(Time.zone.today)
+      Timecop.freeze(Time.zone.tomorrow)
+    end
+
     it 'when client is a client person' do
       json_data = File.read(Rails.root.join('spec/support/json/transaction_confirmation_success.json'))
       fake_response = instance_double('faraday_response', status: 200, body: json_data)
@@ -12,7 +17,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_person', client_category: bronze, balance: 0)
       create(:client_person, cpf: '93727923148', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
@@ -53,7 +58,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
@@ -94,7 +99,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_person', client_category: bronze, balance: 0)
       create(:client_person, cpf: '93727923148', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
@@ -135,7 +140,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_person', client_category: bronze, balance: 0)
       create(:client_person, cpf: '93727923148', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
@@ -176,7 +181,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       transaction = create(:client_transaction, status: :pending,
                                                 client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
@@ -216,7 +221,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
@@ -259,7 +264,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       transaction = create(:client_transaction, status: :pending,
                                                 client: client, type_transaction: 'buy_rubys', credit_value: 51_000)
 
@@ -298,7 +303,7 @@ describe 'Admin change transaction status' do
       client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
-                         end_date: Date.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
+                         end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'buy_rubys',
