@@ -5,7 +5,7 @@ class SetBonus
     promotions = client.client_category.promotions
 
     valid_promotions = promotions.select do |promotion|
-      transaction.transaction_date.between?(promotion.start_date.beginning_of_day, promotion.start_date.end_of_day)
+      transaction.transaction_date.between?(promotion.start_date.beginning_of_day, promotion.end_date.end_of_day)
     end
 
     valid_promotions.each do |promotion|
