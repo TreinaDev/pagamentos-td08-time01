@@ -21,7 +21,7 @@ class ClientTransactionService
 
   def send_transaction_status
     @status = TransactionConfirmation.send_response(@client_transaction.code,
-                                                    @transaction_status, @description).status
+                                                    @transaction_status).status
 
     case @status
     when 404

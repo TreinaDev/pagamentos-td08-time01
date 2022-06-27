@@ -63,8 +63,8 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem 'timecop'
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'timecop'
   gem 'webdrivers'
 end

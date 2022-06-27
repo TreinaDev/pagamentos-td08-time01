@@ -178,7 +178,7 @@ describe 'Admin change transaction status' do
       fake_response = instance_double('faraday_response', status: 200, body: json_data)
       create(:transaction_setting, max_credit: 50_000)
       bronze = create(:client_category, name: 'Bronze')
-      client = create(:client, client_type: 'client_company', client_category: bronze, balance: 0)
+      client = create(:client, client_type: 'client_company', client_category: bronze, balance: 51_000)
       create(:client_company, cnpj: '07638546899424', client: client)
       create(:promotion, start_date: Time.zone.today,
                          end_date: Time.zone.tomorrow, bonus: 10, limit_day: 30, client_category: bronze)
@@ -203,14 +203,14 @@ describe 'Admin change transaction status' do
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
       select 'Recusar', from: 'Status'
-      fill_in 'Descrição', with: 'fraud_warning'
+      fill_in 'Descrição', with: 'suspected fraud'
       click_on 'Salvar'
 
       expect(page).to have_content 'A transação foi recusada com sucesso.'
       expect(ClientTransaction.last).to be_refused
-      expect(client.reload.balance).to eq 0
+      expect(client.reload.balance).to eq 51_000
       expect(ClientBonusBalance.last.nil?).to be true
-      expect(TransactionNotification.last.description).to eq 'fraud_warning'
+      expect(TransactionNotification.last.description).to eq 'suspected fraud'
     end
 
     it 'when the admin try to refuse a inexistent transaction on ecommerce' do
@@ -246,7 +246,7 @@ describe 'Admin change transaction status' do
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
       select 'Recusar', from: 'Status'
-      fill_in 'Descrição', with: 'fraud_warning'
+      fill_in 'Descrição', with: 'suspected fraud'
       click_on 'Salvar'
 
       expect(page).to have_content 'Transação desconhecida pelo ecommerce'
@@ -272,7 +272,7 @@ describe 'Admin change transaction status' do
         transaction: {
           code: transaction.code,
           status: 'refused',
-          error_type: 'insufficient_funds'
+          error_type: 'fraud_warning'
         }
       }
 
@@ -286,7 +286,7 @@ describe 'Admin change transaction status' do
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
       select 'Recusar', from: 'Status'
-      fill_in 'Descrição', with: 'insufficient_funds'
+      fill_in 'Descrição', with: 'Possivel fraude'
       click_on 'Salvar'
 
       expect(page).to have_content 'Tipo de erro em branco'
@@ -327,7 +327,7 @@ describe 'Admin change transaction status' do
       click_on 'Transações'
       click_on 'Aprovar/Recusar'
       select 'Recusar', from: 'Status'
-      fill_in 'Descrição', with: 'fraud_warning'
+      fill_in 'Descrição', with: 'Possivel fraude'
       click_on 'Salvar'
 
       expect(page).to have_content 'Alguma coisa deu errado, por favor contate o suporte do ecommerce'
