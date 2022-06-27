@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :transaction_notification do
-    description {}
-    client_transaction { nil }
+    description { Faker::Lorem.paragraph }
+    client_transaction
   end
 end

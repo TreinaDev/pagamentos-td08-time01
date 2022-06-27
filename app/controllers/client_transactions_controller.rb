@@ -14,34 +14,20 @@ class ClientTransactionsController < ApplicationController
   end
 
   def update
-    @client_transaction.update!(status: params[:client_transaction][:status])
+    transaction_data = ClientTransactionService.new(@client_transaction, set_description, set_transaction_status)
 
-    if @client_transaction.refused?
-      description = params[:client_transaction][:transaction_notification][:description]
+    transaction_data.perform
 
-      transaction_notification = TransactionNotification.create!(description: description, client_transaction: @client_transaction)
-      response = TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status, transaction_notification.description)
-      if response.status == 422
-        @client_transaction.pending!
-        return redirect_to client_transactions_path, alert: 'Tipo de erro em branco'
-      elsif response.status == 200
-        return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
-      end  
-    end
+    case transaction_data.status
+    when 200
+      @client_transaction.update!(status: set_transaction_status)
 
-    set_client_type
-    response = TransactionConfirmation.send_response(@client_transaction.code, @client_transaction.status)
-
-    if response.status == 404
+      redirect_to client_transactions_path, notice: transaction_data.message
+    when 404, 422, 500
       @client_transaction.pending!
-      return redirect_to client_transactions_path, alert: 'Transação desconhecida pelo ecommerce.'
-    elsif response.status == 500
-      @client_transaction.pending!
-      return redirect_to client_transactions_path, alert: 'Alguma coisa deu errado, por favor contate o suporte do ecommerce'
-    end
 
-    redirect_to client_transactions_path,
-                notice: 'A transação foi realizada com sucesso.'
+      redirect_to client_transactions_path, alert: transaction_data.message
+    end
   end
 
   private
@@ -50,14 +36,11 @@ class ClientTransactionsController < ApplicationController
     @client_transaction = ClientTransaction.find(params[:id])
   end
 
-  def set_client_type
-    if @client_transaction.approved?
-      if @client_transaction.client.client_person?
-        client_type = @client_transaction.client.client_person
-      elsif @client_transaction.client.client_company?
-        client_type = @client_transaction.client.client_company
-      end
-      Check.transaction(@client_transaction.credit_value, client_type, @client_transaction)
-    end
+  def set_description
+    params[:client_transaction][:transaction_notification]&.values&.last
+  end
+
+  def set_transaction_status
+    params[:client_transaction][:status]
   end
 end
