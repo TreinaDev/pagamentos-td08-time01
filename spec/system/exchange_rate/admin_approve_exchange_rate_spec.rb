@@ -27,7 +27,7 @@ describe 'Admin approve exchange rate' do
   it 'and try to approve his own register of a exchange rate' do
     admin = create(:admin)
     create(:exchange_rate, created_by: admin, brl_coin: 5)
-    er = create(:exchange_rate, created_by: admin, brl_coin: 6, register_date: 1.week.from_now, status: 'pending')
+    er = create(:exchange_rate, created_by: admin, brl_coin: 6, register_date: 2.weeks.from_now, status: 'pending')
 
     login_as admin
     visit exchange_rate_path(er)

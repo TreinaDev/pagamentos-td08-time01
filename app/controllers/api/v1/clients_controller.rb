@@ -5,15 +5,14 @@ class Api::V1::ClientsController < Api::ApiController
     registration_number = params[:registration_number]
 
     if CPF.valid?(registration_number, strict: true)
-      client_type = ClientPerson.find_by!(cpf: CPF.new(registration_number).formatted)
+      @client_type = ClientPerson.find_by!(cpf: CPF.new(registration_number).formatted)
     elsif CNPJ.valid?(registration_number, strict: true)
-      client_type = ClientCompany.find_by!(cnpj: CNPJ.new(registration_number).formatted)
+      @client_type = ClientCompany.find_by!(cnpj: CNPJ.new(registration_number).formatted)
     else
       return render json: { message: 'O numero de indentificação é inválido' }, status: :unprocessable_entity
     end
 
-    render json: { client_balance: client_type.client.as_json(only: %i[balance]),
-                   client_info: client_type.as_json(except: %i[created_at updated_at client_id id]) }
+    render json: set_info_json
   end
 
   def create
@@ -31,6 +30,18 @@ class Api::V1::ClientsController < Api::ApiController
   end
 
   private
+
+  def set_info_json
+    bonus = @client_type.client.client_bonus_balances.where('expire_date >= ?', Time.zone.today)
+
+    {
+      client_balance: @client_type.client.as_json(only: %i[balance]),
+      client_bonus: bonus.as_json(only: %i[bonus_value expire_date]),
+      client_info: @client_type.as_json(except: %i[created_at updated_at client_id id cpf cnpj]),
+      client_transactions: @client_type.client.client_transactions.last(30)
+                                       .as_json(except: %i[client_id created_at updated_at id])
+    }
+  end
 
   def client_params
     params.require(:client).permit(

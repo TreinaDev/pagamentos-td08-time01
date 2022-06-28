@@ -2,7 +2,7 @@
 
 class TransactionPerson
   def self.perform(cpf, transaction_params)
-    cpf_formated = CpfFormatter.perform(cpf)
+    cpf_formated = CPF.new(cpf).formatted
     client_person = ClientPerson.find_by!(cpf: cpf_formated)
 
     client_transaction = ClientTransaction.new(transaction_params)
