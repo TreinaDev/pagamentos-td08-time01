@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class ClientTransactionsController < ApplicationController
+  before_action :authenticate_admin!
   before_action :set_client_transaction, only: %i[edit update]
 
   def index
-    @client_transactions = ClientTransaction.pending
+    @client_transactions = if params[:filter] == 'all'
+                             ClientTransaction.where.not(status: :pending)
+                           else
+                             ClientTransaction.pending
+                           end
   end
 
   def edit
