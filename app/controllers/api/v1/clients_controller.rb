@@ -3,13 +3,17 @@
 class Api::V1::ClientsController < Api::ApiController
   def info
     registration_number = params[:registration_number]
+
     if CPF.valid?(registration_number, strict: true)
-      render_client_person(CPF.new(registration_number).formatted)
+      client_type = ClientPerson.find_by!(cpf: CPF.new(registration_number).formatted)
     elsif CNPJ.valid?(registration_number, strict: true)
-      render_client_company(CNPJ.new(registration_number).formatted)
+      client_type = ClientCompany.find_by!(cnpj: CNPJ.new(registration_number).formatted)
     else
-      render json: { errors: 'Cliente não encontrado' }, status: :not_found
+      return render json: { message: 'O numero de indentificação é inválido' }, status: :unprocessable_entity
     end
+
+    render json: { client_balance: client_type.client.as_json(only: %i[balance]),
+                   client_info: client_type.as_json(except: %i[created_at updated_at client_id id]) }
   end
 
   def create
@@ -27,20 +31,6 @@ class Api::V1::ClientsController < Api::ApiController
   end
 
   private
-
-  def render_client_person(cpf)
-    client_person = ClientPerson.find_by(cpf: cpf)
-    client = client_person.client
-    render json: { client_balance: client.as_json(only: %i[balance]),
-                   client_info: client_person.as_json(only: %i[full_name cpf]) }
-  end
-
-  def render_client_company(cnpj)
-    client_company = ClientCompany.find_by(cnpj: cnpj)
-    client = client_company.client
-    render json: { client_balance: client.as_json(only: %i[balance]),
-                   client_info: client_company.as_json(only: %i[company_name cnpj]) }
-  end
 
   def client_params
     params.require(:client).permit(
