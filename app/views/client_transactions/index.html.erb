@@ -1,32 +1,67 @@
-<h1>Lista de transações</h1>
+<h1 class="mt-4">Lista de transações</h1>
 
-<div>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th scope="col">Tipo de transação</th>
-				<th scope="col">Valor</th>
-				<th scope="col">Data</th>
-				<th scope="col">Status</th>
-				<th scope="col">Código</th>
-				<th scope="col">Ações</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% if @client_transactions.empty? %>
-				<p>Não há transações pendentes</p>
-			<% else %>
-				<% @client_transactions.each do |client_transaction| %>
-					<tr>
-						<td><%= ClientTransaction.human_enum_name(:type_transaction, client_transaction.type_transaction) %></td>
-						<td><%= client_transaction.credit_value %></td>
-						<td><%= client_transaction.transaction_date.strftime('%d/%m/%Y - %H:%M') %></td>
-						<td><%= ClientTransaction.human_enum_name(:status, client_transaction.status) %></td>
-						<td><%= client_transaction.code %></td>
-						<td><%= link_to 'Aprovar/Recusar', edit_client_transaction_path(client_transaction) %></td>	
-					</tr>
+<div class="breadcrumb breadcrumb-menu card">
+	<li class="breadcrumb-item">
+		<%= link_to "Transações pendentes", client_transactions_path, class:"btn btn-primary" %>
+		<%= link_to "Transações concluídas", client_transactions_path(filter:"all"), class:"btn btn-primary" %>
+	</li>
+</div>
+
+<div class="card mb-4">
+	<div class="card-header">
+		<i class="fas fa-table me-1"></i>
+		Lista
+	</div>
+	<div class="card-body">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Nome</th>
+					<th scope="col">Tipo de transação</th>
+					<th scope="col" class="text-center">Rubi <i class="fa fa-exchange"></i> Real</th>
+					<th scope="col">Data</th>
+					<th scope="col">Status</th>
+					<th scope="col">Código</th>
+					<% if params[:filter] != 'all' %>
+						<th scope="col">Ações</th>
+					<% end %>
+				</tr>
+			</thead>
+			<tbody>
+				<% if @client_transactions.empty? %>
+					<p>Não há transações pendentes</p>
+				<% else %>
+					<% @client_transactions.each do |client_transaction| %>
+						<tr>
+							<td>
+								<% if client_transaction.client.client_person.nil? %>
+									<%= client_transaction.client.client_company.company_name %>
+								<% elsif client_transaction.client.client_company.nil? %>
+									<%= client_transaction.client.client_person.full_name %>
+								<% end %>
+							</td>
+							<td>
+								<%= ClientTransaction.human_enum_name(:type_transaction, client_transaction.type_transaction) %>
+							</td>
+							<td class="text-center">
+								<%= client_transaction.credit_value %>
+								<i class="fa fa-exchange"></i>
+								<% if search_approved_exchange_rate(client_transaction.transaction_date).nil? %>
+									Sem taxa
+								<% else %>
+									<%= client_transaction.credit_value * search_approved_exchange_rate(client_transaction.transaction_date).brl_coin %>
+								<% end %>
+							</td>
+							<td><%= client_transaction.transaction_date.strftime('%d/%m/%Y - %H:%M') %></td>
+							<td><%= ClientTransaction.human_enum_name(:status, client_transaction.status) %></td>
+							<td><%= client_transaction.code %></td>
+							<% if params[:filter] != 'all' %>
+								<td><%= link_to 'Aprovar/Recusar', edit_client_transaction_path(client_transaction) %></td>
+							<% end %>
+						</tr>
+					<% end %>
 				<% end %>
-			<% end %>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>

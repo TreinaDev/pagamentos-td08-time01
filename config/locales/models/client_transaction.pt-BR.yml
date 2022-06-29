@@ -13,3 +13,4 @@
           pending: 'Pendente'
           active: 'Ativo'
           refused: 'Recusado'
+          approved: 'Aprovado'
