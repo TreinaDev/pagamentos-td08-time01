@@ -5,15 +5,14 @@ class Api::V1::ClientsController < Api::ApiController
     registration_number = params[:registration_number]
 
     if CPF.valid?(registration_number, strict: true)
-      client_type = ClientPerson.find_by!(cpf: CPF.new(registration_number).formatted)
+      @client_type = ClientPerson.find_by!(cpf: CPF.new(registration_number).formatted)
     elsif CNPJ.valid?(registration_number, strict: true)
-      client_type = ClientCompany.find_by!(cnpj: CNPJ.new(registration_number).formatted)
+      @client_type = ClientCompany.find_by!(cnpj: CNPJ.new(registration_number).formatted)
     else
       return render json: { message: 'O numero de indentificação é inválido' }, status: :unprocessable_entity
     end
 
-    render json: { client_balance: client_type.client.as_json(only: %i[balance]),
-                   client_info: client_type.as_json(except: %i[created_at updated_at client_id id]) }
+    render json: @client_type
   end
 
   def create
