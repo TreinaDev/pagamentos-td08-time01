@@ -89,19 +89,34 @@ Resposta retorna mensagem em requisição ruim
   { "registration_number": "06001818398" }
 ```
 ####  Resposta de Sucesso:
-![200: OK](https://img.shields.io/badge/code%3A%20200-OK-green)  
-```
-{
-    "client_balance": {
-        "balance": 0.0
-    },
+![200: OK](https://img.shields.io/badge/code%3A%20200-OK-green)
+
+```json
+  {
     "client_info": {
-        "full_name": "Zezinho",
-        "cpf": "060.018.183-98"
+      "name": "Luiz Santos",
+      "balance": 0.0,
+      "bonus": [
+        {
+          "bonus_value": 100.0,
+          "expire_date": "2022-06-28"
+        }
+      ],
+      "transactions": [
+        {
+          "credit_value": "67.74",
+          "type_transaction": "buy_rubys",
+          "transaction_date": "28/06/2022 ás 12:11",
+          "status": "pending",
+          "approval_date": "28/06/2022 ás 12:15",
+          "code": "DC5X-UK7S"
+        }
+      ]
     }
-}
+  }
 
  ```
+ Obs.: O campo `approval_date` pode ser `null`.
 
 #### Parâmetros - Pessoa Jurídica:
 ```
@@ -159,8 +174,10 @@ Existem três tipos de parametros que são aceitos no `type_transaction`, são e
 
 Retorna um Json vazio e um status 201: Created
 
-```
- {}
+```json
+{
+  "code": "OQ8D-7MOL"
+}
 ```
 
  #### Parâmetros da Transação - Pessoa Jurídica
@@ -178,9 +195,10 @@ Retorna um Json vazio e um status 201: Created
 ####  Resposta de Sucesso:
 ![201: Created](https://img.shields.io/badge/Code:%20201-CREATED-green "201: Created")
 
-Retorna um Json vazio e um status 201: Created
-```
- {}
+```json
+{
+  "code": "OQ8D-7MOL"
+}
 ```
 
 #### Resposta de Falha - Não encontrado:
