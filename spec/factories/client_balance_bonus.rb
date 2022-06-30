@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :client_bonus_balance do
     bonus_value { Faker::Number.number(digits: 2) }
-    expire_date { Faker::Date.between(from: Time.zone.today, to: Time.zone.today + 30.days) }
+    expire_date { 3.weeks.from_now }
   end
 end

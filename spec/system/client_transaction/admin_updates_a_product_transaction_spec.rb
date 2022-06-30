@@ -7,14 +7,15 @@ describe 'Admin change transaction status' do
     it 'when client is a client person' do
       json_data = File.read(Rails.root.join('spec/support/json/transaction_confirmation_success.json'))
       fake_response = instance_double('faraday_response', status: 200, body: json_data)
-      client = create(:client, client_type: 'client_person', balance: 8_000)
+      category = create(:client_category)
+      client = create(:client, client_type: 'client_person', balance: 8_000, client_category: category)
       create(:client_person, cpf: '93727923148', client: client)
 
       Timecop.freeze(1.week.ago) do
         client.client_bonus_balances.create!(bonus_value: 10_000, expire_date: Time.zone.today)
       end
 
-      create(:client_bonus_balance, bonus_value: 15_000, client: client)
+      create(:client_bonus_balance, bonus_value: 15_000, client: client, expire_date: 3.weeks.from_now)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'transaction_order',
@@ -50,9 +51,10 @@ describe 'Admin change transaction status' do
     it 'when client is a client company' do
       json_data = File.read(Rails.root.join('spec/support/json/transaction_confirmation_success.json'))
       fake_response = instance_double('faraday_response', status: 200, body: json_data)
-      client = create(:client, client_type: 'client_company', balance: 5_000)
+      category = create(:client_category, discount_percent: 10)
+      client = create(:client, client_type: 'client_company', balance: 1_000, client_category: category)
       create(:client_company, cnpj: '07638546899424', client: client)
-      create(:client_bonus_balance, bonus_value: 2_000, client: client)
+      create(:client_bonus_balance, bonus_value: 4_000, client: client, expire_date: 3.weeks.from_now)
       client_transaction = create(:client_transaction, status: :pending,
                                                        client: client,
                                                        type_transaction: 'transaction_order',
@@ -80,7 +82,7 @@ describe 'Admin change transaction status' do
 
       expect(page).to have_content 'O status da transação foi atualizado com sucesso.'
       expect(ClientTransaction.last).to be_approved
-      expect(client.reload.balance).to eq 2_000
+      expect(client.reload.balance).to eq 500
       expect(client.client_bonus_balances.last.bonus_value).to eq 0
     end
 
