@@ -3,6 +3,15 @@
 require 'rails_helper'
 
 describe 'POST /api/v1/client_transaction' do
+  let(:admin) { create(:admin, status: :active) }
+  let(:admin_two) { create(:admin, status: :active) }
+  let(:create_exchange_rate) do
+    create(:exchange_rate, brl_coin: 10, rubi_coin: 1, status: 'approved', created_by_id: admin.id,
+                           approved_by_id: admin_two.id, register_date: Time.zone.today)
+  end
+
+  before { create_exchange_rate }
+
   context 'when transaction is valid' do
     it 'with client person buying rubys' do
       create(:transaction_setting, max_credit: 50_000)
@@ -42,50 +51,6 @@ describe 'POST /api/v1/client_transaction' do
       expect(response).to have_http_status :created
       expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
-      expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
-    end
-
-    it 'when client company transaction overpass the credit limit' do
-      create(:transaction_setting, max_credit: 10_000)
-      client = create(:client, client_type: 5, balance: 5000)
-      create(:client_company, cnpj: '07638546899424', client: client)
-
-      attributes = {
-        cnpj: '07638546899424',
-        client_transaction: {
-          credit_value: 11_000,
-          type_transaction: 'buy_rubys'
-        }
-      }
-
-      post api_v1_client_transactions_path, params: attributes
-
-      expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'pending'
-      expect(Client.last.balance).to eq 5_000
-      expect(ClientTransaction.all.count).to eq 1
-      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
-    end
-
-    it 'when client person transaction overpass the credit limit' do
-      create(:transaction_setting, max_credit: 10_000)
-      client = create(:client, client_type: 0, balance: 5000)
-      create(:client_person, cpf: '06001818398', client: client)
-
-      attributes = {
-        cpf: '06001818398',
-        client_transaction: {
-          credit_value: 11_000,
-          type_transaction: 'buy_rubys'
-        }
-      }
-
-      post api_v1_client_transactions_path, params: attributes
-
-      expect(response).to have_http_status :created
-      expect(ClientTransaction.last.status).to eq 'pending'
-      expect(Client.last.balance).to eq 5_000
       expect(ClientTransaction.all.count).to eq 1
       expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
@@ -301,6 +266,52 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.last.status).to eq 'approved'
       expect(Client.last.balance).to eq 10_000
       expect(Client.last.client_bonus_balances.last.bonus_value).to eq 1_000
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
+    end
+  end
+
+  context 'when transaction overpass the credit limit' do
+    it 'with client company' do
+      create(:transaction_setting, max_credit: 10_000)
+      client = create(:client, client_type: 5, balance: 5000)
+      create(:client_company, cnpj: '07638546899424', client: client)
+
+      attributes = {
+        cnpj: '07638546899424',
+        client_transaction: {
+          credit_value: 11_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'pending'
+      expect(Client.last.balance).to eq 5_000
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
+    end
+
+    it 'with client person' do
+      create(:transaction_setting, max_credit: 10_000)
+      client = create(:client, client_type: 0, balance: 5000)
+      create(:client_person, cpf: '06001818398', client: client)
+
+      attributes = {
+        cpf: '06001818398',
+        client_transaction: {
+          credit_value: 11_000,
+          type_transaction: 'buy_rubys'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'pending'
+      expect(Client.last.balance).to eq 5_000
       expect(ClientTransaction.all.count).to eq 1
       expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
