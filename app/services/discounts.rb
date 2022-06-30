@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SetBonus
+class Discounts
   def self.promotions(client, transaction)
     promotions = client.client_category.promotions
 
@@ -14,5 +14,9 @@ class SetBonus
 
       client.client_bonus_balances.create!(client_bonus_params)
     end
+  end
+
+  def self.filter_client_bonus(client, transaction)
+    client.client_bonus_balances.select { |bonus| bonus.expire_date >= transaction.transaction_date }
   end
 end

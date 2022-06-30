@@ -7,6 +7,7 @@ SimpleCov.start 'rails' do
   add_filter 'helpers'
   add_filter 'jobs'
   add_filter 'mailers'
+  add_filter 'serializers'
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
