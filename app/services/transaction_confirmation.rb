@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class TransactionConfirmation
-  def self.send_response(code, status)
+  def self.send_response(code, status, error_type = '')
+    error_type ||= ''
+
     transaction_params = {
       transaction: {
         code: code,
         status: status,
-        error_type: SetErrorType.perform(status)
+        error_type: error_type
       }
     }
 

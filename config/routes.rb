@@ -16,7 +16,10 @@ Rails.application.routes.draw do
   end
 
   resources :promotions, only: %i[index new create]
-  resources :client_transactions, only: %i[index edit update]
+  resources :client_transactions, only: %i[index edit] do
+    patch '/product_order', to: 'client_transactions#debt'
+    patch '/ruby_order', to: 'client_transactions#credit'
+  end
 
   namespace :api do
     namespace :v1 do

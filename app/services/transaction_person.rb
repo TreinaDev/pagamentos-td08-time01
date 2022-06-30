@@ -10,7 +10,7 @@ class TransactionPerson
     client_transaction.transaction_date = Time.current.strftime('%d/%m/%Y - %H:%M')
 
     if can_buy_rubis?(client_transaction, client_person, transaction_params['credit_value'].to_f)
-      Check.transaction(transaction_params['credit_value'].to_f, client_person, client_transaction)
+      BuyRubys.perform(transaction_params['credit_value'].to_f, client_person.client, client_transaction)
     end
 
     client_transaction.save!

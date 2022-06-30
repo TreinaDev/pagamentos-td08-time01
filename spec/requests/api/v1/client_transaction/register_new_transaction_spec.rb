@@ -54,6 +54,50 @@ describe 'POST /api/v1/client_transaction' do
       expect(ClientTransaction.all.count).to eq 1
       expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
     end
+
+    it 'with client person buying products' do
+      create(:transaction_setting, max_credit: 50_000)
+      client = create(:client, balance: 0, client_type: 0)
+      create(:client_person, cpf: '06001818398', client: client)
+
+      attributes = {
+        cpf: '06001818398',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'transaction_order'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'pending'
+      expect(Client.last.balance).to eq 0
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
+    end
+
+    it 'with client company is buying products' do
+      create(:transaction_setting, max_credit: 50_000)
+      client = create(:client, balance: 0, client_type: 5)
+      create(:client_company, cnpj: '07638546899424', client: client)
+
+      attributes = {
+        cnpj: '07638546899424',
+        client_transaction: {
+          credit_value: 10_000,
+          type_transaction: 'transaction_order'
+        }
+      }
+
+      post api_v1_client_transactions_path, params: attributes
+
+      expect(response).to have_http_status :created
+      expect(ClientTransaction.last.status).to eq 'pending'
+      expect(Client.last.balance).to eq 0
+      expect(ClientTransaction.all.count).to eq 1
+      expect(JSON.parse(response.body)).to eq('code' => ClientTransaction.last.code)
+    end
   end
 
   context 'when transaction attributes is invalid' do

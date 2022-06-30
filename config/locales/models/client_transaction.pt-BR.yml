@@ -8,6 +8,7 @@
         type_transaction: 'Tipo de transação'
         type_transactions:
           buy_rubys: 'Compra de rubis'
+          transaction_order: 'Compra de produtos'
         status: 'Status'
         statuses:
           pending: 'Pendente'

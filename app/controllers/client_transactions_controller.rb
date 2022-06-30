@@ -2,7 +2,7 @@
 
 class ClientTransactionsController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_client_transaction, only: %i[edit update]
+  before_action :set_client_transaction, only: %i[debt credit]
 
   def index
     @client_transactions = if params[:filter] == 'all'
@@ -13,39 +13,56 @@ class ClientTransactionsController < ApplicationController
   end
 
   def edit
-    return if @client_transaction.pending?
-
-    redirect_to client_transactions_path, notice: 'A transação não pode ser alterada.'
+    @client_transaction = ClientTransaction.find(params[:id])
   end
 
-  def update
-    transaction_data = ClientTransactionService.new(@client_transaction, set_description, set_transaction_status)
+  def credit
+    if params_status == 'approved'
+      BuyRubys.perform(@client_transaction.credit_value, @client_transaction.client, @client_transaction)
 
-    transaction_data.perform
+      redirect_to client_transactions_path, notice: 'A transação foi realizada com sucesso.'
+    elsif TransactionNotification.new(client_transaction: @client_transaction, description: set_description).save
+      @client_transaction.refused!
 
-    case transaction_data.status
-    when 200
-      @client_transaction.update!(status: set_transaction_status)
-
-      redirect_to client_transactions_path, notice: transaction_data.message
-    when 404, 422, 500
-      @client_transaction.pending!
-
-      redirect_to client_transactions_path, alert: transaction_data.message
+      redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
+    else
+      redirect_to client_transactions_path, alert: 'Descrição não pode ficar em branco.'
     end
+  end
+
+  def debt
+    if Check.can_buy_products?(@client_transaction)
+      response_status = ecommerce_status
+
+      if response_status == 200
+        return redirect_to client_transactions_path, notice: EcommerceResponseMsg.message(response_status)
+      end
+
+      return redirect_to client_transactions_path, alert: EcommerceResponseMsg.message(response_status)
+    end
+
+    redirect_to client_transactions_path, alert: 'Saldo insuficiente.'
   end
 
   private
 
   def set_client_transaction
-    @client_transaction = ClientTransaction.find(params[:id])
+    @client_transaction = ClientTransaction.find(params[:client_transaction_id])
   end
 
   def set_description
-    params[:client_transaction][:transaction_notification]&.values&.last
+    params[:transaction_notification]&.values&.last
   end
 
-  def set_transaction_status
-    params[:client_transaction][:status]
+  def params_status
+    params[:status]
+  end
+
+  def ecommerce_status
+    if params_status == 'approved'
+      Check.and_buy(@client_transaction, params_status)
+    else
+      Check.and_refuse(@client_transaction, params_status, set_description)
+    end
   end
 end
