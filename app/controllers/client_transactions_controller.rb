@@ -12,27 +12,33 @@ class ClientTransactionsController < ApplicationController
                            end
   end
 
-  def edit
-    return if @client_transaction.pending?
-
-    redirect_to client_transactions_path, notice: 'A transação não pode ser alterada.'
-  end
+  def edit; end
 
   def update
-    transaction_data = ClientTransactionService.new(@client_transaction, set_description, set_transaction_status)
+    if params_status == 'approved' && @client_transaction.buy_rubys?
+      BuyRubys.perform(@client_transaction.credit_value, @client_transaction.client, @client_transaction)
 
-    transaction_data.perform
+      return redirect_to client_transactions_path, notice: 'A transação foi realizada com sucesso.'
+    elsif params_status == 'refused' && @client_transaction.buy_rubys?
+      notification = TransactionNotification.new(client_transaction: @client_transaction, description: set_description)
 
-    case transaction_data.status
-    when 200
-      @client_transaction.update!(status: set_transaction_status)
+      if notification.save
+        @client_transaction.refused!
 
-      redirect_to client_transactions_path, notice: transaction_data.message
-    when 404, 422, 500
-      @client_transaction.pending!
+        return redirect_to client_transactions_path, notice: 'A transação foi recusada com sucesso.'
+      else
+        flash.now[:alert] = 'Descrição não pode ficar em branco.'
 
-      redirect_to client_transactions_path, alert: transaction_data.message
+        return render :edit
+      end
     end
+
+    unless Check.can_buy_products?(@client_transaction)
+
+      return redirect_to client_transactions_path, alert: 'Saldo insuficiente.'
+    end
+
+    redirect_to client_transactions_path, alert: EcommerceResponseMsg.message(ecommerce_status)
   end
 
   private
@@ -45,7 +51,15 @@ class ClientTransactionsController < ApplicationController
     params[:client_transaction][:transaction_notification]&.values&.last
   end
 
-  def set_transaction_status
+  def params_status
     params[:client_transaction][:status]
+  end
+
+  def ecommerce_status
+    if params_status == 'approved'
+      Check.and_buy(@client_transaction, params_status)
+    else
+      Check.and_refuse(@client_transaction, params_status, set_description)
+    end
   end
 end
