@@ -7,9 +7,9 @@ class ExchangeRatesController < ApplicationController
 
   def index
     if admin_signed_in?
-      @exchange_rates = ExchangeRate.all
+      @exchange_rates = ExchangeRate.all.order(:register_date).reverse
     else
-      @approved_exchange_rates = ExchangeRate.approved.last(30)
+      @approved_exchange_rates = ExchangeRate.approved.order(:register_date).reverse.last(30)
     end
   end
 

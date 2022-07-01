@@ -103,7 +103,7 @@ describe 'Admin register new exchange rate' do
     visit root_path
     click_on 'Taxa de câmbio'
     click_on 'Cadastrar Taxa'
-    fill_in 'Data de registro', with: '25/08/2022'
+    fill_in 'Data de registro', with: I18n.l(Time.zone.today)
     fill_in 'Real', with: 1
     click_on 'Cadastrar'
 
@@ -126,7 +126,7 @@ describe 'Admin register new exchange rate' do
     click_on 'Taxa de câmbio'
     click_on 'Cadastrar Taxa'
 
-    fill_in 'Data de registro', with: '25/08/2022'
+    fill_in 'Data de registro', with: I18n.l(Time.zone.today)
     fill_in 'Real', with: 6
     click_on 'Cadastrar'
 

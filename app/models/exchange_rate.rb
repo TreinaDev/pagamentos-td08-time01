@@ -7,7 +7,7 @@ class ExchangeRate < ApplicationRecord
   validates :brl_coin, :register_date, presence: true
   validates :brl_coin, numericality: { greater_than: 0 }
 
-  validate :ensure_private_rates_have_unique_dates, on: :create
+  validate :ensure_rates_have_unique_dates, on: :create
   validate :ensure_register_date_is_not_in_the_past
   validate :prevent_approvemment_by_creator, on: :update, unless: :recused?
   validate :prevent_recuse_by_nil, on: :update, unless: :approved?
@@ -57,9 +57,9 @@ class ExchangeRate < ApplicationRecord
     errors.add(:register_date, 'não pode ser no passado') if register_date < Time.zone.today
   end
 
-  def ensure_private_rates_have_unique_dates
-    query = ExchangeRate.where('register_date == :today AND status != :recused',
-                               { today: Time.zone.today, recused: 10 }).any?
+  def ensure_rates_have_unique_dates
+    query = ExchangeRate.where('register_date == :date AND status != :recused',
+                               { date: register_date, recused: 10 }).any?
     return unless query
 
     errors.add(:register_date, 'já está em uso')
