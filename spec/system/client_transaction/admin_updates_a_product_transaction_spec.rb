@@ -216,6 +216,40 @@ describe 'Admin change transaction status' do
       expect(TransactionNotification.last.description).to eq 'suspected fraud'
     end
 
+    it 'with description is empty' do
+      fake_response = instance_double('faraday_response', status: 200, body: {})
+      create(:transaction_setting, max_credit: 50_000)
+      client = create(:client, client_type: 'client_company', balance: 5_000)
+      create(:client_company, cnpj: '07638546899424', client: client)
+      transaction = create(:client_transaction, status: :pending, client: client,
+                                                type_transaction: 'transaction_order', credit_value: 1_000)
+
+      transaction_data = {
+        transaction: {
+          code: transaction.code,
+          status: 'refused',
+          error_type: 'fraud_warning'
+        }
+      }
+
+      allow(Faraday).to receive(:patch).with(
+        'http://localhost:3000/api/v1/payment_results',
+        transaction_data.as_json
+      ).and_return(fake_response)
+
+      login_as create(:admin, status: :active)
+      visit root_path
+      click_on 'Transações'
+      click_on 'Aprovar/Recusar'
+      select 'Recusar', from: 'Status'
+      fill_in 'Descrição', with: ''
+      click_on 'Salvar'
+
+      expect(page).to have_content 'Descrição não pode ficar em branco.'
+      expect(ClientTransaction.last).to be_pending
+      expect(client.reload.balance).to eq 5_000
+    end
+
     it 'when the admin try to refuse a inexistent transaction on ecommerce' do
       json_data = File.read(Rails.root.join('spec/support/json/transaction_confirmation_code_not_found.json'))
       fake_response = instance_double('faraday_response', status: 404, body: json_data)
@@ -284,7 +318,7 @@ describe 'Admin change transaction status' do
       fill_in 'Descrição', with: 'Possível fraude'
       click_on 'Salvar'
 
-      expect(page).to have_content 'Tipo de erro em branco.'
+      expect(page).to have_content 'Tipo de erro não reconhecido pelo E-commerce.'
       expect(ClientTransaction.last.status).to eq 'pending'
       expect(client.reload.balance).to eq 5_000
       expect(TransactionNotification.all).to be_empty

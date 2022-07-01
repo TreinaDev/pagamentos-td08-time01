@@ -13,7 +13,7 @@ class Check
     status = send(transaction, status)
     transaction_notification_params = { description: description, client_transaction: transaction }
 
-    if status == 200
+    if status == 200 && description.present?
       TransactionNotification.create!(transaction_notification_params)
       transaction.refused!
     end
@@ -26,9 +26,11 @@ class Check
     bonus = Discounts.filter_client_bonus(client, transaction).sum(&:bonus_value)
     category_discount = (transaction.credit_value * client.client_category.discount_percent) / 100
 
-    transaction.update!(credit_value: transaction.credit_value - category_discount)
+    discounted_value = transaction.credit_value.to_f - category_discount.to_f
 
-    (transaction.client.balance + bonus) >= transaction.credit_value.to_f
+    return false unless (transaction.client.balance + bonus) >= discounted_value
+
+    transaction.update!(credit_value: discounted_value)
   end
 
   def self.send(transaction, status)

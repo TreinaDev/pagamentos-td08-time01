@@ -8,7 +8,7 @@ class EcommerceResponseMsg
     when 404
       'Transação desconhecida pelo E-commerce.'
     when 422
-      'Tipo de erro em branco.'
+      'Tipo de erro não reconhecido pelo E-commerce.'
     when 500
       'Alguma coisa deu errado, por favor contate o suporte do E-commerce.'
     end
