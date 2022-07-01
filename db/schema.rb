@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_25_005110) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_01_145843) do
   create_table "admin_permissions", force: :cascade do |t|
     t.integer "admin_id", null: false
     t.datetime "created_at", null: false
@@ -109,7 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_25_005110) do
     t.index ["approved_by_id"], name: "index_exchange_rates_on_approved_by_id"
     t.index ["created_by_id"], name: "index_exchange_rates_on_created_by_id"
     t.index ["recused_by_id"], name: "index_exchange_rates_on_recused_by_id"
-    t.index ["register_date"], name: "index_exchange_rates_on_register_date", unique: true
+    t.index ["register_date"], name: "index_exchange_rates_on_register_date"
   end
 
   create_table "promotions", force: :cascade do |t|
