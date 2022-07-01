@@ -32,6 +32,8 @@ class ClientTransactionsController < ApplicationController
 
   def debt
     if Check.can_buy_products?(@client_transaction)
+      return redirect_to client_transactions_path, alert: @message if need_a_description_to_refuse
+
       response_status = ecommerce_status
 
       if response_status == 200
@@ -64,5 +66,9 @@ class ClientTransactionsController < ApplicationController
     else
       Check.and_refuse(@client_transaction, params_status, set_description)
     end
+  end
+
+  def need_a_description_to_refuse
+    @message = 'Descrição não pode ficar em branco.' if params_status == 'refused' && set_description.blank?
   end
 end
