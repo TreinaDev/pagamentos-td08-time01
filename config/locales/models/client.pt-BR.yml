@@ -7,3 +7,4 @@ pt-BR:
         client_type: 'Tipo de cliente'
         client_person: 'Pessoa física'
         client_company: 'Pessoa jurídica'
+        client_category_id: 'Categoria de cliente'

@@ -12,6 +12,8 @@
 					<th scope="col">Nome</th>
 					<th scope="col">CPF/CNPJ</th>
 					<th scope="col">Saldo</th>
+					<th scope="col">Categoria</th>
+					<th scope="col">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,6 +31,12 @@
 							<% end %>
 							<td>
 								<%= image_tag 'ruby.png', style: 'height:19px;width:19px;' %><%= number_to_currency(client.balance, precision: 2).gsub('R$', '') %>
+							</td>
+							<td>
+								<%= client.client_category.name %> - <%= client.client_category.discount_percent %>%
+							</td>
+							<td>
+								<%= link_to 'Editar', edit_client_path(client.id), class:"btn btn-primary btn-sm" %>
 							</td>
 						</tr>
 					<% end %>
