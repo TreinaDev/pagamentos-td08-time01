@@ -9,7 +9,7 @@ class ClientsController < ApplicationController
   end
 
   def edit
-    select_client_categories
+    @client_categories = ClientCategory.all
   end
 
   def update
@@ -20,10 +20,6 @@ class ClientsController < ApplicationController
 
   def set_params
     @client = Client.find(params[:id])
-  end
-
-  def select_client_categories
-    @client_categories = ClientCategory.all
   end
 
   def client_params

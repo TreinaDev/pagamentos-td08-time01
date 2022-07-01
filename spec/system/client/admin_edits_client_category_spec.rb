@@ -11,7 +11,6 @@ describe 'Admin edits client category' do
     login_as(admin)
     visit root_path
     click_on 'Clientes'
-    # print save_page
     click_on 'Editar'
     select 'Platinum BLACK VIP plus', from: 'Categoria de cliente'
     click_on 'Atualizar'
