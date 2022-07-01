@@ -26,11 +26,11 @@ describe 'Admin sees details from a' do
 
   it 'pending of approvement exchange rate successfully' do
     admin = create(:admin)
-    create(:exchange_rate, created_by: admin)
-    er = create(:exchange_rate, register_date: 1.day.from_now, created_by: admin, brl_coin: 6, status: 'pending')
+    create(:exchange_rate, created_by: admin, brl_coin: 2)
+    rate = create(:exchange_rate, register_date: 1.day.from_now, created_by: admin, brl_coin: 4, status: 'pending')
 
     login_as admin
-    visit exchange_rate_path(er)
+    visit exchange_rate_path(rate)
 
     expect(page).to have_content I18n.l(1.day.from_now.to_date)
     expect(page).to have_content 'Status: Pendente'
@@ -39,9 +39,9 @@ describe 'Admin sees details from a' do
 
   it 'and needs to be logged in' do
     admin = create(:admin)
-    er = create(:exchange_rate, created_by: admin)
+    rate = create(:exchange_rate, created_by: admin)
 
-    visit exchange_rate_path(er)
+    visit exchange_rate_path(rate)
 
     expect(page).to have_content 'Para continuar, faça login ou registre-se.'
   end

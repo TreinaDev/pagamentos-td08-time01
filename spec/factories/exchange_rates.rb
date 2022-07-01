@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :exchange_rate do
-    brl_coin { %w[5].sample }
-    register_date { %w[2022-07-09 2022-07-25].sample }
+    brl_coin { rand(1..10) }
+    register_date { Time.zone.today }
   end
 end

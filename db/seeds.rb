@@ -23,7 +23,7 @@ category = ClientCategory.create!(name: 'Bronze', discount_percent: 0)
 ClientCategory.create!(name: 'Ouro', discount_percent: 10)
 
 puts '------------ creating ExchangeRate ---------------'
-ExchangeRate.create!(rubi_coin: 1, brl_coin: 10, register_date: Time.zone.today, status: 'approved', created_by: active,
+ExchangeRate.create!(rubi_coin: 1, brl_coin: 2, register_date: Time.zone.today, status: 'approved', created_by: active,
                      approved_by: active_two)
 
 puts '------------ creating Client ---------------------'

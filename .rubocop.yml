@@ -46,3 +46,6 @@ Style/HashSyntax:
 
 RSpec/VerifiedDoubleReference:
   EnforcedStyle: string
+
+Metrics/MethodLength:
+  Max: 15
