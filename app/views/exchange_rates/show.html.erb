@@ -8,7 +8,7 @@
     <li class="list-group-item"><strong><%= ExchangeRate.human_attribute_name(:status) %>:</strong> <%= ExchangeRate.human_attribute_name(@exchange_rate.status) %></li>
     <li class="list-group-item"><strong>Valor:</strong> <%= number_to_currency @exchange_rate.brl_coin %></li>
     <li class="list-group-item"><strong><%= ExchangeRate.human_attribute_name(:variation) %> em relação a última taxa aprovada:</strong> <%= @exchange_rate.variation %>%</li>
-    <li class="list-group-item"><strong><%= ExchangeRate.human_attribute_name(:created_by) %>:</strong> <%= @exchange_rate.created_by.full_name %>%</li>
+    <li class="list-group-item"><strong><%= ExchangeRate.human_attribute_name(:created_by) %>:</strong> <%= @exchange_rate.created_by.full_name %></li>
     <% if @exchange_rate.approved_by.present? %>
       <li class="list-group-item"><strong><%= ExchangeRate.human_attribute_name(:approved_by) %>:</strong> <%= @exchange_rate.approved_by.full_name %></li>
     <% elsif @exchange_rate.recused_by.present? %>

@@ -11,13 +11,10 @@ RSpec.describe ExchangeRate, type: :model do
     end
 
     context 'with active_model' do
-      subject { create(:exchange_rate, created_by: create(:admin)) }
-
       it { is_expected.to validate_presence_of(:brl_coin) }
       it { is_expected.to validate_presence_of(:register_date) }
       it { is_expected.to define_enum_for(:status) }
-      it { is_expected.to validate_numericality_of(:brl_coin).is_greater_than(1) }
-      it { is_expected.to validate_uniqueness_of(:register_date) }
+      it { is_expected.to validate_numericality_of(:brl_coin).is_greater_than(0) }
     end
   end
 
@@ -44,13 +41,21 @@ RSpec.describe ExchangeRate, type: :model do
       end
     end
 
-    context 'when brl value is lower than 1' do
-      it 'false when brl value is lower then 1' do
-        er = build(:exchange_rate, brl_coin: 0)
+    context 'when brl value isnt greater than 0' do
+      it 'when brl value is negative' do
+        rate = build(:exchange_rate, brl_coin: -1)
 
-        er.valid?
+        rate.valid?
 
-        expect(er.errors.full_messages_for(:brl_coin)).to include 'Real deve ser maior que 1'
+        expect(rate.errors.full_messages_for(:brl_coin)).to include 'Real deve ser maior que 0'
+      end
+
+      it 'when brl value is 0' do
+        rate = build(:exchange_rate, brl_coin: 0)
+
+        rate.valid?
+
+        expect(rate.errors.full_messages_for(:brl_coin)).to include 'Real deve ser maior que 0'
       end
     end
   end
