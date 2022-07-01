@@ -5,11 +5,10 @@ class ExchangeRate < ApplicationRecord
   before_create :set_status_exchange_rate
 
   validates :brl_coin, :register_date, presence: true
-  validates :brl_coin, numericality: { greater_than: 1 }
-  validates :register_date, uniqueness: true
-  validates :register_date,
-            comparison: { greater_than_or_equal_to: Time.zone.today, message: 'não pode ser no passado' }
+  validates :brl_coin, numericality: { greater_than: 0 }
 
+  validate :ensure_rates_have_unique_dates, on: :create
+  validate :ensure_register_date_is_not_in_the_past
   validate :prevent_approvemment_by_creator, on: :update, unless: :recused?
   validate :prevent_recuse_by_nil, on: :update, unless: :approved?
 
@@ -50,5 +49,19 @@ class ExchangeRate < ApplicationRecord
 
   def prevent_recuse_by_nil
     errors.add(:exchange_rate, 'não pode ser recusada sem um administrador') if recused_by.nil?
+  end
+
+  def ensure_register_date_is_not_in_the_past
+    return unless register_date
+
+    errors.add(:register_date, 'não pode ser no passado') if register_date < Time.zone.today
+  end
+
+  def ensure_rates_have_unique_dates
+    query = ExchangeRate.where('register_date == :date AND status != :recused',
+                               { date: register_date, recused: 10 }).any?
+    return unless query
+
+    errors.add(:register_date, 'já está em uso')
   end
 end
